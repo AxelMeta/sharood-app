@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.sharood" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Sharood</name>
+    <description>
+        Sharood connects people who want to eat with people who are cooking in your area. 
+    </description>
+    <author email="sharoodapp@gmail.com" href="https://sharoodapp.wordpress.com">
+        Sharood Team
+    </author>
+    <content src="index.html" />
+    <preference name="permissions" value="none" />
+    <preference name="orientation" value="portrait" />
+    <preference name="target-device" value="universal" />
+    <preference name="fullscreen" value="false" />
+    <preference name="android-windowSoftInputMode" value="adjustPan" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="stay-in-webview" value="false" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="show-splash-screen-spinner" value="true" />
+    <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="disable-cursor" value="false" />
+    <preference name="android-minSdkVersion" value="16" />
+    <preference name="android-installLocation" value="auto" />
+    <preference name="deployment-target" value="8.0" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="org.apache.cordova.file" />
+    <gap:plugin name="org.apache.cordova.file-transfer" />
+    <gap:plugin name="io.github.siegfriedbolz.cordova.plugins.email-composer" version="0.8.3" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <icon src="img/appIcon.png" />
+    <icon src="img/appIcon-120x120.png" gap:platform="ios" width="120" height="120" />
+    <icon src="img/appIcon-152x152.png" gap:platform="ios" width="152" height="152" />
+    <icon src="img/appIcon-76x76.png" gap:platform="ios" width="76" height="76" />
+    <icon src="img/appIcon-57x57.png" gap:platform="ios" width="57" height="57" />
+    <gap:splash src="img/splash/screen-480x320.png" gap:platform="ios" width="320" height="480" />
+    <gap:splash src="img/splash/screen-960x640.png" gap:platform="ios" width="640" height="960" />
+    <gap:splash src="img/splash/screen-320x480.png" gap:platform="ios" width="480" height="320" />
+    <gap:splash src="img/splash/screen-640x960.png" gap:platform="ios" width="960" height="640" />
+    <gap:splash src="img/splash/screen-1024x768.png" gap:platform="ios" width="768" height="1024" />
+    <gap:splash src="img/splash/screen-2008x1536.png" gap:platform="ios" width="1536" height="2008" />
+    <gap:splash src="img/splash/screen-768x1024.png" gap:platform="ios" width="1024" height="768" />
+    <gap:splash src="img/splash/screen-1496x2048.png" gap:platform="ios" width="2048" height="1496" />
+    <gap:splash src="img/splash/screen-1136x640.png" gap:platform="ios" width="640" height="1136" />
+    <access origin="*" />
+    <plugin name="cordova-plugin-whitelist" version="1" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+</widget>

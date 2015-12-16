@@ -1,0 +1,70 @@
+<section class="main">
+
+    <header class="nav navbar-fixed-top">
+        <span class="btn" ng-click="navigate('/home')">
+            <i class="fa fa-chevron-left"></i>
+            Back
+        </span>
+        <h1>Choose Chef</h1>
+        <div class="cookies media">
+            <div class="media-left media-middle">
+                <img class="media-object" src="img/icon.png" />
+            </div>
+            <div class="media-body media-middle">
+                <span>{{cookies}}</span>
+            </div>
+        </div>
+    </header>
+
+    <!--<div class="row toggle-meals">
+        <div class="col-md-12 col-sm-12">
+            <div class="btn-group" role="group">
+                <button data-list="meals" type="button" class="btn btn-default active">Meals</button>
+                <button data-list="toAttend" type="button" class="btn btn-default">People</button>
+                <button data-list="myMeals" type="button" class="btn btn-default">My meals</button>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="row mt20 hidden" id="emptyInfo">
+        <div class="col-md-12 col-sm-12">
+            <p class="text-center title">Whoops!</p>
+            <p class="text-center">There are no Chefs available</p>
+        </div>
+        <section class="bottom">
+            <div class="row mt20 mb20">
+                <div class="col-md-12">
+                    <p class="text-center">"Be the change you want to see"</p>
+                    <a ng-click="navigate('/newChefMeal')" class="btn btn-round btn-extra-large">
+                        Be Chef
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12" ng-infinite-scroll="" ng-infinite-scroll-callback="loadMoreMeals()">
+            <div ng-repeat="meal in mealsToRender track by $index" data-index="{{$index}}" class="list-item animate-repeat">
+                <a href="" ng-click="goToMeal($index)">
+                    <img ng-if="meal.owner[0].picture" class="li-small pull-left" src="{{meal.owner[0].picture.url}}" style="backgournd: #F1C40F;" />
+                    <span ng-if="!meal.owner[0].picture" class="li-small pull-left">{{meal.owner[0].first_name | limitTo: 1}}</span>
+                    <span class="list-content media-body">
+                        <b class="li-title">{{meal.description}}</b>
+                        <small class="li-description">
+                            <img class="li-xsmall" src="img/icon.png" /> {{meal.cookies_value}}
+                            <img class="li-xsmall ml10" src="img/clock.png" /> {{meal.time | date:'dd/MM - HH:mm'}}
+                        </small>
+                    </span>
+
+                    <div class="arrow-right">
+                        <i class="fa fa-chevron-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <loader></loader>
+
+</section>

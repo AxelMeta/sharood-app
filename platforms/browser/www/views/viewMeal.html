@@ -1,0 +1,86 @@
+<section class="main">
+
+    <header class="nav navbar-fixed-top">
+        <span class="btn" ng-click="navigate('/meals')">
+            <i class="fa fa-chevron-left"></i>
+            Back
+        </span>
+        <h1>{{meal.owner[0].first_name}}'s Meal</h1>
+    </header>
+
+    <div class="row mb20">
+        <div class="col-md-12 text-center">
+            <h1 class="title mb20">{{meal.description}}<br />Room: {{meal.owner[0].room_number || 0}}</h1>
+            
+            <div class="col-md-12 viewMeal-img">
+                <img ng-click="openViewport($event)" src="{{meal.picture.url}}" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row meal-info mb40">
+        <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+            <img class="img-small" src="img/people.png" />
+
+            <span>{{getSeats()}}</span>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+            <img class="img-small" src="img/icon.png" />
+
+            <span>{{meal.cookies_value}} cookies</span>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-4 text-center">
+            <img class="img-small" src="img/meal.png" />
+
+            <span>{{meal.type}}</span>
+        </div>
+    </div>
+
+    <div class="row mb20">
+        <div class="col-md-12 text-center">
+            <div ng-if="meal.owner[0].picture" id="placePhoto" class="img-square img-square-sm" style="background-image: url('{{meal.owner[0].picture.url}}')"></div>
+            <span ng-if="!meal.owner[0].picture" class="circle-word">{{meal.owner[0].first_name | limitTo: 1}}</span>
+        </div>
+    </div>
+
+    <div class="row mb20 score">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    Food
+                </dt>
+                <dd>
+                    <stars config="foodConfig"></stars>
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    Friendliness
+                </dt>
+                <dd>
+                    <stars config="friendlinessConfig"></stars>
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    Fun
+                </dt>
+                <dd>
+                    <stars config="funConfig"></stars>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="text-center mb20" ng-class="{hidden: hideSaveButton}">
+        <a href="" class="btn btn-round" ng-click="saveSeat()">Save a seat!</a>
+    </div>
+
+    <alert id="save-seat-alert" config="saveSeatConfig"></alert>
+
+    <viewport></viewport>
+</section>

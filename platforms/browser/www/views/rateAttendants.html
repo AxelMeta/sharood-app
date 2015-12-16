@@ -1,0 +1,50 @@
+<section class="main">
+
+    <header class="nav navbar-fixed-top">
+        <span class="btn" ng-click="navigate('/myMealInfo')">
+            <i class="fa fa-chevron-left"></i>
+            Back
+        </span>
+        <h1>Rate Attendants</h1>
+    </header>
+
+    <div class="row mt20">
+        <div class="col-md-12">
+            <p class="text-center">
+                Your feedback will help your community.
+            </p>
+        </div>
+    </div>
+
+	<div class="row">
+		<div class="col-md-12 col-sm-12">
+            <div class="row text-center rate-attendants">
+                <div class="col-md-12 col-sm-12 rates">
+                    <h2 ng-if="!attendantEmpty(1)" class="title">Friendliness {{meal.assistants.assistant1[0].first_name}}</h2>
+                    <stars ng-if="!attendantEmpty(1)" config="attendant1Config"></stars>
+
+                    <h2 ng-if="!attendantEmpty(2)" class="title">Friendliness {{meal.assistants.assistant2[0].first_name}}</h2>
+                    <stars ng-if="!attendantEmpty(2)" config="attendant2Config"></stars>
+
+                    <h2 ng-if="!attendantEmpty(3)" class="title">Friendliness {{meal.assistants.assistant3[0].first_name}}</h2>
+                    <stars ng-if="!attendantEmpty(3)" config="attendant3Config"></stars>
+
+                    <h2 ng-if="!attendantEmpty(4)" class="title">Friendliness {{meal.assistants.assistant4[0].first_name}}</h2>
+                    <stars ng-if="!attendantEmpty(4)" config="attendant4Config"></stars>
+
+                    <h2 ng-if="!attendantEmpty(5)" class="title">Friendliness {{meal.assistants.assistant5[0].first_name}}</h2>
+                    <stars ng-if="!attendantEmpty(5)" config="attendant5Config"></stars>
+                </div>
+            </div>
+		</div>
+	</div>
+
+    <section class="bottom text-center mb20 mt20">
+        <a href="" ng-click="sendResults()" class="btn btn-extra-large btn-round">
+            Done
+        </a>
+    </section>
+
+    <loader closed="true"></loader>
+    <alert id="rate-success-alert" config="rateAlertConfig"></alert>
+</section>

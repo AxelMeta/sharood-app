@@ -1,0 +1,36 @@
+<section class="login no-padding">
+    <header class="brand">
+        <div class="media">
+            <div class="media-left media-middle">
+                <img class="media-object" src="img/icon.png" />
+            </div>
+            <div class="media-body media-middle">
+                <h1>Sharood</h1>
+            </div>
+        </div>
+    </header>
+    <div class="login-form">
+        <form name="loginForm" novalidate>
+            <div class="form-group">
+                <input id="email" ng-model="user.email" class="form-control" type="text" name="email" placeholder="Email" required />
+                <span class="error" ng-if="loginForm.$submitted && loginForm.email.$error.required">Your email is required</span>
+            </div>
+            <div class="form-group">
+                <input id="password" ng-model="user.password" class="form-control" type="password" name="password" placeholder="Password" required />
+                <span class="error" ng-if="loginForm.$submitted && loginForm.password.$error.required">Your password is required</span>
+            </div>
+
+            <button type="submit" ng-click="login()" class="btn btn-round">Sign In</button>
+        </form>
+    </div>
+
+    <footer class="sign-up">
+        <p>
+            Don't have an account?
+        </p>
+
+        <a href="" ng-click="navigate('/register')" class="sign-up-btn">Sign up</a>
+    </footer>
+
+    <alert id="login-account-alert" config="loginConfig"></alert>
+</section>

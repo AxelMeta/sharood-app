@@ -1,0 +1,5 @@
+<div class="stars" role="group" id="{{config.id}}" data-toggle="buttons" ng-class="{notEditable: !config.editable}">
+    <label class="btn" ng-repeat="value in config.values track by $index" ng-class="{active: $index < config.number}">
+        <input type="checkbox" name="{{config.name}}" data-index="{{$index}}" id="{{config.id}}-{{$index}}" autocomplete="off" value="{{value}}" ng-checked="{{$index < config.number}}"></input>
+    </label>
+</div>
