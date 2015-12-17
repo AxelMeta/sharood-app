@@ -12,7 +12,7 @@
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="universal" />
     <preference name="fullscreen" value="false" />
-    <preference name="android-windowSoftInputMode" value="adjustPan" />
+    <preference name="android-windowSoftInputMode" value="adjustResize" />
     <preference name="webviewbounce" value="true" />
     <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="false" />
@@ -25,7 +25,7 @@
     <preference name="android-minSdkVersion" value="16" />
     <preference name="android-installLocation" value="auto" />
     <preference name="deployment-target" value="8.0" />
-    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarOverlaysWebView" value="false" />    
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />

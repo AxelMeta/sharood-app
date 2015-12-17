@@ -134,7 +134,10 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
         $scope.changePhotoFromFile = function() {
             var options = {
-                  sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+                    allowEdit: true,
+                    correctOrientation: true,
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM
                 };
             cameraHelper.getPicture(options).then(function(base64){
                 var photo = document.getElementById('profilePhoto');
