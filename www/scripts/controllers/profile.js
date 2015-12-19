@@ -53,6 +53,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         $scope.email = 'mancas@gmail.com';*/
 
         $scope.isEditModeEnable = false;
+        $scope.pictureModal = '#dummy';
 
         /**
         * Toggles between edit mode and normal mode. Makes the UI changes.
@@ -61,6 +62,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             var photo =  document.getElementById('profilePhoto');
             if ($scope.isEditModeEnable) {
                 $scope.isEditModeEnable = false;
+                $scope.pictureModal = '#dummy';
                 $scope.elements.editBtn.textContent = 'Edit';
                 if (sharoodDB.currentUser.picture) {
                     photo.style.backgroundImage = 'url(\'' + sharoodDB.currentUser.picture.url + '\')';
@@ -71,6 +73,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 }
             } else {
                 $scope.isEditModeEnable = true;
+                $scope.pictureModal = '#modalProfile';
                 $scope.elements.editBtn.textContent = 'Cancel';
                 photo.style.backgroundImage = 'url(\'' + cameraImg + '\')';
                 photo.classList.remove('cover');
@@ -128,16 +131,21 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
         $scope.changePhotoFromFile = function() {
             var options = {
-                  sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+                    allowEdit: true,
+                    correctOrientation: true,
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                    targetHeight: 480,
+                    targetWidth: 480
                 };
             cameraHelper.getPicture(options).then(function(base64){
                 var photo = document.getElementById('profilePhoto');
                 photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';
                 photo.classList.add('cover');
-
                 $scope.imageBase64 = 'data:image/jpeg;base64,' + base64;
             });
         };
+
 
         $scope.deleteAccount = function() {
             AlertHelper.alert('#delete-account-alert');

@@ -109,16 +109,6 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         * Starts change photo process.
         * */
         $scope.changePhoto = function(){
-            console.log("Getting Picture");
-            /*
-            cameraHelper.getPicture().then(function(base64){
-                var photo = document.getElementById('profilePhoto');
-                photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';
-                photo.classList.add('cover');
-                $scope.imageBase64 = 'data:image/jpeg;base64,' + base64;
-            });
-            */
-
             navigator.camera.getPicture(this.onCaptureSuccess, this.onCaptureFail, {
                 allowEdit: true,
                 correctOrientation: true,
@@ -136,14 +126,15 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             var options = {
                     allowEdit: true,
                     correctOrientation: true,
-                    destinationType: Camera.DestinationType.FILE_URI,
-                    sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                    targetHeight: 480,
+                    targetWidth: 480
                 };
             cameraHelper.getPicture(options).then(function(base64){
                 var photo = document.getElementById('profilePhoto');
                 photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';
                 photo.classList.add('cover');
-
                 $scope.imageBase64 = 'data:image/jpeg;base64,' + base64;
             });
         };

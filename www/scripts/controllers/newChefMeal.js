@@ -62,7 +62,6 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 var photo = document.getElementById('placePhoto');
                 photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';
                 photo.classList.add('cover');
-
                 $scope.imageBase64 = 'data:image/jpeg;base64,' + base64;
             });
         };
@@ -70,17 +69,21 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
         $scope.takePictureFromFile = function() {
             var options = {
-                  sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+                    allowEdit: true,
+                    correctOrientation: true,
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                    targetHeight: 480,
+                    targetWidth: 480
                 };
-            console.log("Getting Picture with File");
             cameraHelper.getPicture(options).then(function(base64){
                 var photo = document.getElementById('placePhoto');
                 photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';
                 photo.classList.add('cover');
-
                 $scope.imageBase64 = 'data:image/jpeg;base64,' + base64;
             });
         };
+
 
         /**
         * Formats date format to Built.io format

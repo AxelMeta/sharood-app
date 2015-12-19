@@ -7,11 +7,26 @@
     <div class="register-form">
         <div class="row profile-img mt20">
             <div class="col-md-12">
-                <div id="profilePhoto" ng-click="changePhoto()" class="img-square" style="background: #F1C40F url('img/camera.png') no-repeat 50% 50%;"></div>
+                <div id="profilePhoto" class="img-square" style="background: #F1C40F url('img/camera.png') no-repeat 50% 50%;" data-toggle="modal" data-target="#modalRegister"></div>
             </div>
-            <div class="col-md-2 col-md-offset-5">
-                <div class="media">
-                    <button ng-click="changePhotoFromFile()" class="btn btn-round mb20">Find a picture</button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalRegister" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content y-block">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <button ng-click="!isEditModeEnable || changePhoto()" class="btn btn-round btn-extra-large">Take a picture</button>
+                            <br />
+                            <br />
+                            <button ng-click="changePhotoFromFile()" class="btn btn-round btn-extra-large">Select existing photo</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-round btn-extra-large" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>

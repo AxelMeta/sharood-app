@@ -12,7 +12,7 @@
     <div class="row meal-img">
         <div class="col-md-12">
             <div class="media">
-                <div id="placePhoto" ng-click="takePicture()" class="media-left media-middle img-square" style="background-image: url('img/camera.png')">
+                <div id="placePhoto" class="media-left media-middle img-square" style="background-image: url('img/camera.png')" data-toggle="modal" data-target="#modalChefMeal">
                 </div>
                 <div class="media-body media-middle">
                     <span class="meal-img-help">
@@ -23,10 +23,22 @@
         </div>
     </div>
 
-    <div class="row meal-img">
-        <div class="col-md-2 col-md-offset-5">
-            <div class="media">
-                <button ng-click="takePictureFromFile()" class="btn btn-round mb20">Find a picture</button>
+    <!-- Modal -->
+    <div class="modal fade" id="modalChefMeal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content y-block">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <button ng-click="takePicture()" class="btn btn-round btn-extra-large">Take a picture</button>
+                        <br />
+                        <br />
+                        <button ng-click="takePictureFromFile()" class="btn btn-round btn-extra-large">Select existing photo</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-round btn-extra-large" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
