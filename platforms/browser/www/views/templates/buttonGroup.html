@@ -1,5 +1,0 @@
-<div class="btn-group" role="group" id="{{config.id}}" data-toggle="buttons">
-    <label class="btn" ng-repeat="value in config.values track by $index" ng-class="{active: $first}">
-        <input type="radio" name="{{config.name}}" id="{{config.id}}{{$index}}" autocomplete="off" value="{{value}}" ng-checked="{{$first}}"> {{value}} </input>
-    </label>
-</div>
