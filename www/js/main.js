@@ -1,14 +1,14 @@
 require.config({
     baseUrl: 'scripts/',
     paths: {
-        'angular': '../bower_components/angular/angular',
+        'angular': '../bower_components/angular/angular.min',
         'domReady': '../bower_components/requirejs-domready/domReady',
-        'ngResource': '../bower_components/angular-resource/angular-resource',
-        'ngCookies': '../bower_components/angular-cookies/angular-cookies',
-        'ngSanitize': '../bower_components/angular-sanitize/angular-sanitize',
-        'ngRoute': '../bower_components/angular-route/angular-route',
-        'jquery': '../bower_components/jquery/dist/jquery',
-        'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap'
+        'ngResource': '../bower_components/angular-resource/angular-resource.min',
+        'ngCookies': '../bower_components/angular-cookies/angular-cookies.min',
+        'ngSanitize': '../bower_components/angular-sanitize/angular-sanitize.min',
+        'ngRoute': '../bower_components/angular-route/angular-route.min',
+        'jquery': '../bower_components/jquery/dist/jquery.min',
+        'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap.min'
     },
 
     shim: {
