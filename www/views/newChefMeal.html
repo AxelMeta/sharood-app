@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <textarea type="text" id="description" ng-model="mealData.description" required name="description" maxlength="35" class="form-control" placeholder="What are you cooking?"></textarea>
+                    <textarea type="text" id="description" ng-model="mealData.description" required name="description" maxlength="256" class="form-control" placeholder="What are you cooking?"></textarea>
                     <span class="error" ng-if="newMealForm.$submitted && newMealForm.description.$error.required">A description is required</span>
                 </div>
             </div>
