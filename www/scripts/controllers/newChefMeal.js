@@ -1,11 +1,11 @@
 /**
 * Controller for 'new meal' view
 * */
-define(['controllers/module', 'alert-helper'], function (controllers, AlertHelper) {
+define(['controllers/module', 'alert-helper', 'ngCordova'], function (controllers, AlertHelper) {
 
     'use strict';
 
-    controllers.controller('NewChefMeal', function ($scope, sharoodDB, navigation, MealService, cameraHelper) {
+    controllers.controller('NewChefMeal', function ($scope, sharoodDB, navigation, MealService, cameraHelper, $cordovaDatePicker) {
 
         console.log("NewChefMeal controller");
 
@@ -26,7 +26,9 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             cookies_value: null,
             people: null,
             time: null,
-            tempTime: null,
+            tempTime: '00:00',
+            timeSchedule: 'am',
+            
             owner: sharoodDB.currentUser.uid,
             university: sharoodDB.currentUser.university[0]
         };
@@ -88,20 +90,20 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         /**
         * Formats date format to Built.io format
         * */
-        function formatDate(timeHour, timeSchedule, day){
+        function formatDate(day){
             var date = new Date();
             
-            timeHour = timeHour.split(':');
+            timeHour = $scope.mealData.tempTime.split(':');
             var hours = parseInt(timeHour[0]);
             var minutes = parseInt(timeHour[1]);
-
-            if (timeSchedule == "pm") {
+            
+            if ($scope.mealData.timeSchedule == "pm") {
                 hours += 12;
             }
-
-            date.setHours(hours);
-            date.setMinutes(minutes);  
-            date.setSeconds(0); 
+            
+            date.setHours(hours)
+            date.setMinutes(minutes);
+            date.setSeconds(0);
             if (day == "tomorrow") {
                 date.setDate(date.getDate() + 1);
             }
@@ -109,6 +111,8 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             return date;
 
         }
+
+
 
         /**
         * Handler: sends meal to the data base
@@ -124,8 +128,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             var timeSchedule = document.querySelector("#timeSchedule").value;
             var day = document.querySelector("#day").value;
             var overlay = document.querySelector('.overlay');
-
-            var date = formatDate($scope.mealData.tempTime, timeSchedule, day);
+            var date = formatDate(day);
             $scope.mealData.people = peopleToCome;
             $scope.mealData.time = date;
 
@@ -182,6 +185,33 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 }
             }
         };
-    });
 
+        
+
+        $scope.showDatePicker = function() {
+            var dateTemp = new Date();
+            var timeHour = $scope.mealData.tempTime.split(':');
+            dateTemp.setHours(parseInt(timeHour[0])  + ($scope.mealData.timeSchedule === 'pm'?12:0) );
+            dateTemp.setMinutes(parseInt(timeHour[1]));
+            var options = {
+              date: dateTemp,
+              mode: 'time',
+              doneButtonLabel: 'Done',
+              doneButtonColor: '#000000',
+              cancelButtonLabel: 'Abort',
+              cancelButtonColor: '#000000'
+            };
+            $cordovaDatePicker.show(options).then(function(date){
+                if (date.getHours() > 12) {
+                    $scope.mealData.timeSchedule = 'pm';
+                    date.setHours(date.getHours() - 12);
+                }
+                else{
+                    $scope.mealData.timeSchedule = 'am';
+                }
+                $scope.mealData.tempTime = date.getHours() + ':' + (date.getMinutes()<10?'0':'') + date.getMinutes();
+            });
+        };
+
+    });
 });

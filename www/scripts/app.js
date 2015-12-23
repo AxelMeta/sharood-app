@@ -21,7 +21,8 @@ define([
     'ngResource',
     'ngCookies',
     'ngSanitize',
-    'ngRoute'
+    'ngRoute',
+    'ngCordova'
 ], function (ng) {
     'use strict';
 
@@ -32,6 +33,7 @@ define([
         'ngCookies',
         'ngResource',
         'ngSanitize',
-        'ngRoute'
+        'ngRoute',
+        'ngCordova'
     ]);
 });

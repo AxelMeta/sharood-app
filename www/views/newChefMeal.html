@@ -99,21 +99,15 @@
             <div class="col-md-12">
                 <span class="error" ng-if="newMealForm.$submitted && (newMealForm.timeHour.$error.pattern || newMealForm.timeHour.$error.required)">Not a valid time</span>
             </div>
-            <div class="col-xs-4 col-md-4">
-                <div class="form-group">
-                    <input type="text" ng-model="mealData.tempTime" pattern="(1[012]|[1-9]):[0-5][0-9]" required id="timeHour" name="timeHour" class="form-control" placeholder="11:11" />
+            <div class="col-xs-8 col-md-8">
+                <div class="form-group" class="form-control" >
+                    <label id="timeHour" name="timeHour" >{{mealData.tempTime}}
+                    </label>
+                    <label id="timeSchedule" name="timeSchedule">{{mealData.timeSchedule}}</label>
+                    <i class="glyphicon glyphicon-time" aria-hidden="true" ng-click="showDatePicker()"></i>
                 </div>
             </div>
 
-            <div class="col-xs-4 col-md-4">
-                <div class="form-group">
-                    <select required class="form-control" id="timeSchedule" name="timeSchedule">
-                        <option value="am" selected>AM</option>
-                        <option value="pm">PM</option>
-                    </select>
-                </div>
-                <span class="error" ng-if="newMealForm.$submitted && newMealForm.timeSchedule.$error.required">This field is required</span>
-            </div>
 
             <div class="col-xs-4 col-md-4">
                 <div class="form-group">

@@ -1,11 +1,11 @@
 /**
 * Controller for the login view
 * */
-define(['controllers/module', 'alert-helper'], function (controllers, AlertHelper) {
+define(['controllers/module', 'alert-helper', 'ngCordova'], function (controllers, AlertHelper) {
 
     'use strict';
 
-    controllers.controller('MainCtrl', function ($scope, navigation, sharoodDB) {
+    controllers.controller('MainCtrl', function ($scope, navigation, sharoodDB, $cordovaDatePicker) {
 
         /**
         * Try autologgín in two ways:

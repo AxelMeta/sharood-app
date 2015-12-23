@@ -8,7 +8,8 @@ require.config({
         'ngSanitize': '../bower_components/angular-sanitize/angular-sanitize.min',
         'ngRoute': '../bower_components/angular-route/angular-route.min',
         'jquery': '../bower_components/jquery/dist/jquery.min',
-        'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap.min'
+        'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap.min',
+        'ngCordova' : '../bower_components/ngCordova/dist/ng-cordova'
     },
 
     shim: {
@@ -35,6 +36,10 @@ require.config({
         ngRoute: {
             deps: ['angular'],
             exports: 'angular'
+        },
+        'ngCordova': {
+            deps: ['angular'],
+            exports: 'ngCordova'
         }
     }
 });
