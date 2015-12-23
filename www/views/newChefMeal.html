@@ -96,15 +96,17 @@
         <h2 class="title">Ready at</h2>
 
         <div class="row">
-            <div class="col-md-12">
-                <span class="error" ng-if="newMealForm.$submitted && (newMealForm.timeHour.$error.pattern || newMealForm.timeHour.$error.required)">Not a valid time</span>
-            </div>
             <div class="col-xs-8 col-md-8">
-                <div class="form-group" class="form-control" >
-                    <label id="timeHour" name="timeHour" >{{mealData.tempTime}}
-                    </label>
-                    <label id="timeSchedule" name="timeSchedule">{{mealData.timeSchedule}}</label>
-                    <i class="glyphicon glyphicon-time" aria-hidden="true" ng-click="showDatePicker()"></i>
+                <div class="input-group form-group" >
+                    <input type="text" id="timeHour" name="timeHour" ng-model="mealData.tempTime" readonly required class="form-control input-sm" ng-disabled="true">
+                    <div class="input-group-btn">
+                        <label id="timeSchedule" name="timeSchedule" class="input-group-addon" schedule="mealData.timeSchedule">
+                        {{mealData.timeSchedule}}
+                        </label>
+                        <span ng-click="showDatePicker()" class="input-group-addon">
+                            <i class="glyphicon glyphicon-time" />
+                        </span>
+                    </div>
                 </div>
             </div>
 

@@ -27,8 +27,7 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             people: null,
             time: null,
             tempTime: '00:00',
-            timeSchedule: 'am',
-            
+            timeSchedule: 'am',            
             owner: sharoodDB.currentUser.uid,
             university: sharoodDB.currentUser.university[0]
         };
@@ -92,15 +91,12 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * */
         function formatDate(day){
             var date = new Date();
-            
-            timeHour = $scope.mealData.tempTime.split(':');
+            var timeHour = $scope.mealData.tempTime.split(':');
             var hours = parseInt(timeHour[0]);
             var minutes = parseInt(timeHour[1]);
-            
-            if ($scope.mealData.timeSchedule == "pm") {
+            if ($scope.mealData.timeSchedule === "pm") {
                 hours += 12;
             }
-            
             date.setHours(hours)
             date.setMinutes(minutes);
             date.setSeconds(0);
@@ -125,7 +121,6 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             }
 
             var peopleToCome = document.querySelector("#peopleToCome .active input").value;
-            var timeSchedule = document.querySelector("#timeSchedule").value;
             var day = document.querySelector("#day").value;
             var overlay = document.querySelector('.overlay');
             var date = formatDate(day);
