@@ -196,17 +196,26 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
               cancelButtonLabel: 'Abort',
               cancelButtonColor: '#000000'
             };
-            $cordovaDatePicker.show(options).then(function(date){
-                if (date.getHours() > 12) {
-                    $scope.mealData.timeSchedule = 'pm';
-                    date.setHours(date.getHours() - 12);
-                }
-                else{
-                    $scope.mealData.timeSchedule = 'am';
-                }
-                $scope.mealData.tempTime = date.getHours() + ':' + (date.getMinutes()<10?'0':'') + date.getMinutes();
-            });
-        };
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/i)) {
+                var datePicker = {
+                    show: function(options, callback) { callback(new Date());}
+                };
+                $scope.mealData.tempTime = '9:15';
+                $scope.mealData.timeSchedule = 'pm';
+            }
+            else{
+                $cordovaDatePicker.show(options).then(function(date){
+                    if (date.getHours() > 12) {
+                        $scope.mealData.timeSchedule = 'pm';
+                        date.setHours(date.getHours() - 12);
+                    }
+                    else{
+                        $scope.mealData.timeSchedule = 'am';
+                    }
+                    $scope.mealData.tempTime = date.getHours() + ':' + (date.getMinutes()<10?'0':'') + date.getMinutes();
+                });
+            }
 
+        };
     });
 });
