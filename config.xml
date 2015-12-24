@@ -25,7 +25,7 @@
     <preference name="android-minSdkVersion" value="16" />
     <preference name="android-installLocation" value="auto" />
     <preference name="deployment-target" value="8.0" />
-    <preference name="StatusBarOverlaysWebView" value="false" />    
+    <preference name="StatusBarOverlaysWebView" value="false" />
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
@@ -33,19 +33,19 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="com.phonegap.plugin.statusbar" />
     <icon src="www/img/appIcon.png" />
-    <icon src="www/img/appIcon-120x120.png" gap:platform="ios" width="120" height="120" />
-    <icon src="www/img/appIcon-152x152.png" gap:platform="ios" width="152" height="152" />
-    <icon src="www/img/appIcon-76x76.png" gap:platform="ios" width="76" height="76" />
-    <icon src="www/img/appIcon-57x57.png" gap:platform="ios" width="57" height="57" />
-    <gap:splash src="img/splash/screen-480x320.png" gap:platform="ios" width="320" height="480" />
-    <gap:splash src="img/splash/screen-960x640.png" gap:platform="ios" width="640" height="960" />
-    <gap:splash src="img/splash/screen-320x480.png" gap:platform="ios" width="480" height="320" />
-    <gap:splash src="img/splash/screen-640x960.png" gap:platform="ios" width="960" height="640" />
-    <gap:splash src="img/splash/screen-1024x768.png" gap:platform="ios" width="768" height="1024" />
-    <gap:splash src="img/splash/screen-2008x1536.png" gap:platform="ios" width="1536" height="2008" />
-    <gap:splash src="img/splash/screen-768x1024.png" gap:platform="ios" width="1024" height="768" />
-    <gap:splash src="img/splash/screen-1496x2048.png" gap:platform="ios" width="2048" height="1496" />
-    <gap:splash src="img/splash/screen-1136x640.png" gap:platform="ios" width="640" height="1136" />
+    <icon gap:platform="ios" height="120" src="www/img/appIcon-120x120.png" width="120" />
+    <icon gap:platform="ios" height="152" src="www/img/appIcon-152x152.png" width="152" />
+    <icon gap:platform="ios" height="76" src="www/img/appIcon-76x76.png" width="76" />
+    <icon gap:platform="ios" height="57" src="www/img/appIcon-57x57.png" width="57" />
+    <gap:splash gap:platform="ios" height="480" src="img/splash/screen-480x320.png" width="320" />
+    <gap:splash gap:platform="ios" height="960" src="img/splash/screen-960x640.png" width="640" />
+    <gap:splash gap:platform="ios" height="320" src="img/splash/screen-320x480.png" width="480" />
+    <gap:splash gap:platform="ios" height="640" src="img/splash/screen-640x960.png" width="960" />
+    <gap:splash gap:platform="ios" height="1024" src="img/splash/screen-1024x768.png" width="768" />
+    <gap:splash gap:platform="ios" height="2008" src="img/splash/screen-2008x1536.png" width="1536" />
+    <gap:splash gap:platform="ios" height="768" src="img/splash/screen-768x1024.png" width="1024" />
+    <gap:splash gap:platform="ios" height="1496" src="img/splash/screen-1496x2048.png" width="2048" />
+    <gap:splash gap:platform="ios" height="1136" src="img/splash/screen-1136x640.png" width="640" />
     <access origin="*" />
     <plugin name="cordova-plugin-whitelist" version="1" />
     <allow-intent href="http://*/*" />
@@ -61,4 +61,5 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <plugin name="cordova-plugin-datepicker" spec="https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git" />
 </widget>
