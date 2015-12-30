@@ -34,8 +34,8 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 subtitle: 'You have saved your seat for this meal'
             }
         };
-
-        if($routeParams.onlyInfo == 'onlyInfo'){
+        
+        if($routeParams.onlyInfo == ':onlyInfo'){
             $scope.hideSaveButton = true;
         } else {
             $scope.hideSaveButton = false;
