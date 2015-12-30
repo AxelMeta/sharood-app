@@ -90,7 +90,7 @@ define(['services/module'], function (services) {
         var user = Built.App(apiKey).User();
 
         user = user.assign({
-            cookies: 10,
+            cookies: 4,
             food_level_rating: 0,
             food_level_rating_nofvotes: 0,
             friendliness_chef_rating: 0,
