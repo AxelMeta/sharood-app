@@ -34,6 +34,8 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
         $scope.navigate = navigation.navigate;
 
+        $scope.errorSubtitle = 'You need to add a photo to the meal.';
+
         /**
         * Reviews if the user already is the owner of a meal
         * */
@@ -137,10 +139,19 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             sharoodDB.uploadFile(data).then(function(result) {
                 $scope.mealData.picture = result.toJSON().uid;
                 // If everything went well
-                delete $scope.mealData.tempTime;
                 sharoodDB.saveMeal($scope.mealData).then(function(result){
-                    overlay.classList.add('closed');
-                    AlertHelper.alert('#meal-created-alert');
+                    if( result.published){
+                        delete $scope.mealData.tempTime;
+                        MealService.setCurrentMeal(result);
+                        overlay.classList.add('closed');
+                        AlertHelper.alert('#meal-created-alert');
+                    }else{
+                        $scope.onerror = result.status;
+                        console.log(result.status.code);
+                        $scope.errorSubtitle = result.status.text;
+                        AlertHelper.alert('#meal-error-alert');
+                        throw result.status.code;
+                    }
                 }).catch($scope.onerror);
             }).catch($scope.onerror);
         };
@@ -170,7 +181,7 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             id: 'meal-error-alert',
             icon: true,
             title: 'Oops!',
-            subtitle: 'You need to add a photo to the meal.',
+            subtitle: $scope.errorSubtitle,
             ok: {
                 id: 'btn-ok',
                 text: 'Ok',
@@ -185,6 +196,9 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
         $scope.showDatePicker = function() {
             var dateTemp = new Date();
+            if (!$scope.mealData.tempTime){
+                $scope.mealData.tempTime = '00:00';
+            }
             var timeHour = $scope.mealData.tempTime.split(':');
             dateTemp.setHours(parseInt(timeHour[0])  + ($scope.mealData.timeSchedule === 'pm'?12:0) );
             dateTemp.setMinutes(parseInt(timeHour[1]));
