@@ -72,7 +72,7 @@
                             <input class="form-control" type="text" pattern="\d+" placeholder="Your phone number" name="phone" ng-model="user.phone" />
                         </div>
                         <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Your room number" name="room_number" ng-model="user.room_number" />
+                            <input class="form-control" type="number" placeholder="Your room number" name="room_number" ng-model="user.room_number" min="0" step="1"/>
                         </div>
                         <!--<div class="form-group">
                             <input class="form-control" type="email" name="email" ng-model="user.email" required />
