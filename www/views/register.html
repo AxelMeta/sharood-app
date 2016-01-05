@@ -37,7 +37,7 @@
                 <span class="error" ng-if="registerForm.$submitted && registerForm.name.$error.required">Your name is required</span>
             </div>
             <div class="form-group">
-                <input id="room" ng-model="user.room" class="form-control" type="number" name="room" placeholder="Room number" required="" />
+                <input id="room" ng-model="user.room" class="form-control" type="number" name="room" placeholder="Room number" required=""  min="0" step="1"/>
                 <span class="error" ng-if="registerForm.$submitted && registerForm.room.$error.required">Your room number is required</span>
             </div>
             <div class="form-group">
