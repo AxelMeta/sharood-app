@@ -23,12 +23,19 @@ define(['controllers/module'], function (controllers, AlertHelper) {
 
         $scope.navigate = navigation.navigate;
 
+        cordova.plugins.email.isAvailable(
+            function (isAvailable) {
+                console.log('email Available');
+            }
+        );
+
         /**
         * Launch email app to contact the chef.
         * */
         $scope.contactChef = function () {
-            window.plugin.email.open({
-                to: [$scope.meal.owner[0].email]
+            cordova.plugins.email.open({
+                to: [$scope.meal.owner[0].email],
+                app: 'mailto'
             });
         }
 
