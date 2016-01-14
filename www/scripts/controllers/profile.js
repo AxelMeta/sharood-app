@@ -41,6 +41,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         $scope.user = {
             first_name: sharoodDB.currentUser.first_name,
             phone: sharoodDB.currentUser.phone,
+            room_number: sharoodDB.currentUser.room_number,
             email: sharoodDB.currentUser.email,
             username: sharoodDB.currentUser.username
         };

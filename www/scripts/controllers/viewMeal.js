@@ -35,7 +35,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             }
         };
         
-        if($routeParams.onlyInfo == ':onlyInfo'){
+        if($routeParams.onlyInfo === 'info'){
             $scope.hideSaveButton = true;
         } else {
             $scope.hideSaveButton = false;

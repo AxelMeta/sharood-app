@@ -54,7 +54,7 @@
                     </p>
 
                     <p>
-                        Room Number: {{currentUser.room_number || 0}}
+                        Room Number: {{currentUser.room_number}}
                     </p>
                 </div>
 
@@ -70,9 +70,11 @@
                         </div>
                         <div class="form-group">
                             <input class="form-control" type="text" pattern="\d+" placeholder="Your phone number" name="phone" ng-model="user.phone" />
+                            <span class="error" ng-if="accountForm.$submitted && accountForm.phone.$error.required">Your phone number is required</span>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" type="number" placeholder="Your room number" name="room_number" ng-model="user.room_number" min="0" step="1"/>
+                            <input class="form-control" type="text" placeholder="Your room number" name="room_number" ng-model="user.room_number"/>
+                            <span class="error" ng-if="accountForm.$submitted && accountForm.room_number.$error.required">Your room number is required</span>
                         </div>
                         <!--<div class="form-group">
                             <input class="form-control" type="email" name="email" ng-model="user.email" required />

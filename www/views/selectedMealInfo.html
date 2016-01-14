@@ -8,34 +8,37 @@
         <h1>Saved seat</h1>
     </header>
 
+    <div class="row mt20 text-center font-big">
+        <h3>Your Reservation</h3>
+    </div>
+
+    
+    <div class="row mt20 mb20">
+        <div class="col-md-12 ">
+            <div class="centered">
+            <a ng-click="navigate('/viewMeal/info')" class="btn btn-round" >See Meal </a>
+            </div>
+        </div>
+    </div>
+    
+
     <div class="row mt20">
         <div class="col-md-12">
-            <section class="y-block">
-                <div class="y-block-content text-center">
-                    <h4>Great! Now you can go to {{meal.owner[0].first_name}}'s at {{meal.time | date: 'dd/MM - HH:mm'}} h</h4>
-                    <h4>Room: {{meal.owner[0].room_number}}</h4>
-                    <h4>{{meal.owner[0].phone}}</h4>
+            <section>
+                <div class="text-center">
+                    <h3>Host: <a ng-click="contactChef()">{{meal.owner[0].first_name}}</a></h3>
+                    <h3><strong class="blue-font" >{{meal.owner[0].phone}}</strong></h3>
+                    <h4>Date: {{meal.time | date: 'dd/MM'}} at {{meal.time | date: 'HH:mm'}} h </h4>
+                    <h4>Where: {{meal.owner[0].room_number}}</h4>
                 </div>
             </section>
         </div>
     </div>
 
-    <div class="row mt20 text-center font-big">
-        <div class="col-md-12">
-            <a href="" ng-click="navigate('/viewMeal/onlyInfo')">See {{meal.owner[0].first_name}}'s Meal</a>
-        </div>
-    </div>
-
-    <div class="row mt20 text-center font-big">
-        <div class="col-md-12">
-            <a ng-click="contactChef()">Contact Chef for directions</a>
-        </div>
-    </div>
 
     <section class="bottom">
         <div class="row mt20 mb20">
             <div class="col-md-12">
-                <p class="text-center">Back from the meal?</p>
                 <p class="text-center">Rate Chef to choose another meal!</p>
                 <a ng-click="navigate('/rateChef')" class="btn btn-round btn-extra-large">
                     Rate Chef

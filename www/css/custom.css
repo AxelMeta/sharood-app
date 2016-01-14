@@ -785,3 +785,11 @@ span.li-small {
     display: block;
     margin-top: 0.2rem;
 }
+
+.centered {
+    text-align:center;
+}
+
+.blue-font {
+    color: #337AB7;
+}

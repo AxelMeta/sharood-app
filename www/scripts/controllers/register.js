@@ -32,6 +32,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         $scope.user = {
             name: null,
             email: null,
+            phone: null,
             password: null,
             passwordConfirm: null,
             university: null,

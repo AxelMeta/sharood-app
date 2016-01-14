@@ -96,7 +96,7 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             var timeHour = $scope.mealData.tempTime.split(':');
             var hours = parseInt(timeHour[0]);
             var minutes = parseInt(timeHour[1]);
-            if ($scope.mealData.timeSchedule === "pm") {
+            if ($scope.mealData.timeSchedule === "pm" && hours != 12) {
                 hours += 12;
             }
             date.setHours(hours)
@@ -219,9 +219,11 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             }
             else{
                 $cordovaDatePicker.show(options).then(function(date){
-                    if (date.getHours() > 12) {
+                    if (date.getHours() >= 12) {
                         $scope.mealData.timeSchedule = 'pm';
-                        date.setHours(date.getHours() - 12);
+                        if (date.getHours() > 13) {
+                            date.setHours(date.getHours() - 12);
+                        }
                     }
                     else{
                         $scope.mealData.timeSchedule = 'am';
