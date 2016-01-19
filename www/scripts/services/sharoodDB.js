@@ -88,6 +88,7 @@ define(['services/module'], function (services) {
         console.log('3');
         var deferred = $q.defer();
         var user = Built.App(apiKey).User();
+        var installation = Built.App(apiKey).Installation();
 
         user = user.assign({
             cookies: 4,
@@ -100,17 +101,26 @@ define(['services/module'], function (services) {
             university: data.university,
             first_name: data.name,
             username: data.name,
-            room_number: data.room
+            room_number: data.room,
+            device_type: data.device
         });
 
         user.register(data.email, data.password, data.passwordConfirm)
           .then(function(user) {
             deferred.resolve(user.toJSON());
+            installation.setDeviceType(data.device).setDeviceToken(data.deviceId).
+              subscribeChannels([data.university]).setCredentailsName('testiPadCertificateName').
+              save().then(function(inst) {
+                  console.log(inst.toJSON())
+                }, function(error) {
+                  deferred.reject(error);
+                });
           }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
             deferred.reject(error);
           });
+
+        
+        
 
         return deferred.promise;
       },

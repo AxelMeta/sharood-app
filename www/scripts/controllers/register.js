@@ -5,7 +5,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper) {
+    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper,  $cordovaDevice) {
 
         console.log("Register controller");
 
@@ -27,6 +27,13 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             }
         };
 
+        var platform = $cordovaDevice.getPlatform().toLowerCase();
+
+        var uuid = $cordovaDevice.getUUID();
+
+        console.log('platform: ' + platform);
+        console.log('uuid: ' + uuid);
+
         $scope.hasErrors = false;
 
         $scope.user = {
@@ -36,7 +43,9 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             password: null,
             passwordConfirm: null,
             university: null,
-            room: null
+            room: null,
+            device: platform,
+            deviceId: uuid
         };
 
         $scope.navigate = navigation.navigate;
