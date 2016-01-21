@@ -5,7 +5,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper) {
+    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice) {
 
         console.log("Profile controller");
         var cameraImg = 'img/camera.png';
@@ -27,6 +27,8 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         };
 
         $scope.currentUser = sharoodDB.currentUser;
+        var platform = $cordovaDevice.getPlatform().toLowerCase();
+        var uuid = $cordovaDevice.getUUID();
 
         sharoodDB.getUniversityByUid(sharoodDB.currentUser.university[0]).then(function(university) {
             $scope.university = university;
@@ -43,7 +45,9 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             phone: sharoodDB.currentUser.phone,
             room_number: sharoodDB.currentUser.room_number,
             email: sharoodDB.currentUser.email,
-            username: sharoodDB.currentUser.username
+            username: sharoodDB.currentUser.username,
+            device_type: platform,
+            deviceId: uuid
         };
 
         $scope.navigate = navigation.navigate;
