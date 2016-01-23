@@ -1,4 +1,4 @@
-/**
+	/**
 * Controller for 'register' view
 * */
 define(['controllers/module', 'alert-helper'], function (controllers, AlertHelper) {
@@ -8,7 +8,9 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
     controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice) {
 
         console.log("Register controller");
-
+        var overlay = document.querySelector('.overlay');
+        overlay.classList.add('closed');
+        
         var ALERT_TITLES = {
             error: {
                 title: 'Opps!',
@@ -59,14 +61,11 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 AlertHelper.alert('#register-account-alert');
                 return;
             }
-
-            console.info($scope.user);
-
+            overlay.classList.remove('closed');
             sharoodDB.register($scope.user).then(function(user) {
                 sharoodDB.currentUser = user;
                 var data = cameraHelper.buildServerImg($scope.imageBase64);
                 sharoodDB.uploadFile(data).then(function(result) {
-                    console.log(result.toJSON());
                     sharoodDB.updateProfile({picture: result.toJSON().uid}).then(function(result){
                         console.log(result);
                         sharoodDB.currentUser = result;
@@ -75,6 +74,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                         updateAlertTitles('success');
                         AlertHelper.alert('#register-account-alert');
                     });
+                    overlay.classList.add('closed');
                 }).catch(onerror);
             }).catch(onerror);
         };
