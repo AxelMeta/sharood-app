@@ -40,7 +40,6 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * Reviews if the user already is the owner of a meal
         * */
         sharoodDB.getAllMealsByOwner(sharoodDB.currentUser.uid).then(function(meals) {
-            console.log(meals);
             if(meals.length == 0){
                 var overlay = document.querySelector('.overlay');
                 overlay.classList.add('closed');
@@ -60,7 +59,6 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * Handler: starts take a picture process
         * */
         $scope.takePicture = function() {
-            console.log("Getting Picture");
             cameraHelper.getPicture().then(function(base64){
                 var photo = document.getElementById('placePhoto');
                 photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';
@@ -116,7 +114,6 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * Handler: sends meal to the data base
         * */
         $scope.sendMeal = function() {
-            console.log($scope.newMealForm);
             if (!$scope.newMealForm.$valid) {
                 console.log('no validate');
                 return;
@@ -142,12 +139,14 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
                 sharoodDB.saveMeal($scope.mealData).then(function(result){
                     if( result.published){
                         delete $scope.mealData.tempTime;
+                        if(result.owner == sharoodDB.currentUser.uid){
+                        	result.owner = [sharoodDB.currentUser];
+                        }
                         MealService.setCurrentMeal(result);
                         overlay.classList.add('closed');
                         AlertHelper.alert('#meal-created-alert');
                     }else{
                         $scope.onerror = result.status;
-                        console.log(result.status.code);
                         $scope.errorSubtitle = result.status.text;
                         AlertHelper.alert('#meal-error-alert');
                         throw result.status.code;
