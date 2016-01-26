@@ -44,6 +44,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
 		$scope.meal = mealInfo;  
 
+		console.log('Esta es la comida');
         console.log($scope.meal);
 
         $scope.foodConfig = {
@@ -103,7 +104,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         * */
         $scope.saveSeat = function(){
         	overlay.classList.remove('closed');
-            sharoodDB.getmealById(mealInfo.uid).then(function(result){
+            sharoodDB.getMealById(mealInfo.uid).then(function(result){
                 var mealResult = addPerson(result);
                 if(mealResult){
                     delete mealResult.picture;

@@ -218,7 +218,7 @@ define(['services/module'], function (services) {
        * @param mealId specifies the meal id
        * @returns a promise that will be resolved once the requested meal has been loaded
        */
-      getmealById: function (mealId){
+      getMealById: function (mealId){
         var deferred = $q.defer();
 
         var query = Built.App(apiKey).Class('meal').Object(mealId);

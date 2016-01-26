@@ -62,7 +62,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
             sharoodDB.addVotesToUser(mealInfo.owner[0].uid, friendlinessStars, foodLevelStars, funStars).then(function(result){
                 console.log(result);
-                sharoodDB.getmealById(mealInfo.uid).then(function(result){
+                sharoodDB.getMealById(mealInfo.uid).then(function(result){
                     console.log(result);
                     var mealResult = addUserVote(result);
                     console.log(mealResult);

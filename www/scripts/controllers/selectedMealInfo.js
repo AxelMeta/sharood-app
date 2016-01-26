@@ -65,7 +65,7 @@ define(['controllers/module'], function (controllers, AlertHelper) {
         }
 
         function deleteAttendant(mealUid) {
-            sharoodDB.getmealById(mealUid).then(function(result){
+            sharoodDB.getMealById(mealUid).then(function(result){
                 for (var i = 1; i <= 5; i++) {
                     if (mealResult.assistants['assistant' + i] &&
                         currentUser === mealResult.assistants['assistant' + i][0].uid) {
