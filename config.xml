@@ -33,7 +33,7 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="com.phonegap.plugin.statusbar" />
     <gap:plugin name="com.plugins.shortcut" version="0.1.1" />
-    <icon src="www/img/appIcon.png" />
+    <icon src="www/res/icon/screen/icon.png" />
     <icon gap:platform="ios" height="120" src="www/img/appIcon-120x120.png" width="120" />
     <icon gap:platform="ios" height="152" src="www/img/appIcon-152x152.png" width="152" />
     <icon gap:platform="ios" height="76" src="www/img/appIcon-76x76.png" width="76" />
