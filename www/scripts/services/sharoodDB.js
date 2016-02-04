@@ -88,9 +88,10 @@ define(['services/module'], function (services) {
         console.log('3');
         var deferred = $q.defer();
         var user = Built.App(apiKey).User();
+        //var installation = Built.App(apiKey).Installation();
 
         user = user.assign({
-            cookies: 10,
+            cookies: 4,
             food_level_rating: 0,
             food_level_rating_nofvotes: 0,
             friendliness_chef_rating: 0,
@@ -100,15 +101,14 @@ define(['services/module'], function (services) {
             university: data.university,
             first_name: data.name,
             username: data.name,
-            room_number: data.room
+            room_number: data.room,
+            phone: data.phone,
+            device_type: data.device_type
         });
-
         user.register(data.email, data.password, data.passwordConfirm)
           .then(function(user) {
             deferred.resolve(user.toJSON());
           }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
             deferred.reject(error);
           });
 
@@ -218,7 +218,7 @@ define(['services/module'], function (services) {
        * @param mealId specifies the meal id
        * @returns a promise that will be resolved once the requested meal has been loaded
        */
-      getmealById: function (mealId){
+      getMealById: function (mealId){
         var deferred = $q.defer();
 
         var query = Built.App(apiKey).Class('meal').Object(mealId);
@@ -306,20 +306,49 @@ define(['services/module'], function (services) {
        */
       updateProfile: function(data) {
         console.log('8');
-
+        console.log(data);
         var deferred = $q.defer();
         var User = Built.App(apiKey).Class('built_io_application_user').Object;
+        //var Installation = Built.App(apiKey).Class('built_io_installation_data').Object;
+        var installation = Built.App(apiKey).Installation();
+        //var installation = Installation();
         var user = User(this.currentUser.uid);
-
         user = user.assign(data);
-
         user.save()
           .then(function(user) {
             deferred.resolve(user.toJSON());
+            var channelId = user.toJSON().university;
+            /*
+            installation = installation.assign({
+                user_id: user.toJSON().uid,
+                device_type: data.device_type,
+                device_token: data.deviceId,
+                subscribed_to_channels: [channelId]
+                credentails_name: 'testiPadCertificateName'
+            });
+            
+            installation.setDeviceType(data.device_type).setDeviceToken(data.deviceId).
+              subscribeChannels([data.university]).setCredentailsName('testiPadCertificateName').
+            
+            installation.assign({user_id: user.toJSON().uid});
+            */
+            console.log(data.deviceId);
+            console.log(channelId);
+
+            installation.setDeviceType(String(data.device_type)).setDeviceToken(String(data.deviceId)).
+              subscribeChannels([String(channelId)]).setCredentailsName('PushSharrod').
+                save().then(function(inst) {
+                  console.log(inst.toJSON())
+                  console.log('inst pass');
+                }, function(error) {
+                  console.log('inst error');
+                  console.log(error);
+                  deferred.reject(error);
+                });
           }, function(error) {
             deferred.resolve(error);
           });
-
+          
         return deferred.promise;
       },
 

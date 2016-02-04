@@ -117,7 +117,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             }
 
             $q.all(promises).then(function(){
-                sharoodDB.getmealById(mealInfo.uid).then(function(result){
+                sharoodDB.getMealById(mealInfo.uid).then(function(result){
                     console.log(result);
                     var mealResult = addUserVote(result);
                     console.log(mealResult);

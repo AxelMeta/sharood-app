@@ -34,11 +34,12 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
         $scope.navigate = navigation.navigate;
 
+        $scope.errorSubtitle = 'You need to add a photo to the meal.';
+
         /**
         * Reviews if the user already is the owner of a meal
         * */
         sharoodDB.getAllMealsByOwner(sharoodDB.currentUser.uid).then(function(meals) {
-            console.log(meals);
             if(meals.length == 0){
                 var overlay = document.querySelector('.overlay');
                 overlay.classList.add('closed');
@@ -58,7 +59,6 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * Handler: starts take a picture process
         * */
         $scope.takePicture = function() {
-            console.log("Getting Picture");
             cameraHelper.getPicture().then(function(base64){
                 var photo = document.getElementById('placePhoto');
                 photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';
@@ -94,7 +94,7 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             var timeHour = $scope.mealData.tempTime.split(':');
             var hours = parseInt(timeHour[0]);
             var minutes = parseInt(timeHour[1]);
-            if ($scope.mealData.timeSchedule === "pm") {
+            if ($scope.mealData.timeSchedule === "pm" && hours != 12) {
                 hours += 12;
             }
             date.setHours(hours)
@@ -114,7 +114,6 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * Handler: sends meal to the data base
         * */
         $scope.sendMeal = function() {
-            console.log($scope.newMealForm);
             if (!$scope.newMealForm.$valid) {
                 console.log('no validate');
                 return;
@@ -137,10 +136,21 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             sharoodDB.uploadFile(data).then(function(result) {
                 $scope.mealData.picture = result.toJSON().uid;
                 // If everything went well
-                delete $scope.mealData.tempTime;
                 sharoodDB.saveMeal($scope.mealData).then(function(result){
-                    overlay.classList.add('closed');
-                    AlertHelper.alert('#meal-created-alert');
+                    if( result.published){
+                        delete $scope.mealData.tempTime;
+                        if(result.owner == sharoodDB.currentUser.uid){
+                        	result.owner = [sharoodDB.currentUser];
+                        }
+                        MealService.setCurrentMeal(result);
+                        overlay.classList.add('closed');
+                        AlertHelper.alert('#meal-created-alert');
+                    }else{
+                        $scope.onerror = result.status;
+                        $scope.errorSubtitle = result.status.text;
+                        AlertHelper.alert('#meal-error-alert');
+                        throw result.status.code;
+                    }
                 }).catch($scope.onerror);
             }).catch($scope.onerror);
         };
@@ -170,7 +180,7 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             id: 'meal-error-alert',
             icon: true,
             title: 'Oops!',
-            subtitle: 'You need to add a photo to the meal.',
+            subtitle: $scope.errorSubtitle,
             ok: {
                 id: 'btn-ok',
                 text: 'Ok',
@@ -185,6 +195,9 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
         $scope.showDatePicker = function() {
             var dateTemp = new Date();
+            if (!$scope.mealData.tempTime){
+                $scope.mealData.tempTime = '00:00';
+            }
             var timeHour = $scope.mealData.tempTime.split(':');
             dateTemp.setHours(parseInt(timeHour[0])  + ($scope.mealData.timeSchedule === 'pm'?12:0) );
             dateTemp.setMinutes(parseInt(timeHour[1]));
@@ -196,17 +209,28 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
               cancelButtonLabel: 'Abort',
               cancelButtonColor: '#000000'
             };
-            $cordovaDatePicker.show(options).then(function(date){
-                if (date.getHours() > 12) {
-                    $scope.mealData.timeSchedule = 'pm';
-                    date.setHours(date.getHours() - 12);
-                }
-                else{
-                    $scope.mealData.timeSchedule = 'am';
-                }
-                $scope.mealData.tempTime = date.getHours() + ':' + (date.getMinutes()<10?'0':'') + date.getMinutes();
-            });
-        };
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android)/i)) {
+                var datePicker = {
+                    show: function(options, callback) { callback(new Date());}
+                };
+                $scope.mealData.tempTime = '9:15';
+                $scope.mealData.timeSchedule = 'pm';
+            }
+            else{
+                $cordovaDatePicker.show(options).then(function(date){
+                    if (date.getHours() >= 12) {
+                        $scope.mealData.timeSchedule = 'pm';
+                        if (date.getHours() > 13) {
+                            date.setHours(date.getHours() - 12);
+                        }
+                    }
+                    else{
+                        $scope.mealData.timeSchedule = 'am';
+                    }
+                    $scope.mealData.tempTime = date.getHours() + ':' + (date.getMinutes()<10?'0':'') + date.getMinutes();
+                });
+            }
 
+        };
     });
 });

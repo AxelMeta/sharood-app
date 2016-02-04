@@ -8,7 +8,8 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
     controllers.controller('ViewMeal', function ($scope, MealService, sharoodDB, navigation, $routeParams) {
         
         console.log("ViewMeal controller");
-
+        var overlay = document.querySelector('.overlay');
+        overlay.classList.add('closed');
         /**
         * Reviews if the user is logged
         * */
@@ -34,8 +35,8 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 subtitle: 'You have saved your seat for this meal'
             }
         };
-
-        if($routeParams.onlyInfo == 'onlyInfo'){
+        
+        if($routeParams.onlyInfo == 'info' || $routeParams.onlyInfo == ':onlyInfo'){
             $scope.hideSaveButton = true;
         } else {
             $scope.hideSaveButton = false;
@@ -43,6 +44,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
 		$scope.meal = mealInfo;  
 
+		console.log('Esta es la comida');
         console.log($scope.meal);
 
         $scope.foodConfig = {
@@ -101,9 +103,9 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         * Handler: starts the save seat process and save the result on the database.
         * */
         $scope.saveSeat = function(){
-            sharoodDB.getmealById(mealInfo.uid).then(function(result){
+        	overlay.classList.remove('closed');
+            sharoodDB.getMealById(mealInfo.uid).then(function(result){
                 var mealResult = addPerson(result);
-                console.log(mealResult);
                 if(mealResult){
                     delete mealResult.picture;
                     sharoodDB.saveMeal(mealResult).then(function(result){
@@ -121,6 +123,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                     updateAlertTitles();
                     AlertHelper.alert('#save-seat-alert');
                 }
+                overlay.classList.remove('closed');
             });
         }
 

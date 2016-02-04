@@ -7,7 +7,7 @@
     <div class="register-form">
         <div class="row profile-img mt20">
             <div class="col-md-12">
-                <div id="profilePhoto" class="img-square" style="background: #F1C40F url('img/camera.png') no-repeat 50% 50%;" data-toggle="modal" data-target="#modalRegister"></div>
+                <div id="profilePhoto" class="img-square" style="background: #F1C40F url('img/camera.png') no-repeat 50% 50%;" data-toggle="modal" data-target="#modalRegister" ng-click=""></div>
             </div>
         </div>
 
@@ -37,7 +37,11 @@
                 <span class="error" ng-if="registerForm.$submitted && registerForm.name.$error.required">Your name is required</span>
             </div>
             <div class="form-group">
-                <input id="room" ng-model="user.room" class="form-control" type="number" name="room" placeholder="Room number" required="" />
+                <input id="phone" ng-model="user.phone" class="form-control" type="text" name="phone" pattern="\d+" placeholder="Phone number"  required="" />
+                <span class="error" ng-if="registerForm.$submitted && registerForm.room.$error.required">Your phone number is required</span>
+            </div>
+            <div class="form-group">
+                <input id="room" ng-model="user.room" class="form-control" type="text" name="room" placeholder="Room number" required=""/>
                 <span class="error" ng-if="registerForm.$submitted && registerForm.room.$error.required">Your room number is required</span>
             </div>
             <div class="form-group">
@@ -67,4 +71,7 @@
     </div>
 
     <alert id="register-account-alert" config="registerAccountConfig"></alert>
+    <div class="overlay">
+	    <span class="loader"><img src="img/sharood2.gif"  alt="Loading" height="240" width="240"></span>
+	</div>
 </section>

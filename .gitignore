@@ -201,3 +201,5 @@ platforms/wp8/*.csproj.user
 
 # res
 resources/signing
+
+.tern-project
