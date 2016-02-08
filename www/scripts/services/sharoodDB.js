@@ -88,26 +88,43 @@ define(['services/module'], function (services) {
         console.log('3');
         var deferred = $q.defer();
         var user = Built.App(apiKey).User();
-        //var installation = Built.App(apiKey).Installation();
-
+        var installation = Built.App(apiKey).Installation();
+        console.log('Picture');
+        console.log(data.picture);
         user = user.assign({
-            cookies: 4,
-            food_level_rating: 0,
-            food_level_rating_nofvotes: 0,
-            friendliness_chef_rating: 0,
-            friendliness_chef_rating_nofvotes: 0,
-            fun_rating: 0,
-            fun_rating_nofvotes: 0,
-            university: data.university,
-            first_name: data.name,
-            username: data.name,
-            room_number: data.room,
-            phone: data.phone,
-            device_type: data.device_type
-        });
+	            cookies: 4,
+	            food_level_rating: 0,
+	            food_level_rating_nofvotes: 0,
+	            friendliness_chef_rating: 0,
+	            friendliness_chef_rating_nofvotes: 0,
+	            fun_rating: 0,
+	            fun_rating_nofvotes: 0,
+	            university: data.university,
+	            first_name: data.name,
+	            username: data.name,
+	            room_number: data.room,
+	            phone: data.phone,
+	            device_type: data.device_type,
+	            picture: data.picture
+	        });
         user.register(data.email, data.password, data.passwordConfirm)
           .then(function(user) {
             deferred.resolve(user.toJSON());
+            console.log('register success');
+            
+            var channelId = user.toJSON().university;
+            
+            installation.setDeviceType(String(data.device_type)).setDeviceToken(String(data.deviceId)).
+            subscribeChannels([String(channelId)]).setCredentailsName('PushSharrod').
+              save().then(function(inst) {
+                console.log(inst.toJSON())
+                console.log('inst pass');
+              }, function(error) {
+                console.log('inst error');
+                console.log(error);
+                deferred.reject(error);
+              });
+            
           }, function(error) {
             deferred.reject(error);
           });

@@ -32,6 +32,7 @@
     <gap:plugin name="io.github.siegfriedbolz.cordova.plugins.email-composer" version="0.8.3" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <gap:plugin name="com.plugins.shortcut" />
     <icon src="img/icon.png" />
     <icon gap:platform="ios" height="120" src="img/appIcon-120x120.png" width="120" />
     <icon gap:platform="ios" height="152" src="img/appIcon-152x152.png" width="152" />
@@ -51,7 +52,7 @@
     <gap:splash gap:platform="ios" height="1496" src="img/splash/screen-1496x2048.png" width="2048" />
     <gap:splash gap:platform="ios" height="1136" src="img/splash/screen-1136x640.png" width="640" />
     <access origin="*" />
-    <plugin name="cordova-plugin-whitelist" version="1" />
+    
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -65,5 +66,6 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <plugin name="cordova-plugin-whitelist" version="1" />
     <plugin name="cordova-plugin-datepicker" spec="https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git" />
 </widget>

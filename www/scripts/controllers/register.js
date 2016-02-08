@@ -1,13 +1,16 @@
 	/**
 * Controller for 'register' view
 * */
-define(['controllers/module', 'alert-helper'], function (controllers, AlertHelper) {
+define(['controllers/module', 'alert-helper', 'ngCordova'], function (controllers, AlertHelper) {
 
     'use strict';
 
     controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice) {
 
         console.log("Register controller");
+        
+        
+        $scope.imageBase64 = null;
         var overlay = document.querySelector('.overlay');
         overlay.classList.add('closed');
         
@@ -40,6 +43,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             password: null,
             passwordConfirm: null,
             university: null,
+            picture: null,
             room: null,
             device_type: platform
         };
@@ -62,21 +66,18 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 return;
             }
             overlay.classList.remove('closed');
-            sharoodDB.register($scope.user).then(function(user) {
-                sharoodDB.currentUser = user;
-                var data = cameraHelper.buildServerImg($scope.imageBase64);
-                sharoodDB.uploadFile(data).then(function(result) {
-                    sharoodDB.updateProfile({picture: result.toJSON().uid}).then(function(result){
-                        console.log(result);
-                        sharoodDB.currentUser = result;
-                        $scope.currentUser = result;
-                        $scope.hasErrors = false;
-                        updateAlertTitles('success');
-                        AlertHelper.alert('#register-account-alert');
-                    });
-                    overlay.classList.add('closed');
+            var data = cameraHelper.buildServerImg($scope.imageBase64);
+            sharoodDB.uploadFile(data).then(function(result) {
+            	$scope.user.picture = result.toJSON().uid;
+            	sharoodDB.register($scope.user).then(function(result) {
+                    sharoodDB.currentUser = result;
+                    $scope.currentUser = result;
+                    $scope.hasErrors = false;
+                    updateAlertTitles('success');
+                    AlertHelper.alert('#register-account-alert');
                 }).catch(onerror);
             }).catch(onerror);
+            overlay.classList.add('closed');
         };
 
         function onerror(e) {
@@ -125,6 +126,15 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 $scope.imageBase64 = 'data:image/jpeg;base64,' + base64;
             });
         }
+        
+        $scope.takePicture = function() {
+            cameraHelper.getPicture().then(function(base64){
+                var photo = document.getElementById('profilePhoto');
+                photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';
+                photo.classList.add('cover');
+                $scope.imageBase64 = 'data:image/jpeg;base64,' + base64;
+            });
+        };
 
         $scope.changePhotoFromFile = function() {
             var options = {
