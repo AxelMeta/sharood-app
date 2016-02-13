@@ -208,8 +208,9 @@ define(['services/module'], function (services) {
         var q7 = query.where('university', this.currentUser.university[0]);
 
         query = query.and([q1, q2, q3, q4, q5, q6, q7]);
-
-        query = query.greaterThanOrEqualTo('time', new Date()); //Only meals with a time bigger than now.
+        
+		    query = query.greaterThanOrEqualTo('time', new Date()); //Only meals with a time bigger than now.
+        //query = query.lessThanOrEqualTo('time', new Date()); //Only meals with a time bigger than now.
 
         query.include(['owner',
                        'assistants.assistant1',
@@ -575,6 +576,58 @@ define(['services/module'], function (services) {
 
         return deferred.promise;
       },
+
+      getPastMeals: function(start, finish) {
+        console.log('17');
+        var deferred = $q.defer();
+        var query = Built.App(apiKey).Class('meal').Query();
+
+        if(typeof start !== 'undefined' && typeof finish !== 'undefined'){
+          var first = start;
+          var range = finish + 1 - start;
+          if (first != 0) {
+            query = query.skip(first);
+          }
+          query = query.limit(range);
+        }
+
+        var q1 = query.notEqualTo('assistants.assistant1', this.currentUser.uid);
+        var q2 = query.notEqualTo('assistants.assistant2', this.currentUser.uid);
+        var q3 = query.notEqualTo('assistants.assistant3', this.currentUser.uid);
+        var q4 = query.notEqualTo('assistants.assistant4', this.currentUser.uid);
+        var q5 = query.notEqualTo('assistants.assistant5', this.currentUser.uid);
+
+        var q6 = query.notEqualTo('owner', this.currentUser.uid);
+
+        var q7 = query.where('university', this.currentUser.university[0]);
+
+        var currentDate = new Date();
+        var pastDate =  new Date();
+        pastDate.setDate(currentDate.getDate() - 1);
+        query = query.lessThanOrEqualTo('time',  new Date());
+        query = query.limit(10);
+        
+        query = query.and([q1, q2, q3, q4, q5, q6, q7]);
+
+        query.include(['owner',
+                       'assistants.assistant1',
+                       'assistants.assistant2',
+                       'assistants.assistant3',
+                       'assistants.assistant4',
+                       'assistants.assistant5'])
+          .descending('time')
+          .exec()
+          .then(function(meals) {
+            deferred.resolve(meals);
+          }, function(error) {
+            // some error has occurred
+            // refer to the 'error' object for more details
+            deferred.reject(error);
+          });
+
+        return deferred.promise;
+      },
+
 
       /**
        * Autoupdate the user every 10 seconds

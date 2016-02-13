@@ -18,10 +18,13 @@ define(['controllers/module'], function (controllers) {
         }
 
         $scope.mealsToRender = [];
+        $scope.pastMealsToRender = [];
         $scope.AllMeals = [];
         $scope.ToAttendMeals = [];
         $scope.MyMeals = [];
+        $scope.PastMeals = [];
         $scope.currentMeals = [];
+        $scope.pastMeals = [];
         var chunk = 10;
         var toggleMeals = {
             meals: {
@@ -38,7 +41,13 @@ define(['controllers/module'], function (controllers) {
                 elements: 'MyMeals',
                 load: false,
                 method: 'getAllMealsByOwner'
-            }
+            },
+            pastMeals: {
+                elements: 'PastMeals',
+                load: true,
+                method: 'getPastMeals'
+            },
+
         };
         
         $scope.username = sharoodDB.currentUser.username;
@@ -65,6 +74,15 @@ define(['controllers/module'], function (controllers) {
 
             for (var i = 0; i < lastIndex; i++) {
                 $scope.mealsToRender.push($scope.currentMeals[i]);
+            }
+
+            $scope.pastMealsToRender = [];
+            if (lastIndex > $scope.pastMeals.length) {
+                lastIndex = $scope.pasttMeals.length;
+            }
+
+            for (var i = 0; i < lastIndex; i++) {
+                $scope.pastMealsToRender.push($scope.pastMeals[i]);
             }
         }
 
@@ -105,18 +123,28 @@ define(['controllers/module'], function (controllers) {
             $scope.drawImages();
         });
 
+
+        sharoodDB.getPastMeals().then(function(meals) {
+            console.log('pastMeals');
+            console.log(meals);
+            if(meals.length > 0){
+                meals.forEach(function(meal){
+                    console.log(meal.toJSON());
+                    $scope.PastMeals.push(meal.toJSON());
+                    $scope.pastMeals.push(meal.toJSON());
+                });
+            }
+        });
+
         /**
         * Launches the meals loading.
         * */
         sharoodDB.getAllMealsByAssistant(sharoodDB.currentUser.uid).then(function(meals) {
             console.log(meals);
-            if(meals.length == 0){
+            if(meals.length == 0){    
                 sharoodDB.getAllMeals().then(function(meals) {
-
                     console.log(meals);
-
                     if(meals.length > 0){
-
                         meals.forEach(function(meal){
                             console.log(meal.toJSON());
                             $scope.AllMeals.push(meal.toJSON());
@@ -169,11 +197,43 @@ define(['controllers/module'], function (controllers) {
             console.log($scope.mealsToRender);
         };
 
+
+        /**
+        * Loads pasts meals when it's needed. The load is done when the user does scroll to the bottom.
+        * */
+        $scope.loadPastMeals = function() {
+            console.log('load!');
+            if (!$scope.pastMealsToRender.length) {
+                return;
+            }
+
+            var lastIndex = $scope.pastMealsToRender.length - 1;
+            var newIndex = lastIndex + chunk;
+
+            if (lastIndex === $scope.pastMeals.length) {
+                return;
+            } else if (newIndex > $scope.pastMeals.length) {
+                newIndex = $scope.pastMeals.length;
+            }
+
+            for (var i = lastIndex; i < newIndex; i++) {
+                console.log($scope.pastMeals[i]);
+                $scope.pastMealsToRender.push($scope.pastMeals[i]);
+            }
+
+            console.log($scope.pastMealsToRender);
+        };
+
         /**
         * Handler: go to one meal.
         * */ 
         $scope.goToMeal = function(mealIndex){
             MealService.setCurrentMeal($scope.mealsToRender[mealIndex]);
+            navigation.navigate('/viewMeal/showSave');
+        };
+
+        $scope.goToPastMeal = function(mealIndex){
+            MealService.setCurrentMeal($scope.pastMealsToRender[mealIndex]);
             navigation.navigate('/viewMeal/showSave');
         };
 

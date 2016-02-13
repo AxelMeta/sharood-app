@@ -44,9 +44,33 @@
     </div>
 
     <div class="row">
+        <h1 class="title mb20">Coming Soon Meals</h1>
+    
         <div class="col-md-12 col-sm-12" ng-infinite-scroll="" ng-infinite-scroll-callback="loadMoreMeals()">
             <div ng-repeat="meal in mealsToRender track by $index" data-index="{{$index}}" class="list-item animate-repeat">
                 <a href="" ng-click="goToMeal($index)">
+                    <img ng-if="meal.owner[0].picture" class="li-small pull-left" src="{{meal.owner[0].picture.url}}" style="backgournd: #F1C40F;" />
+                    <span ng-if="!meal.owner[0].picture" class="li-small pull-left">{{meal.owner[0].first_name | limitTo: 1}}</span>
+                    <span class="list-content media-body">
+                        <b class="li-title">{{meal.description}}</b>
+                        <small class="li-description">
+                            <img class="li-xsmall" src="img/icon.png" /> {{meal.cookies_value}}
+                            <img class="li-xsmall ml10" src="img/clock.png" /> {{meal.time | date:'dd/MM - HH:mm'}}
+                        </small>
+                    </span>
+
+                    <div class="arrow-right">
+                        <i class="fa fa-chevron-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <div class="col-md-12 col-sm-12 text-center" ng-infinite-scroll="" ng-infinite-scroll-callback="loadPastMeals()">
+            <hr>
+            <h1 class="title mb20">Past Meals</h1>
+            <div ng-repeat="meal in pastMealsToRender track by $index" data-index="{{$index}}" class="list-item animate-repeat">
+                <a href="" ng-click="goToPastMeal($index)">
                     <img ng-if="meal.owner[0].picture" class="li-small pull-left" src="{{meal.owner[0].picture.url}}" style="backgournd: #F1C40F;" />
                     <span ng-if="!meal.owner[0].picture" class="li-small pull-left">{{meal.owner[0].first_name | limitTo: 1}}</span>
                     <span class="list-content media-body">

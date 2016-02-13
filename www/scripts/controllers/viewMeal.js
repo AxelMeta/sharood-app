@@ -36,6 +36,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             }
         };
         
+
         if($routeParams.onlyInfo == 'info' || $routeParams.onlyInfo == ':onlyInfo'){
             $scope.hideSaveButton = true;
         } else {
@@ -43,6 +44,11 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         }
 
 		$scope.meal = mealInfo;  
+
+        var currentDate = new Date();
+        if($scope.meal.time < currentDate.toISOString() && ! $scope.hideSaveButton){
+            $scope.hideSaveButton = true;
+        }
 
 		console.log('Esta es la comida');
         console.log($scope.meal);
