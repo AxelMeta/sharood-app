@@ -5,10 +5,28 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
     'use strict';
 
-    controllers.controller('NewChefMeal', function ($scope, sharoodDB, navigation, MealService, cameraHelper, $cordovaDatePicker) {
+    controllers.controller('NewChefMeal', function ($scope, sharoodDB, navigation, MealService, cameraHelper, $cordovaDatePicker, deviceState) {
 
         console.log("NewChefMeal controller");
+        
+		//------------------------------------------------------------------------------
+        $scope.$on(deviceState.events.onResume, function (event) {
+        	console.log("Resume EVENT"+"\r\n");
+            navigation.navigate('/');
+            return;
+        });
+        
+        $scope.$on(deviceState.events.onOnline, function (event) {
+        	console.log("ONLine EVENT"+"\r\n");
 
+        });
+        
+        $scope.$on(deviceState.events.onOffline, function (event) {
+        	console.log("OFFLine EVENT"+"\r\n");
+
+        });
+		//------------------------------------------------------------------------------
+        
         /**
         * Reviews if the user is logged
         * */
