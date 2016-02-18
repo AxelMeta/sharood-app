@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.sharood" version="1.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.sharood" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Sharood</name>
     <description>
         Sharood connects people who want to eat with people who are cooking in your area. 
@@ -8,24 +8,39 @@
         Sharood Team
     </author>
     <content src="index.html" />
+	
     <preference name="permissions" value="none" />
     <preference name="orientation" value="portrait" />
-    <preference name="target-device" value="universal" />
     <preference name="fullscreen" value="false" />
-    <preference name="android-windowSoftInputMode" value="adjustResize" />
     <preference name="webviewbounce" value="true" />
-    <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="false" />
-    <preference name="ios-statusbarstyle" value="black-opaque" />
-    <preference name="detect-data-types" value="true" />
-    <preference name="exit-on-suspend" value="false" />
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
     <preference name="disable-cursor" value="false" />
-    <preference name="android-minSdkVersion" value="16" />
-    <preference name="android-installLocation" value="auto" />
-    <preference name="deployment-target" value="8.0" />
     <preference name="StatusBarOverlaysWebView" value="false" />
+
+	<platform name="android">
+		<preference name="android-minSdkVersion" value="16" />
+		<preference name="android-installLocation" value="auto" />
+		<preference name="android-windowSoftInputMode" value="adjustResize" />
+	</platform>
+	
+	<platform name="ios">
+		<preference name="deployment-target" value="7.0" />
+		<preference name="target-device" value="universal" />
+		<preference name="ios-statusbarstyle" value="black-opaque" />	
+		<preference name="prerendered-icon" value="true" />
+		<preference name="exit-on-suspend" value="false" />
+		<preference name="detect-data-types" value="true" />
+	</platform>	
+	
+	<!-- to enable individual permissions use the following examples -->
+    <feature name="http://api.phonegap.com/1.0/camera"/>
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <feature name="http://api.phonegap.com/1.0/media"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
+    
+    
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
@@ -33,25 +48,57 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="com.phonegap.plugin.statusbar" />
     <gap:plugin name="com.plugins.shortcut" />
-    <icon src="img/icon.png" />
-    <icon gap:platform="ios" height="120" src="img/appIcon-120x120.png" width="120" />
-    <icon gap:platform="ios" height="152" src="img/appIcon-152x152.png" width="152" />
-    <icon gap:platform="ios" height="76" src="img/appIcon-76x76.png" width="76" />
-    <icon gap:platform="ios" height="57" src="img/appIcon-57x57.png" width="57" />
-    <icon src="img/icon.png" platform="android" density="ldpi" />
-    <icon src="img/icon.png" platform="android" density="mdpi" />
-    <icon src="img/icon.png" platform="android" density="hdpi" />
-    <icon src="img/icon.png" platform="android" density="xhdpi" />
-    <gap:splash gap:platform="ios" height="480" src="img/splash/screen-480x320.png" width="320" />
-    <gap:splash gap:platform="ios" height="960" src="img/splash/screen-960x640.png" width="640" />
-    <gap:splash gap:platform="ios" height="320" src="img/splash/screen-320x480.png" width="480" />
-    <gap:splash gap:platform="ios" height="640" src="img/splash/screen-640x960.png" width="960" />
-    <gap:splash gap:platform="ios" height="1024" src="img/splash/screen-1024x768.png" width="768" />
-    <gap:splash gap:platform="ios" height="2008" src="img/splash/screen-2008x1536.png" width="1536" />
-    <gap:splash gap:platform="ios" height="768" src="img/splash/screen-768x1024.png" width="1024" />
-    <gap:splash gap:platform="ios" height="1496" src="img/splash/screen-1496x2048.png" width="2048" />
-    <gap:splash gap:platform="ios" height="1136" src="img/splash/screen-1136x640.png" width="640" />
+
+    
+    <plugin name="cordova-plugin-whitelist" version="1" />
+    <plugin name="cordova-plugin-datepicker" spec="https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git" />
+	<plugin name="cordova-plugin-network-information" spec="https://github.com/apache/cordova-plugin-network-information.git" />
+	
+	
+    <icon src="icon.png" />
+    
+	<platform name="android">
+	    <icon src="www/img/icon.png" density="ldpi" />
+	    <icon src="www/img/icon.png" density="mdpi" />
+	    <icon src="www/img/icon.png" density="hdpi" />
+	    <icon src="www/img/icon.png" density="xhdpi" />	
+	    <splash src="www/img/logo.png"/>
+	</platform>
+    
+    <platform name="ios">    
+	    <icon src="www/img/appIcon-120x120.png" height="120" width="120" />
+	    <icon src="www/img/appIcon-152x152.png" height="152" width="152" />
+	    <icon src="www/img/appIcon-76x76.png" height="76" width="76" />
+	    <icon src="www/img/appIcon-57x57.png" height="57" width="57" />
+		<splash src="www/img/splash/screen-480x320.png" height="480" width="320" />
+	    <splash src="www/img/splash/screen-960x640.png" height="960" width="640" />
+	    <splash src="www/img/splash/screen-320x480.png" height="320" width="480" />
+	    <splash src="www/img/splash/screen-640x960.png" height="640" width="960" />
+	    <splash src="www/img/splash/screen-2008x1536.png" height="2008" width="1536" />
+	    <splash src="www/img/splash/screen-768x1024.png" height="768" width="1024" />
+	    <splash src="www/img/splash/screen-1496x2048.png" height="1496" width="2048" />
+	    <splash src="www/img/splash/screen-1136x640.png" height="1136" width="640" />
+	</platform>
+    
     <access origin="*" />
+    <allow-navigation href="*" />
+
+    
+	<!-- Allow images, xhrs, etc. to google.com -->
+	<access origin="http://google.com" />
+	<access origin="https://google.com" />
+	
+	<!-- Access to the subdomain maps.google.com -->
+	<access origin="http://maps.google.com" />
+	
+	<!-- Access to all the subdomains on google.com -->
+	<access origin="http://*.google.com" />
+	
+	<!-- Enable requests to content: URLs -->
+	<access origin="content:///*" />
+	
+	<!-- Don't block any requests -->
+	<access origin="*" />    
     
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -59,6 +106,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
@@ -66,6 +114,5 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <plugin name="cordova-plugin-whitelist" version="1" />
-    <plugin name="cordova-plugin-datepicker" spec="https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git" />
+    
 </widget>
