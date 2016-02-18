@@ -46,7 +46,7 @@
     <div class="row">
         <h1 class="title mb20">Coming Soon Meals</h1>
     
-        <div class="col-md-12 col-sm-12" ng-infinite-scroll="" ng-infinite-scroll-callback="loadMoreMeals()">
+        <div class="col-md-12 col-sm-12 text-center" ng-infinite-scroll="" ng-infinite-scroll-callback="loadMoreMeals()">
             <div ng-repeat="meal in mealsToRender track by $index" data-index="{{$index}}" class="list-item animate-repeat">
                 <a href="" ng-click="goToMeal($index)">
                     <img ng-if="meal.owner[0].picture" class="li-small pull-left" src="{{meal.owner[0].picture.url}}" style="backgournd: #F1C40F;" />
