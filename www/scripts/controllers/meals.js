@@ -75,15 +75,6 @@ define(['controllers/module'], function (controllers) {
             for (var i = 0; i < lastIndex; i++) {
                 $scope.mealsToRender.push($scope.currentMeals[i]);
             }
-
-            $scope.pastMealsToRender = [];
-            if (lastIndex > $scope.pastMeals.length) {
-                lastIndex = $scope.pasttMeals.length;
-            }
-
-            for (var i = 0; i < lastIndex; i++) {
-                $scope.pastMealsToRender.push($scope.pastMeals[i]);
-            }
         }
 
         /**
@@ -128,11 +119,20 @@ define(['controllers/module'], function (controllers) {
             console.log('pastMeals');
             console.log(meals);
             if(meals.length > 0){
+                var lastIndex = chunk;
                 meals.forEach(function(meal){
                     console.log(meal.toJSON());
                     $scope.PastMeals.push(meal.toJSON());
                     $scope.pastMeals.push(meal.toJSON());
                 });
+                $scope.pastMealsToRender = [];
+                if (lastIndex > $scope.pastMeals.length) {
+                    lastIndex = $scope.pastMeals.length;
+                }
+
+                for (var i = 0; i < lastIndex; i++) {
+                    $scope.pastMealsToRender.push($scope.pastMeals[i]);
+                }
             }
         });
 
