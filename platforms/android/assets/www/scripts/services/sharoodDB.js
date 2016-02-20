@@ -363,11 +363,11 @@ define(['services/module'], function (services) {
                   console.log(inst.toJSON())
                   console.log('inst pass');
                 }, function(error) {
-                  log("updateProfile", error);
+                  log("updateProfile-subscribeChannels", error);
                   deferred.reject(error);
                 });
           }, function(error) {
-       	    console.log("Error["+error.status.code+"]["+error.status.text+"]["+error.status.entity.error_message+"]");
+        	log("updateProfile", error);
             deferred.resolve(error);
           });
           

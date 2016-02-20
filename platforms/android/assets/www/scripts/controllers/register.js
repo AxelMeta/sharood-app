@@ -45,8 +45,8 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
                 button: 'Let\'s go!'
             },
             offline: {
-                title: 'Connection',
-                subtitle: 'You don\'t have internet connection !',
+                title: 'Oops!',
+                subtitle: 'It seems you don\'t have an internet connection',
                 button: 'Ok'
             },
             photo: {

@@ -23,6 +23,9 @@
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
     </feature>
+    <feature name="PushNotification">
+        <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
+    </feature>
     <preference name="android-minSdkVersion" value="16" />
     <preference name="android-maxSdkVersion" value="22" />
     <preference name="android-targetSdkVersion" value="22" />

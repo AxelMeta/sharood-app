@@ -27,6 +27,9 @@
         },
         "org.apache.cordova.camera": {
             "PACKAGE_NAME": "com.sharood"
+        },
+        "phonegap-plugin-push": {
+            "PACKAGE_NAME": "com.sharood"
         }
     },
     "dependent_plugins": {}

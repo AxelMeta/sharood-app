@@ -223,8 +223,8 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         $scope.offlineConfig = {
                 id: 'offline-account-alert',
                 icon: false,
-                title: 'Connection',
-                subtitle: 'You don\'t have internet connection !',
+                title: 'Oops!',
+                subtitle: 'It seems you don\'t have an internet connection',
                 ok: {
                     id: 'btn-ok',
                     text: 'Ok',

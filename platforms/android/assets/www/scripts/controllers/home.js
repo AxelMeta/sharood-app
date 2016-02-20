@@ -10,21 +10,14 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         console.log("Home controller");
         console.log("Internet status#"+deviceState.isOnLine());
         //------------------------------------------------------------------------------
-        
-		/*/------------------------------------------------------------------------------
-        var isOnLine=true;
-        
         $scope.$on(deviceState.events.onOnline, function (event) {
         	console.log("ONLine EVENT"+"\r\n");
-        	isOnLine=true;
+            navigation.navigate('#/');
+            return;
         });
         
-        $scope.$on(deviceState.events.onOffline, function (event) {
-        	console.log("OFFLine EVENT"+"\r\n");
-        	isOnLine=false;
-        });
 		//------------------------------------------------------------------------------
-*/
+
         /**
         * Review if the user is logged
         * */
@@ -65,8 +58,8 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         $scope.offlineConfig = {
                 id: 'offline-account-alert',
                 icon: false,
-                title: 'Connection',
-                subtitle: 'You don\'t have internet connection !',
+                title: 'Oops!',
+                subtitle: 'It seems you don\'t have an internet connection',
                 ok: {
                     id: 'btn-ok',
                     text: 'Ok',

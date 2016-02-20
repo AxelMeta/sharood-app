@@ -17,16 +17,6 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             navigation.navigate('/');
             return;
         });
-        
-        $scope.$on(deviceState.events.onOnline, function (event) {
-        	console.log("ONLine EVENT"+"\r\n");
-        	isOnLine=true;
-        });
-        
-        $scope.$on(deviceState.events.onOffline, function (event) {
-        	console.log("OFFLine EVENT"+"\r\n");
-        	isOnLine=false;
-        });
 		//------------------------------------------------------------------------------
         
         /**
@@ -135,7 +125,7 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * */
         $scope.sendMeal = function() {
         	
-        	if(!isOnLine){
+        	if(!deviceState.isOnLine()){
         		AlertHelper.alert('#offline-account-alert');
         		return;
         	}
@@ -220,8 +210,8 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         $scope.offlineConfig = {
                 id: 'offline-account-alert',
                 icon: false,
-                title: 'Connection',
-                subtitle: 'You don\'t have internet connection !',
+                title: 'Oops!',
+                subtitle: 'It seems you don\'t have an internet connection',
                 ok: {
                     id: 'btn-ok',
                     text: 'Ok',
