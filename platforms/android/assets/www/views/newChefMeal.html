@@ -1,0 +1,135 @@
+<section class="main">
+
+
+    <header class="nav navbar-fixed-top">
+        <span class="btn"  ng-click="navigate('/home')">
+            <i class="fa fa-chevron-left"></i>
+            Back
+        </span>
+        <h1>Chef Meal</h1>
+    </header>
+
+    <div class="row meal-img">
+        <div class="col-md-12">
+            <div class="media">
+                <div id="placePhoto" class="media-left media-middle img-square" style="background-image: url('img/camera.png')" data-toggle="modal" data-target="#modalChefMeal" ng-click="" >
+                </div>
+                <div class="media-body media-middle">
+                    <span class="meal-img-help">
+                        Add a picture of your situation
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalChefMeal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content y-block">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <button ng-click="takePicture()" class="btn btn-round btn-extra-large">Take a picture</button>
+                        <br />
+                        <br />
+                        <button ng-click="takePictureFromFile()" class="btn btn-round btn-extra-large">Select existing photo</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-round btn-extra-large" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="title">Meal</h2>
+    <form name="newMealForm" novalidate>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <textarea type="text" id="description" ng-model="mealData.description" required name="description" maxlength="256" class="form-control" placeholder="What are you cooking?"></textarea>
+                    <span class="error" ng-if="newMealForm.$submitted && newMealForm.description.$error.required">A description is required</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6 col-md-6">
+                <div class="form-group">
+                    <select ng-model="mealData.type" required name="type" class="form-control" id="mealType">
+                        <option value="" disabled selected>Choose meal type</option>
+                        <option value="everything">Everything</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="error" ng-if="newMealForm.$submitted && newMealForm.type.$error.required">A meal type is required</span>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-md-6">
+                <div class="form-group">
+                    <select ng-model="mealData.cookies_value" required class="form-control" id="cookies" name="cookies">
+                        <option value="" disabled selected>Number of Cookies</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <span class="error" ng-if="newMealForm.$submitted && newMealForm.cookies.$error.required">The cookies value is required</span>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="title">Number of people</h2>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button-group config="config"></button-group>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="title">Ready at</h2>
+
+        <div class="row">
+            <div class="col-xs-8 col-md-8">
+                <div class="input-group form-group" >
+                    <input type="text" id="timeHour" name="timeHour" ng-model="mealData.tempTime" readonly required class="form-control input-sm" ng-disabled="true">
+                    <div class="input-group-btn">
+                        <label id="timeSchedule" name="timeSchedule" class="input-group-addon" schedule="mealData.timeSchedule">
+                        {{mealData.timeSchedule}}
+                        </label>
+                        <span ng-click="showDatePicker()" class="input-group-addon">
+                            <i class="glyphicon glyphicon-time" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-4 col-md-4">
+                <div class="form-group">
+                    <select required class="form-control" id="day" name="day">
+                        <option value="today" selected>Today</option>
+                        <option value="tomorrow">Tomorrow</option>
+                    </select>
+                    <span class="error" ng-if="newMealForm.$submitted && newMealForm.day.$error.required">This field is required</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt20">
+            <button ng-click="sendMeal()" class="btn btn-round mb20">Post Meal</button>
+        </div>
+    </form>
+    <alert id="meal-created-alert" config="mealConfig"></alert>
+    <alert id="meal-error-alert" config="errorConfig"></alert>
+ 	<alert id="offline-account-alert" config="offlineConfig"></alert>
+    
+    <loader></loader>
+
+</section>

@@ -1,0 +1,27 @@
+<section class="main">
+    <header class="nav navbar-fixed-top">
+        <img class="btn" src="img/settings.png" ng-click="navigate('/profile')" />
+        <h1>{{username||'Profile'}}</h1>
+        <div class="cookies media">
+            <div class="media-left media-middle">
+                <img class="media-object" src="img/icon.png" />
+            </div>
+            <div class="media-body media-middle">
+                <span>{{cookies}}</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="sa-block row postMeal">
+        <div class="block-wrapper" ng-click="gotoPage(1)">
+            <span></span>
+        </div>
+    </div>
+
+    <div class="sa-block row mealOffer">
+        <div class="block-wrapper" ng-click="gotoPage(2)">
+            <span></span>
+        </div>
+    </div>
+	<alert id="offline-account-alert" config="offlineConfig"></alert>
+</section>

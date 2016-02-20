@@ -1,0 +1,54 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="css/alert.css" />
+</head>
+<body ng-csp>
+    <!-- Add your site or application content here -->
+    <div class="container" ng-view=""></div>
+
+    <script src="scripts/vendors/built.min.js"></script>
+    <script src="cordova.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener('deviceready', function onDeviceReady() {
+            var s = document.createElement('script');
+            s.setAttribute('src', 'bower_components/requirejs/require.js');
+            s.setAttribute('data-main', 'js/main.js');
+            document.body.appendChild(s);
+        }, false);
+    </script>
+
+    <!-- build:js scripts/modules.js -->
+    <script src="bower_components/requirejs/require.js" data-main="js/main.js"></script>
+    <!-- endbuild -->
+    <script type="text/javascript" src="js/ShortcutPlugin.js"></script>
+    <script>
+        window.plugins.Shortcut.CreateShortcut("Sharood", successfunc, failfunc );
+        windows.log('shorcut plugin');
+    </script>
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!--<script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/home.js"></script>
+    <script src="scripts/controllers/register.js"></script>
+    <script src="scripts/controllers/newChefMeal.js"></script>
+    <script src="scripts/controllers/profile.js"></script>
+    <script src="scripts/directives/buttonGroup.js">
+    <script src="scripts/services/sharoodDB.js"></script>-->
+    <!-- endbuild -->
+
+</body>
+</html>

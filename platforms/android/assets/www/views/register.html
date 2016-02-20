@@ -1,0 +1,80 @@
+<section class="register no-padding">
+    <header>
+        <i class="btn-circle btn fa fa-times" ng-click="navigate('/')"></i>
+        <h1>Sign Up</h1>
+    </header>
+
+    <div class="register-form">
+        
+        <div class="row profile-img mt20">
+            <div class="col-md-12">
+                <div class="media">
+                    <div id="profilePhoto" class="img-square" style="background-image: url('img/camera.png')"  data-toggle="modal" data-target="#modalRegisterProfile" ng-click=""></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalRegisterProfile" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content y-block">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <button ng-click="changePhoto()" class="btn btn-round btn-extra-large">Take a picture</button>
+                            <br />
+                            <br />
+                            <button ng-click="changePhotoFromFile()" class="btn btn-round btn-extra-large">Select existing photo</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-round btn-extra-large" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form name="registerForm" novalidate>
+            <div class="form-group">
+                <input id="name" ng-model="user.name" class="form-control" type="text" name="name" placeholder="Name" required="" />
+                <span class="error" ng-if="registerForm.$submitted && registerForm.name.$error.required">Your name is required</span>
+            </div>
+            <div class="form-group">
+                <input id="phone" ng-model="user.phone" class="form-control" type="text" name="phone" pattern="\d+" placeholder="Phone number"  required="" />
+                <span class="error" ng-if="registerForm.$submitted && registerForm.room.$error.required">Your phone number is required</span>
+            </div>
+            <div class="form-group">
+                <input id="room" ng-model="user.room" class="form-control" type="text" name="room" placeholder="Room number" required=""/>
+                <span class="error" ng-if="registerForm.$submitted && registerForm.room.$error.required">Your room number is required</span>
+            </div>
+            <div class="form-group">
+                <input id="email" ng-model="user.email" class="form-control" type="email" name="email" placeholder="Email" required="" />
+                <span class="error" ng-if="registerForm.$submitted && registerForm.email.$error.required">Your email is required</span>
+                <span class="error" ng-if="registerForm.$submitted && registerForm.email.$error.email">The email is not valid</span>
+            </div>
+            <div class="form-group">
+                <input id="password" ng-model="user.password" class="form-control" type="password" name="password" placeholder="Password" required="" />
+                <span class="error" ng-if="registerForm.$submitted && registerForm.password.$error.required">You need a password</span>
+            </div>
+            <div class="form-group">
+                <input id="passwordConfirm" ng-model="user.passwordConfirm" class="form-control" type="password" name="passwordConfirm" placeholder="Repeat password" required="" />
+                <span class="error" ng-if="registerForm.$submitted && registerForm.password.$modelValue != registerForm.passwordConfirm.$modelValue">Passwords are not equals</span>
+            </div>
+            <div class="form-group">
+                <select class="form-control" ng-model="user.university" id="selectPlace" name="university" required="">
+                    <option value="" disabled selected>Choose place</option>
+                </select>
+                <span class="error" ng-if="registerForm.$submitted && registerForm.university.$error.required">You need to specify an university</span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" ng-click="register()" class="btn btn-round">Sign In</button>
+            </div>
+        </form>
+    </div>
+
+    <alert id="register-account-alert" config="registerAccountConfig"></alert>
+    <div class="overlay">
+	    <span class="loader"><img src="img/sharood2.gif"  alt="Loading" height="240" width="240"></span>
+	</div>
+</section>
