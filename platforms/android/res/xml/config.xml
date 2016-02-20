@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.sharood" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <feature name="ShortcutPlugin">
+        <param name="android-package" value="com.plugins.shortcut.ShortcutPlugin" />
+    </feature>
+    <feature name="DatePickerPlugin">
+        <param name="android-package" value="com.plugin.datepicker.DatePickerPlugin" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="EmailComposer">
+        <param name="android-package" value="de.appplant.cordova.emailcomposer.EmailComposer" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <preference name="android-minSdkVersion" value="16" />
+    <preference name="android-maxSdkVersion" value="22" />
+    <preference name="android-targetSdkVersion" value="22" />
+    <preference name="android-installLocation" value="auto" />
+    <preference name="android-windowSoftInputMode" value="adjustResize" />
+    <icon density="ldpi" src="www/img/icon.png" />
+    <icon density="mdpi" src="www/img/icon.png" />
+    <icon density="hdpi" src="www/img/icon.png" />
+    <icon density="xhdpi" src="www/img/icon.png" />
+    <splash src="www/img/logo.png" />
+    <allow-intent href="market:*" />
+    <name>Sharood</name>
+    <description>
+        Sharood connects people who want to eat with people who are cooking in your area. 
+    </description>
+    <author email="sharoodapp@gmail.com" href="https://sharoodapp.wordpress.com">
+        Sharood Team
+    </author>
+    <content src="index.html" />
+    <preference name="permissions" value="none" />
+    <preference name="orientation" value="portrait" />
+    <preference name="fullscreen" value="false" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="stay-in-webview" value="false" />
+    <preference name="show-splash-screen-spinner" value="true" />
+    <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="disable-cursor" value="false" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="org.apache.cordova.file" />
+    <gap:plugin name="org.apache.cordova.file-transfer" />
+    <gap:plugin name="io.github.siegfriedbolz.cordova.plugins.email-composer" version="0.8.3" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <gap:plugin name="com.plugins.shortcut" />
+    <icon src="icon.png" />
+    <allow-navigation href="*" />
+    <access origin="http://google.com" />
+    <access origin="https://google.com" />
+    <access origin="http://maps.google.com" />
+    <access origin="http://*.google.com" />
+    <access origin="content:///*" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+</widget>
