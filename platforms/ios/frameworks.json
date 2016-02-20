@@ -1,0 +1,7 @@
+{
+    "MessageUI.framework": 1,
+    "ImageIO.framework": 1,
+    "CoreLocation.framework": 1,
+    "SystemConfiguration.framework": 2,
+    "CoreTelephony.framework": 2
+}

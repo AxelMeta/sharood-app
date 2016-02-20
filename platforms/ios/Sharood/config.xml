@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.sharood" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <preference name="AllowInlineMediaPlayback" value="false" />
+    <preference name="BackupWebStorage" value="cloud" />
+    <preference name="DisallowOverscroll" value="false" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="GapBetweenPages" value="0" />
+    <preference name="PageLength" value="0" />
+    <preference name="PaginationBreakingMode" value="page" />
+    <preference name="PaginationMode" value="unpaginated" />
+    <feature name="LocalStorage">
+        <param name="ios-package" value="CDVLocalStorage" />
+    </feature>
+    <feature name="DatePicker">
+        <param name="ios-package" value="DatePicker" />
+    </feature>
+    <feature name="Device">
+        <param name="ios-package" value="CDVDevice" />
+    </feature>
+    <feature name="EmailComposer">
+        <param name="ios-package" value="APPEmailComposer" />
+    </feature>
+    <feature name="Camera">
+        <param name="ios-package" value="CDVCamera" />
+    </feature>
+    <preference name="CameraUsesGeolocation" value="false" />
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
+    <preference name="deployment-target" value="8.0" />
+    <preference name="target-device" value="universal" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="detect-data-types" value="true" />
+    <icon height="120" src="www/img/appIcon-120x120.png" width="120" />
+    <icon height="152" src="www/img/appIcon-152x152.png" width="152" />
+    <icon height="76" src="www/img/appIcon-76x76.png" width="76" />
+    <icon height="57" src="www/img/appIcon-57x57.png" width="57" />
+    <splash height="480" src="www/img/splash/screen-480x320.png" width="320" />
+    <splash height="960" src="www/img/splash/screen-960x640.png" width="640" />
+    <splash height="320" src="www/img/splash/screen-320x480.png" width="480" />
+    <splash height="640" src="www/img/splash/screen-640x960.png" width="960" />
+    <splash height="2008" src="www/img/splash/screen-2008x1536.png" width="1536" />
+    <splash height="768" src="www/img/splash/screen-768x1024.png" width="1024" />
+    <splash height="1496" src="www/img/splash/screen-1496x2048.png" width="2048" />
+    <splash height="1136" src="www/img/splash/screen-1136x640.png" width="640" />
+    <allow-intent href="itms:*" />
+    <allow-intent href="itms-apps:*" />
+    <name>Sharood</name>
+    <description>
+        Sharood connects people who want to eat with people who are cooking in your area. 
+    </description>
+    <author email="sharoodapp@gmail.com" href="https://sharoodapp.wordpress.com">
+        Sharood Team
+    </author>
+    <content src="index.html" />
+    <preference name="permissions" value="none" />
+    <preference name="orientation" value="portrait" />
+    <preference name="fullscreen" value="false" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="stay-in-webview" value="false" />
+    <preference name="show-splash-screen-spinner" value="true" />
+    <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="disable-cursor" value="false" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="org.apache.cordova.file" />
+    <gap:plugin name="org.apache.cordova.file-transfer" />
+    <gap:plugin name="io.github.siegfriedbolz.cordova.plugins.email-composer" version="0.8.3" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <gap:plugin name="com.plugins.shortcut" />
+    <icon src="icon.png" />
+    <allow-navigation href="*" />
+    <access origin="http://google.com" />
+    <access origin="https://google.com" />
+    <access origin="http://maps.google.com" />
+    <access origin="http://*.google.com" />
+    <access origin="content:///*" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+</widget>
