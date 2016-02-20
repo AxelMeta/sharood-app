@@ -10,20 +10,12 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         console.log("NewChefMeal controller");
         
 		//------------------------------------------------------------------------------
+        var isOnLine=true;
+        
         $scope.$on(deviceState.events.onResume, function (event) {
         	console.log("Resume EVENT"+"\r\n");
             navigation.navigate('/');
             return;
-        });
-        
-        $scope.$on(deviceState.events.onOnline, function (event) {
-        	console.log("ONLine EVENT"+"\r\n");
-
-        });
-        
-        $scope.$on(deviceState.events.onOffline, function (event) {
-        	console.log("OFFLine EVENT"+"\r\n");
-
         });
 		//------------------------------------------------------------------------------
         
@@ -132,7 +124,13 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * Handler: sends meal to the data base
         * */
         $scope.sendMeal = function() {
-            if (!$scope.newMealForm.$valid) {
+        	
+        	if(!deviceState.isOnLine()){
+        		AlertHelper.alert('#offline-account-alert');
+        		return;
+        	}
+        	
+            if(!$scope.newMealForm.$valid) {
                 console.log('no validate');
                 return;
             }
@@ -209,7 +207,20 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             }
         };
 
-        
+        $scope.offlineConfig = {
+                id: 'offline-account-alert',
+                icon: false,
+                title: 'Oops!',
+                subtitle: 'It seems you don\'t have an internet connection',
+                ok: {
+                    id: 'btn-ok',
+                    text: 'Ok',
+                    cssClass: 'btn-info',
+                    callback: function() {
+                        AlertHelper.close('#offline-account-alert');
+                    }
+                }
+        };
 
         $scope.showDatePicker = function() {
             var dateTemp = new Date();

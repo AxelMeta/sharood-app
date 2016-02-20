@@ -5,8 +5,12 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('MainCtrl', function ($scope, navigation, sharoodDB) {
+    controllers.controller('MainCtrl', function ($scope, navigation, sharoodDB, deviceState) {
 
+        //------------------------------------------------------------------------------
+        console.log("Main controller");
+        console.log("Internet status#"+deviceState.isOnLine());
+        //------------------------------------------------------------------------------
         /**
         * Try autologgín in two ways:
         * 1. Built.io loadCurrentUser()
@@ -26,7 +30,12 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             }
         }
 
-        tryAutoLogin();
+        if(deviceState.isOnLine()){
+        	tryAutoLogin();	
+        }else{
+        	AlertHelper.alert('#offline-account-alert');
+        }
+        
 
         $scope.user = {
             email: null,
@@ -37,8 +46,11 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             if (!$scope.loginForm.$valid) {
                 return;
             }
-
-            doLogin();
+            if(deviceState.isOnLine()){
+            	doLogin();
+            }else{
+            	AlertHelper.alert('#offline-account-alert');
+            }
         };
 
         /**
@@ -46,6 +58,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         * */
         function doLogin(){
             var credentials = $scope.user;
+            
             sharoodDB.login($scope.user).then(function(user){
                 localStorage.setItem("credentials", JSON.stringify(credentials));
                 console.log(user);
@@ -68,7 +81,23 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 id: 'btn-ok',
                 text: 'Ok',
                 cssClass: 'btn-info',
-                callback: function() {}
+                callback: function() {
+                    AlertHelper.close('#login-account-alert');
+                }
+            }
+        };
+        $scope.offlineConfig = {
+            id: 'offline-account-alert',
+            icon: false,
+            title: 'Oops!',
+            subtitle: 'It seems you don\'t have an internet connection',
+            ok: {
+                id: 'btn-ok',
+                text: 'Ok',
+                cssClass: 'btn-info',
+                callback: function() {
+                    AlertHelper.close('#offline-account-alert');
+                }
             }
         };
     });

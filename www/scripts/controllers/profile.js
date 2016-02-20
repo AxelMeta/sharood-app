@@ -5,9 +5,11 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice) {
+    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, deviceState) {
 
         console.log("Profile controller");
+        console.log("Internet status#"+deviceState.isOnLine());
+        //------------------------------------------------------------------------------
         var cameraImg = 'img/camera.png';
 
         /**
@@ -92,6 +94,12 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         * Handler: Send profile changes to the database.
         * */
         $scope.saveProfile = function() {
+        	if (!deviceState.isOnLine()){
+                updateAlertTitles('offline');
+                AlertHelper.alert('#offline-account-alert');
+                return;        		
+        	}
+        	
             if (!$scope.accountForm.$valid) {
                 return;
             }
@@ -212,6 +220,21 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 }
             }
         };
+        $scope.offlineConfig = {
+                id: 'offline-account-alert',
+                icon: false,
+                title: 'Oops!',
+                subtitle: 'It seems you don\'t have an internet connection',
+                ok: {
+                    id: 'btn-ok',
+                    text: 'Ok',
+                    cssClass: 'btn-info',
+                    callback: function() {
+                        AlertHelper.close('#offline-account-alert');
+                    }
+                }
+        };        
+        
 
     });
 

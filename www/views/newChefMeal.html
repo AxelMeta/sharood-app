@@ -72,11 +72,11 @@
                 <div class="form-group">
                     <select ng-model="mealData.cookies_value" required class="form-control" id="cookies" name="cookies">
                         <option value="" disabled selected>Number of Cookies</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="1">1 cookie</option>
+                        <option value="2">2 cookies</option>
+                        <option value="3">3 cookies</option>
+                        <option value="4">4 cookies</option>
+                        <option value="5">5 cookies</option>
                     </select>
                     <span class="error" ng-if="newMealForm.$submitted && newMealForm.cookies.$error.required">The cookies value is required</span>
                 </div>
@@ -127,9 +127,9 @@
         </div>
     </form>
     <alert id="meal-created-alert" config="mealConfig"></alert>
-
     <alert id="meal-error-alert" config="errorConfig"></alert>
-
+ 	<alert id="offline-account-alert" config="offlineConfig"></alert>
+    
     <loader></loader>
 
 </section>

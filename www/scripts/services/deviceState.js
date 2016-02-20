@@ -11,6 +11,12 @@ define(['services/module'], function (services) {
                 onOffline: 'onOffline'
         };
         
+        var onLine=true;
+        
+        function isOnLine(){
+        	return onLine;
+        }
+        
         $document.bind('resume', function () {
             _publish(_events.onResume, null);
         }); 
@@ -21,10 +27,12 @@ define(['services/module'], function (services) {
 
         $document.bind('online', function () {
             _publish(_events.onOnline, null);
+            onLine=true;
         });
 
         $document.bind('offline', function () {
             _publish(_events.onOffline, null);
+            onLine=false;
         });
         
         function _publish(eventName, data) {
@@ -33,7 +41,8 @@ define(['services/module'], function (services) {
         
         
         return {
-            events: _events
+            events: _events,
+        	isOnLine: isOnLine
         }
     });
 });

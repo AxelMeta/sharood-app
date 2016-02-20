@@ -1,0 +1,33 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "com.plugins.shortcut": {
+            "PACKAGE_NAME": "com.sharood"
+        },
+        "cordova-plugin-datepicker": {
+            "PACKAGE_NAME": "com.sharood"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.sharood"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.sharood"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.sharood"
+        },
+        "de.appplant.cordova.plugin.email-composer": {
+            "PACKAGE_NAME": "com.sharood"
+        },
+        "org.apache.cordova.camera": {
+            "PACKAGE_NAME": "com.sharood"
+        }
+    },
+    "dependent_plugins": {}
+}

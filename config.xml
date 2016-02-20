@@ -21,12 +21,15 @@
 
 	<platform name="android">
 		<preference name="android-minSdkVersion" value="16" />
+		<preference name="android-maxSdkVersion" value="22" />
+		<preference name="android-targetSdkVersion" value="22" />
+		
 		<preference name="android-installLocation" value="auto" />
 		<preference name="android-windowSoftInputMode" value="adjustResize" />
 	</platform>
 	
 	<platform name="ios">
-		<preference name="deployment-target" value="7.0" />
+		<preference name="deployment-target" value="8.0" />
 		<preference name="target-device" value="universal" />
 		<preference name="ios-statusbarstyle" value="black-opaque" />	
 		<preference name="prerendered-icon" value="true" />

@@ -1,14 +1,33 @@
-	/**
-* Controller for 'register' view
-* */
+/**
+ * Controller for 'register' view
+ **/
 define(['controllers/module', 'alert-helper', 'ngCordova'], function (controllers, AlertHelper) {
 
     'use strict';
 
-    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice) {
+    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, deviceState) {
 
         console.log("Register controller");
+        console.log("Internet status#"+deviceState.isOnLine());
         
+        //------------------------------------------------------------------------------
+        
+		//------------------------------------------------------------------------------
+        $scope.$on(deviceState.events.onResume, function (event) {
+        	console.log("Resume EVENT"+"\r\n");
+            navigation.navigate('/');
+            return;
+        });
+        
+		//------------------------------------------------------------------------------
+        function log(method, error){
+          	if(error==null){
+          	  console.log("error is null");
+          	}else{    	  
+        	  //console.log("error="+JSON.stringify(error));
+        	  console.log("["+method+"]-Error["+error.status.code+"]["+error.status.text+"]["+error.entity.error_message+"]");
+          	}
+        }        
         
         $scope.imageBase64 = null;
         var overlay = document.querySelector('.overlay');
@@ -24,6 +43,11 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
                 title: 'Account created successfully',
                 subtitle: 'You can start using Sharood!',
                 button: 'Let\'s go!'
+            },
+            offline: {
+                title: 'Oops!',
+                subtitle: 'It seems you don\'t have an internet connection',
+                button: 'Ok'
             },
             photo: {
                 title: 'Your photo is required',
@@ -54,6 +78,12 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * Sends register data to database
         * */
         $scope.register = function(){
+        	if (!deviceState.isOnLine()){
+                updateAlertTitles('offline');
+                AlertHelper.alert('#register-account-alert');
+                return;        		
+        	}
+        	
             if (!$scope.registerForm.$valid) {
                 console.log('no validate', $scope.registerForm);
                 return;
@@ -80,7 +110,8 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             overlay.classList.add('closed');
         };
 
-        function onerror(e) {
+        function onerror(error) {
+      	    log("register", error);
             $scope.hasErrors = true;
             updateAlertTitles('error');
             AlertHelper.alert('#register-account-alert');
@@ -94,22 +125,27 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             }
         }
 
-        /**
-        * Gets places array and insert the result on university selector.
-        * */
-        sharoodDB.getAllPlaces().then(function(result){
-            result.forEach(function(element){
-                var university = element.toJSON().name;
-                var universityUid = element.toJSON().uid;
-
-                var x = document.getElementById("selectPlace");
-                var option = document.createElement("option");
-                option.text = university;
-                option.value = universityUid;
-                x.add(option);
-            });
-        });
-
+        if (deviceState.isOnLine()){
+	        /**
+	        * Gets places array and insert the result on university selector.
+	        * */
+	        sharoodDB.getAllPlaces().then(function(result){
+	            result.forEach(function(element){
+	                var university = element.toJSON().name;
+	                var universityUid = element.toJSON().uid;
+	
+	                var x = document.getElementById("selectPlace");
+	                var option = document.createElement("option");
+	                option.text = university;
+	                option.value = universityUid;
+	                x.add(option);
+	            });
+	        });
+        }else{
+            updateAlertTitles('offline');
+            AlertHelper.alert('#register-account-alert');
+            navigation.navigate('/home');        	
+        }
         /**
         * Starts change photo process.
         * */

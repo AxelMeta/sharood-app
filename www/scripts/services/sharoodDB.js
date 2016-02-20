@@ -7,12 +7,23 @@ define(['services/module'], function (services) {
   services.factory('sharoodDB', function ($q) {
     var apiKey = 'blt14f0a2b98d6156f4';
 
+    function log(method, error){
+      	if(error==null){
+      	  console.log("error is null");
+      	}else{    	  
+    	  //console.log("error="+JSON.stringify(error));
+    	  console.log("["+method+"]-Error["+error.status.code+"]["+error.status.text+"]["+error.entity.error_message+"]");
+      	}
+    }
+    
     // Public API here
     return {
 
       currentUser: null,
       updaterLoaded: false,
 
+
+      
       /**
        * Populates the current user that is login into the app
        * @returns a promise that will be resolved once the current user was loaded.
@@ -25,9 +36,7 @@ define(['services/module'], function (services) {
           .then(function(user){
             deferred.resolve(user.toJSON());
           }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
-            console.log(error);
+            log("loadCurrentUser",error);
             deferred.reject(error);
           });
 
@@ -48,9 +57,7 @@ define(['services/module'], function (services) {
           .then(function(user) {
             deferred.resolve(user.toJSON());
           }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
-            console.log(error);
+            log("login", error);
             deferred.reject(error);
           });
 
@@ -72,8 +79,7 @@ define(['services/module'], function (services) {
         .then(function(project) {
             deferred.resolve(project.toJSON());
         }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
+        	log("getUniversityByUid", error);
         });
 
         return deferred.promise;
@@ -120,8 +126,7 @@ define(['services/module'], function (services) {
                 console.log(inst.toJSON())
                 console.log('inst pass');
               }, function(error) {
-                console.log('inst error');
-                console.log(error);
+                log("register", error);
                 deferred.reject(error);
               });
             
@@ -144,6 +149,7 @@ define(['services/module'], function (services) {
           .then(function() {
             deferred.resolve();
           }, function(error) {
+            log("logout", error);
             deferred.resolve();
           });
 
@@ -167,7 +173,8 @@ define(['services/module'], function (services) {
           .then(function(result) {
             deferred.resolve(result.toJSON());
           }, function(error) {
-            deferred.resolve(error);
+            log("saveMeal", error);
+        	deferred.resolve(error);
           });
 
         return deferred.promise;
@@ -223,8 +230,7 @@ define(['services/module'], function (services) {
           .then(function(meals) {
             deferred.resolve(meals);
           }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
+        	log("getAllMeals", error);
             deferred.reject(error);
           });
 
@@ -246,8 +252,7 @@ define(['services/module'], function (services) {
         .then(function(project) {
             deferred.resolve(project.toJSON());
         }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
+        	log("getMealById", error);
         });
 
         return deferred.promise;
@@ -276,8 +281,7 @@ define(['services/module'], function (services) {
             .then(function(meal) {
               deferred.resolve(meal);
             }, function(error) {
-              // some error has occurred
-              // refer to the 'error' object for more details
+              log("getMealWithAttendantsById", error);
               deferred.reject(error);
             });
 
@@ -359,11 +363,11 @@ define(['services/module'], function (services) {
                   console.log(inst.toJSON())
                   console.log('inst pass');
                 }, function(error) {
-                  console.log('inst error');
-                  console.log(error);
+                  log("updateProfile-subscribeChannels", error);
                   deferred.reject(error);
                 });
           }, function(error) {
+        	log("updateProfile", error);
             deferred.resolve(error);
           });
           
@@ -383,6 +387,7 @@ define(['services/module'], function (services) {
           .then(function(user) {
             deferred.resolve(user.toJSON());
           }, function(error) {
+        	log("getUserById", error);
             deferred.resolve(error);
           });
 
@@ -411,8 +416,7 @@ define(['services/module'], function (services) {
           .then(function(meals) {
             deferred.resolve(meals);
           }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
+        	log("getAllMealsByOwner", error);
             deferred.reject(error);
           });
 
@@ -453,8 +457,7 @@ define(['services/module'], function (services) {
           .then(function(meals) {
             deferred.resolve(meals);
           }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
+        	log("getAllMealsByAssistant", error);
             deferred.reject(error);
           });
 

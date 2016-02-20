@@ -13,15 +13,15 @@
     </header>
 
     <div class="sa-block row postMeal">
-        <div class="block-wrapper" ng-click="navigate('/newChefMeal')">
+        <div class="block-wrapper" ng-click="gotoPage(1)">
             <span></span>
         </div>
     </div>
 
     <div class="sa-block row mealOffer">
-        <div class="block-wrapper" ng-click="navigate('/meals')">
+        <div class="block-wrapper" ng-click="gotoPage(2)">
             <span></span>
         </div>
     </div>
-
+	<alert id="offline-account-alert" config="offlineConfig"></alert>
 </section>
