@@ -5,12 +5,15 @@
             <i class="fa fa-chevron-left"></i>
             Back
         </span>
-        <h1>{{meal.owner[0].first_name}}'s Meal</h1>
+        <!-- h1>{{meal.owner[0].first_name}}'s Meal</h1-->
+        <h1>Meal</h1>
     </header>
 
     <div class="row mb20">
         <div class="col-md-12 text-center">
-            <h1 class="title mb20">{{meal.description}}<br />Room: {{meal.owner[0].room_number || 0}}</h1>
+        	<h1 class="title mb20">{{meal.owner[0].first_name}}</h1>
+            <h1 class="title mb20">{{meal.description}}<br /></h1>
+            <h1 class="title mb20">Room: {{meal.owner[0].room_number || 0}}</h1>
             
             <div class="col-md-12 viewMeal-img">
                 <img ng-click="openViewport($event)" src="{{meal.picture.url}}" />

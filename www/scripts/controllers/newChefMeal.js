@@ -155,6 +155,8 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
                 sharoodDB.saveMeal($scope.mealData).then(function(result){
                     if( result.published){
                         delete $scope.mealData.tempTime;
+                        console.log("result.owner="+result.owner);
+                        console.log("sharoodDB.currentUser.uid="+sharoodDB.currentUser.uid);
                         if(result.owner == sharoodDB.currentUser.uid){
                         	result.owner = [sharoodDB.currentUser];
                         }

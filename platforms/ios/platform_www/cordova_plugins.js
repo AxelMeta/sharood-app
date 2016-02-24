@@ -1,6 +1,14 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/com.plugins.shortcut/www/ShortcutPlugin.js",
+        "id": "com.plugins.shortcut.ShortcutPlugin",
+        "pluginId": "com.plugins.shortcut",
+        "clobbers": [
+            "ShortcutPlugin"
+        ]
+    },
+    {
         "file": "plugins/cordova-plugin-datepicker/www/ios/DatePicker.js",
         "id": "cordova-plugin-datepicker.DatePicker",
         "pluginId": "cordova-plugin-datepicker",
@@ -14,6 +22,23 @@ module.exports = [
         "pluginId": "cordova-plugin-device",
         "clobbers": [
             "device"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-network-information/www/network.js",
+        "id": "cordova-plugin-network-information.network",
+        "pluginId": "cordova-plugin-network-information",
+        "clobbers": [
+            "navigator.connection",
+            "navigator.network.connection"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-network-information/www/Connection.js",
+        "id": "cordova-plugin-network-information.Connection",
+        "pluginId": "cordova-plugin-network-information",
+        "clobbers": [
+            "Connection"
         ]
     },
     {
@@ -58,41 +83,25 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-network-information/www/network.js",
-        "id": "cordova-plugin-network-information.network",
-        "pluginId": "cordova-plugin-network-information",
+        "file": "plugins/phonegap-plugin-push/www/push.js",
+        "id": "phonegap-plugin-push.PushNotification",
+        "pluginId": "phonegap-plugin-push",
         "clobbers": [
-            "navigator.connection",
-            "navigator.network.connection"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-network-information/www/Connection.js",
-        "id": "cordova-plugin-network-information.Connection",
-        "pluginId": "cordova-plugin-network-information",
-        "clobbers": [
-            "Connection"
-        ]
-    },
-    {
-        "file": "plugins/com.plugins.shortcut/www/ShortcutPlugin.js",
-        "id": "com.plugins.shortcut.ShortcutPlugin",
-        "pluginId": "com.plugins.shortcut",
-        "clobbers": [
-            "ShortcutPlugin"
+            "PushNotification"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "com.plugins.shortcut": "0.1.1",
     "cordova-plugin-datepicker": "0.9.2",
     "cordova-plugin-device": "1.1.0",
+    "cordova-plugin-network-information": "1.2.1-dev",
     "de.appplant.cordova.plugin.email-composer": "0.8.2",
     "org.apache.cordova.camera": "0.3.6",
-    "cordova-plugin-whitelist": "1.2.1",
-    "cordova-plugin-network-information": "1.2.1-dev",
-    "com.plugins.shortcut": "0.1.1"
+    "phonegap-plugin-push": "1.5.3",
+    "cordova-plugin-whitelist": "1.2.2-dev"
 }
 // BOTTOM OF METADATA
 });

@@ -19,13 +19,16 @@
         "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.sharood"
         },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.sharood"
-        },
         "de.appplant.cordova.plugin.email-composer": {
             "PACKAGE_NAME": "com.sharood"
         },
         "org.apache.cordova.camera": {
+            "PACKAGE_NAME": "com.sharood"
+        },
+        "phonegap-plugin-push": {
+            "PACKAGE_NAME": "com.sharood"
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.sharood"
         }
     },

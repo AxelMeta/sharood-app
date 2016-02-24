@@ -43,6 +43,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         };
 
         $scope.login = function(){
+        	console.log('login button pressed!!');
             if (!$scope.loginForm.$valid) {
                 return;
             }
@@ -52,7 +53,16 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             	AlertHelper.alert('#offline-account-alert');
             }
         };
-
+        
+        $scope.gotoRegister = function(){
+        	if(!deviceState.isOnLine()){
+        		AlertHelper.alert('#offline-account-alert');
+        		return;
+        	}
+        	
+            navigation.navigate('/register');
+        };
+        
         /**
         * Do login
         * */

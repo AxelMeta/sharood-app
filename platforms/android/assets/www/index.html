@@ -9,6 +9,9 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+    <!-- meta http-equiv="Content-Security-Policy" content="script-src 'self' https://apis.google.com" /-->
+    
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
@@ -32,13 +35,15 @@
     </script>
 
     <!-- build:js scripts/modules.js -->
-    <script src="bower_components/requirejs/require.js" data-main="js/main.js"></script>
+    
     <!-- endbuild -->
+    <!--
     <script type="text/javascript" src="js/ShortcutPlugin.js"></script>
     <script>
         window.plugins.Shortcut.CreateShortcut("Sharood", successfunc, failfunc );
         windows.log('shorcut plugin');
     </script>
+    -->
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <!--<script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>

@@ -13,10 +13,6 @@
     <feature name="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
-    <feature name="Whitelist">
-        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
-        <param name="onload" value="true" />
-    </feature>
     <feature name="EmailComposer">
         <param name="android-package" value="de.appplant.cordova.emailcomposer.EmailComposer" />
     </feature>
@@ -25,6 +21,10 @@
     </feature>
     <feature name="PushNotification">
         <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
     </feature>
     <preference name="android-minSdkVersion" value="16" />
     <preference name="android-maxSdkVersion" value="22" />
@@ -62,7 +62,7 @@
     <gap:plugin name="com.phonegap.plugin.statusbar" />
     <gap:plugin name="com.plugins.shortcut" />
     <icon src="icon.png" />
-    <allow-navigation href="*" />
+    <allow-navigation href="http://*/*" />
     <access origin="http://google.com" />
     <access origin="https://google.com" />
     <access origin="http://maps.google.com" />

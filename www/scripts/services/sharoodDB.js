@@ -515,8 +515,7 @@ define(['services/module'], function (services) {
           .then(function(places) {
             deferred.resolve(places);
           }, function(error) {
-            // some error has occurred
-            // refer to the 'error' object for more details
+       	    log("getAllPlaces", error);
             deferred.reject(error);
           });
 
