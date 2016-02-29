@@ -33,6 +33,10 @@
     <feature name="PushNotification">
         <param name="ios-package" value="PushPlugin" />
     </feature>
+    <feature name="SplashScreen">
+        <param name="ios-package" value="CDVSplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
     <preference name="deployment-target" value="8.0" />
     <preference name="target-device" value="universal" />
     <preference name="ios-statusbarstyle" value="black-opaque" />
@@ -68,6 +72,9 @@
     <preference name="stay-in-webview" value="false" />
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="FadeSplashScreen" value="false" />
+    <preference name="FadeSplashScreenDuration" value="3000" />
+    <preference name="AutoHideSplashScreen" value="true" />
     <preference name="disable-cursor" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <gap:plugin name="org.apache.cordova.camera" />
@@ -78,7 +85,7 @@
     <gap:plugin name="com.phonegap.plugin.statusbar" />
     <gap:plugin name="com.plugins.shortcut" />
     <icon src="icon.png" />
-    <allow-navigation href="*" />
+    <allow-navigation href="http://*/*" />
     <access origin="http://google.com" />
     <access origin="https://google.com" />
     <access origin="http://maps.google.com" />

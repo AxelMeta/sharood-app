@@ -89,6 +89,14 @@ module.exports = [
         "clobbers": [
             "PushNotification"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -101,7 +109,8 @@ module.exports.metadata =
     "de.appplant.cordova.plugin.email-composer": "0.8.2",
     "org.apache.cordova.camera": "0.3.6",
     "phonegap-plugin-push": "1.5.3",
-    "cordova-plugin-whitelist": "1.2.2-dev"
+    "cordova-plugin-whitelist": "1.2.2-dev",
+    "cordova-plugin-splashscreen": "3.2.1-dev"
 }
 // BOTTOM OF METADATA
 });

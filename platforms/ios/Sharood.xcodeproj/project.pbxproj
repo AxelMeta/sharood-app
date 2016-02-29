@@ -84,6 +84,8 @@
 		59078B0162ED4FD49562F286 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C140AF4547D49C7BAA01EAA /* AddressBook.framework */; };
 		CFF77C9FA5244ECEADF695B2 /* libsqlite3.tbd in Resources */ = {isa = PBXBuildFile; fileRef = 2A3E8BF03BAD4DA58B8862CA /* libsqlite3.tbd */; };
 		74C66413429F49C88E74A96E /* libz.tbd in Resources */ = {isa = PBXBuildFile; fileRef = 46C6A24BC7FF4875879FF6DE /* libz.tbd */; };
+		92AB128EFE4A4302B85AEEE4 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B09098E90954C94860B47E8 /* CDVSplashScreen.m */; };
+		5009041902AF4510B050CE80 /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = BA214D5E418D4C97B319A441 /* CDVViewController+SplashScreen.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -220,6 +222,10 @@
 		7C140AF4547D49C7BAA01EAA /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "AddressBook.framework"; path = "System/Library/Frameworks/AddressBook.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
 		2A3E8BF03BAD4DA58B8862CA /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = unknown; name = "libsqlite3.tbd"; path = "libsqlite3.tbd"; sourceTree = "<group>"; fileEncoding = 4; };
 		46C6A24BC7FF4875879FF6DE /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = unknown; name = "libz.tbd"; path = "libz.tbd"; sourceTree = "<group>"; fileEncoding = 4; };
+		6B09098E90954C94860B47E8 /* CDVSplashScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVSplashScreen.m"; path = "cordova-plugin-splashscreen/CDVSplashScreen.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		BA214D5E418D4C97B319A441 /* CDVViewController+SplashScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVViewController+SplashScreen.m"; path = "cordova-plugin-splashscreen/CDVViewController+SplashScreen.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		85F22050E93046F9AA7D8FE2 /* CDVSplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVSplashScreen.h"; path = "cordova-plugin-splashscreen/CDVSplashScreen.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		A0A4419192C148C1B57C2E23 /* CDVViewController+SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVViewController+SplashScreen.h"; path = "cordova-plugin-splashscreen/CDVViewController+SplashScreen.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -423,6 +429,10 @@
 				5F66C68294E1468C938C045C /* GCMReceiverDelegate.h */,
 				973A74B29D1347A5B387D185 /* GCMService.h */,
 				CE0642D152E14E1DB7E624F0 /* GoogleCloudMessaging.h */,
+				6B09098E90954C94860B47E8 /* CDVSplashScreen.m */,
+				BA214D5E418D4C97B319A441 /* CDVViewController+SplashScreen.m */,
+				85F22050E93046F9AA7D8FE2 /* CDVSplashScreen.h */,
+				A0A4419192C148C1B57C2E23 /* CDVViewController+SplashScreen.h */,
 			);
 			name = Plugins;
 			path = "Sharood/Plugins";
@@ -618,6 +628,8 @@
 				08F356E47FD9484E9BC0819F /* CDVJpegHeaderWriter.m in Sources */,
 				FA72D7C2D4F649769217FD03 /* AppDelegate+notification.m in Sources */,
 				8EEBA775DC0640AEA09734A5 /* PushPlugin.m in Sources */,
+				92AB128EFE4A4302B85AEEE4 /* CDVSplashScreen.m in Sources */,
+				5009041902AF4510B050CE80 /* CDVViewController+SplashScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

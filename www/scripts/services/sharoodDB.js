@@ -4,17 +4,9 @@
  */
 define(['services/module'], function (services) {
   'use strict';
-  services.factory('sharoodDB', function ($q) {
+  services.factory('sharoodDB', function ($q, logService) {
     var apiKey = 'blt14f0a2b98d6156f4';
 
-    function log(method, error){
-      	if(error==null){
-      	  console.log("error is null");
-      	}else{    	  
-    	  //console.log("error="+JSON.stringify(error));
-    	  console.log("["+method+"]-Error["+error.status.code+"]["+error.status.text+"]["+error.entity.error_message+"]");
-      	}
-    }
     
     // Public API here
     return {
@@ -29,14 +21,14 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the current user was loaded.
        */
       loadCurrentUser: function(){
-        console.log('1');
+        logService.debug('loadCurrentUser');
         var deferred = $q.defer();
         var user = Built.App(apiKey).User;
         user.getCurrentUser()
           .then(function(user){
             deferred.resolve(user.toJSON());
           }, function(error) {
-            log("loadCurrentUser",error);
+            logService.error("loadCurrentUser",error);
             deferred.reject(error);
           });
 
@@ -49,7 +41,7 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved or rejected once the user has been identified or not
        */
       login: function(data) {
-        console.log('2');
+        logService.debug('login');
         var deferred = $q.defer();
         var user = Built.App(apiKey).User();
         var self = this;
@@ -57,7 +49,7 @@ define(['services/module'], function (services) {
           .then(function(user) {
             deferred.resolve(user.toJSON());
           }, function(error) {
-            log("login", error);
+            logService.error("login", error);
             deferred.reject(error);
           });
 
@@ -79,7 +71,7 @@ define(['services/module'], function (services) {
         .then(function(project) {
             deferred.resolve(project.toJSON());
         }, function(error) {
-        	log("getUniversityByUid", error);
+        	logService.error("getUniversityByUid", error);
         });
 
         return deferred.promise;
@@ -91,12 +83,10 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved or rejected once the register action has been successfully or not
        */
       register: function(data) {
-        console.log('3');
+        logService.debug('register');
         var deferred = $q.defer();
         var user = Built.App(apiKey).User();
         var installation = Built.App(apiKey).Installation();
-        console.log('Picture');
-        console.log(data.picture);
         user = user.assign({
 	            cookies: 4,
 	            food_level_rating: 0,
@@ -116,17 +106,15 @@ define(['services/module'], function (services) {
         user.register(data.email, data.password, data.passwordConfirm)
           .then(function(user) {
             deferred.resolve(user.toJSON());
-            console.log('register success');
+            logService.debug('register success');
             
             var channelId = user.toJSON().university;
             
             installation.setDeviceType(String(data.device_type)).setDeviceToken(String(data.deviceId)).
             subscribeChannels([String(channelId)]).setCredentailsName('PushSharrod').
               save().then(function(inst) {
-                console.log(inst.toJSON())
-                console.log('inst pass');
               }, function(error) {
-                log("register", error);
+                logService.error("register", error);
                 deferred.reject(error);
               });
             
@@ -142,14 +130,14 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the user has been logout of the system
        */
       logout: function() {
-        console.log('4');
+        logService.debug('logout');
         var deferred = $q.defer();
         var user = Built.App(apiKey).User();
         user.logout()
           .then(function() {
             deferred.resolve();
           }, function(error) {
-            log("logout", error);
+            logService.error("logout", error);
             deferred.resolve();
           });
 
@@ -162,7 +150,7 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved or rejected once the action has been accomplished
        */
       saveMeal: function(mealData) {
-        console.log('5');
+        logService.debug('saveMeal');
         var deferred = $q.defer();
         var Meal = Built.App(apiKey).Class('meal').Object;
         var meal = Meal();
@@ -173,7 +161,7 @@ define(['services/module'], function (services) {
           .then(function(result) {
             deferred.resolve(result.toJSON());
           }, function(error) {
-            log("saveMeal", error);
+            logService.error("saveMeal", error);
         	deferred.resolve(error);
           });
 
@@ -191,7 +179,7 @@ define(['services/module'], function (services) {
        * 4. The meal's date is bigger than actual date.
        */
       getAllMeals: function(start, finish) {
-        console.log('6');
+        logService.debug('getAllMeals');
         var deferred = $q.defer();
         var query = Built.App(apiKey).Class('meal').Query();
 
@@ -230,7 +218,7 @@ define(['services/module'], function (services) {
           .then(function(meals) {
             deferred.resolve(meals);
           }, function(error) {
-        	log("getAllMeals", error);
+        	logService.error("getAllMeals", error);
             deferred.reject(error);
           });
 
@@ -252,7 +240,7 @@ define(['services/module'], function (services) {
         .then(function(project) {
             deferred.resolve(project.toJSON());
         }, function(error) {
-        	log("getMealById", error);
+        	logService.error("getMealById", error);
         });
 
         return deferred.promise;
@@ -268,7 +256,7 @@ define(['services/module'], function (services) {
 
         var query = Built.App(apiKey).Class('meal').Query();
 
-        console.log(query);
+        logService.debug(query);
         query = query.where('uid', mealId);
 
         query.include(['owner',
@@ -281,7 +269,7 @@ define(['services/module'], function (services) {
             .then(function(meal) {
               deferred.resolve(meal);
             }, function(error) {
-              log("getMealWithAttendantsById", error);
+              logService.error("getMealWithAttendantsById", error);
               deferred.reject(error);
             });
 
@@ -305,8 +293,7 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the image is uploaded
        */
       uploadFile: function(fileData) {
-        console.log('7');
-        console.log(fileData);
+        logService.debug('uploadFile');
         var deferred = $q.defer();
         var upload = Built.App(apiKey).Upload();
         upload = upload.setFile(fileData);
@@ -327,8 +314,7 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the user is updated
        */
       updateProfile: function(data) {
-        console.log('8');
-        console.log(data);
+        logService.debug('updateProfile');
         var deferred = $q.defer();
         var User = Built.App(apiKey).Class('built_io_application_user').Object;
         //var Installation = Built.App(apiKey).Class('built_io_installation_data').Object;
@@ -354,20 +340,19 @@ define(['services/module'], function (services) {
             
             installation.assign({user_id: user.toJSON().uid});
             */
-            console.log(data.deviceId);
-            console.log(channelId);
+            logService.debug(data.deviceId);
+            logService.debug(channelId);
 
             installation.setDeviceType(String(data.device_type)).setDeviceToken(String(data.deviceId)).
               subscribeChannels([String(channelId)]).setCredentailsName('PushSharrod').
                 save().then(function(inst) {
-                  console.log(inst.toJSON())
-                  console.log('inst pass');
+                  //logService.debug(inst.toJSON());
                 }, function(error) {
-                  log("updateProfile-subscribeChannels", error);
+                  logService.error("updateProfile-subscribeChannels", error);
                   deferred.reject(error);
                 });
           }, function(error) {
-        	log("updateProfile", error);
+        	logService.error("updateProfile", error);
             deferred.resolve(error);
           });
           
@@ -380,14 +365,14 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the user is obtained
        */
       getUserById: function(userId) {
-        console.log('9');
+        logService.debug('getUserId');
         var deferred = $q.defer();
         var user = Built.App(apiKey).Class('built_io_application_user').Object(userId);
         user.fetch()
           .then(function(user) {
             deferred.resolve(user.toJSON());
           }, function(error) {
-        	log("getUserById", error);
+        	logService.error("getUserById", error);
             deferred.resolve(error);
           });
 
@@ -400,7 +385,7 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the requested meals have been loaded
        */
       getAllMealsByOwner: function(owner) {
-        console.log('10');
+        logService.debug('getAllMealsByOwner');
         var deferred = $q.defer();
         var query = Built.App(apiKey).Class('meal').Query();
 
@@ -416,7 +401,7 @@ define(['services/module'], function (services) {
           .then(function(meals) {
             deferred.resolve(meals);
           }, function(error) {
-        	log("getAllMealsByOwner", error);
+        	logService.error("getAllMealsByOwner", error);
             deferred.reject(error);
           });
 
@@ -429,13 +414,13 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the requested meals have been loaded
        */
       getAllMealsByAssistant: function(assistant) {
-        console.log('11');
+        logService.debug('getAllMealsByAssistant');
         var deferred = $q.defer();
 
         var query = Built.App(apiKey).Class('meal').Query();
 
-        console.log(query);
-        console.log(this.currentUser);
+        //console.log(query);
+        //console.log(this.currentUser);
 
         query = query.notContainedIn('votedby', this.currentUser.uid);
 
@@ -457,7 +442,7 @@ define(['services/module'], function (services) {
           .then(function(meals) {
             deferred.resolve(meals);
           }, function(error) {
-        	log("getAllMealsByAssistant", error);
+        	logService.error("getAllMealsByAssistant", error);
             deferred.reject(error);
           });
 
@@ -473,9 +458,9 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the votes have been added
        */
       addVotesToUser: function(userId, friendliness, foodLevel, fun) {
-        console.log('12');
+        logService.debug('addVotesToUser');
         var deferred = $q.defer();
-        console.log(userId, friendliness, foodLevel, fun);
+        //console.log(userId, friendliness, foodLevel, fun);
         var User = Built.App(apiKey).Class('built_io_application_user').Object;
         var user = User(userId);
 
@@ -505,7 +490,7 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the database has return the data
        */
       getAllPlaces: function() {
-        console.log('13');
+        logService.debug('getAllPlaces');
         var deferred = $q.defer();
         var query = Built.App(apiKey).Class('university').Query();
 
@@ -515,7 +500,7 @@ define(['services/module'], function (services) {
           .then(function(places) {
             deferred.resolve(places);
           }, function(error) {
-       	    log("getAllPlaces", error);
+       	    logService.error("getAllPlaces", error);
             deferred.reject(error);
           });
 
@@ -530,7 +515,7 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the cookies have been transfered
        */
       transferCookies: function(from, to, number) {
-        console.log('14');
+        logService.debug('transferCookies');
 
         var promises = [];
 
@@ -544,7 +529,7 @@ define(['services/module'], function (services) {
       },
 
       incrementCookies: function(userId, number) {
-        console.log('15');
+        logService.debug('incrementCookies');
         var deferred = $q.defer();
         var User = Built.App(apiKey).Class('built_io_application_user').Object;
         var user = User(userId);
@@ -562,7 +547,7 @@ define(['services/module'], function (services) {
       },
 
       decrementCookies: function(userId, number) {
-        console.log('16');
+        logService.debug('decrementCookies');
         var deferred = $q.defer();
         var User = Built.App(apiKey).Class('built_io_application_user').Object;
         var user = User(userId);
@@ -580,7 +565,7 @@ define(['services/module'], function (services) {
       },
 
       getPastMeals: function(start, finish) {
-        console.log('17');
+        logService.debug('getPastMeals');
         var deferred = $q.defer();
         var query = Built.App(apiKey).Class('meal').Query();
 
@@ -645,7 +630,7 @@ define(['services/module'], function (services) {
           self.updaterLoaded = true;
           if(self.currentUser != null){
             self.getUserById(self.currentUser.uid).then(function(user){
-              console.log(user);
+              logService.debug(user);
               self.currentUser = user;
             });
           }

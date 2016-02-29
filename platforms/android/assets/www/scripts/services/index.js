@@ -1,4 +1,6 @@
 define([
+    'services/logService',
+    'services/pushService',      
     'services/deviceState',      
     'services/sharoodDB',
     'services/navigation',

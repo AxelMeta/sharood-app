@@ -30,6 +30,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.sharood"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.sharood"
         }
     },
     "dependent_plugins": {}

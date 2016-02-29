@@ -11,6 +11,58 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         console.log("Main controller");
         console.log("Internet status#"+deviceState.isOnLine());
         //------------------------------------------------------------------------------
+
+         $scope.navigate = navigation.navigate;
+
+         $scope.loginConfig = {
+             id: 'login-account-alert',
+             icon: false,
+             title: 'Bad credentials',
+             subtitle: 'The user or the password doesn\'t exists',
+             ok: {
+                 id: 'btn-ok',
+                 text: 'Ok',
+                 cssClass: 'btn-info',
+                 callback: function() {
+                     AlertHelper.close('#login-account-alert');
+                 }
+             }
+         };
+         $scope.offlineConfig = {
+             id: 'offline-account-alert',
+             icon: false,
+             title: 'Oops!',
+             subtitle: 'It seems you don\'t have an internet connection',
+             ok: {
+                 id: 'btn-ok',
+                 text: 'Ok',
+                 cssClass: 'btn-info',
+                 callback: function() {
+                     AlertHelper.close('#offline-account-alert');
+                 }
+             }
+         };
+         $scope.user = {
+                 email: null,
+                 password: null
+         };
+         /**
+          * Do login
+          * */
+          function doLogin(){
+              var credentials = $scope.user;
+              
+              sharoodDB.login($scope.user).then(function(user){
+                  localStorage.setItem("credentials", JSON.stringify(credentials));
+                  console.log(user);
+                  sharoodDB.currentUser = user;
+                  navigation.navigate('/home');
+                  sharoodDB.updateCurrentUser();
+              }).catch(function (error) {
+                  AlertHelper.alert('#login-account-alert');
+              });
+          }
+
         /**
         * Try autologgín in two ways:
         * 1. Built.io loadCurrentUser()
@@ -20,9 +72,14 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             var credentials = localStorage.getItem("credentials");
             if(credentials === null || credentials === "0"){
                 sharoodDB.loadCurrentUser().then(function(user){
-                    console.log(user);
+                    console.log(user.username);
                     sharoodDB.currentUser = user;
+//                    $scope.username = user.username;
+//                    $scope.cookies = user.cookies;
                     navigation.navigate('/home');
+                }).catch(function (e) {
+                	console.log("Error["+e.status.code+"]["+e.status.text+"]["+e.entity.error_message+"]");
+                	//doLogin();
                 });
             } else {
                 $scope.user = JSON.parse(credentials);
@@ -37,10 +94,6 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         }
         
 
-        $scope.user = {
-            email: null,
-            password: null
-        };
 
         $scope.login = function(){
         	console.log('login button pressed!!');
@@ -63,53 +116,6 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             navigation.navigate('/register');
         };
         
-        /**
-        * Do login
-        * */
-        function doLogin(){
-            var credentials = $scope.user;
-            
-            sharoodDB.login($scope.user).then(function(user){
-                localStorage.setItem("credentials", JSON.stringify(credentials));
-                console.log(user);
-                sharoodDB.currentUser = user;
-                navigation.navigate('/home');
-                sharoodDB.updateCurrentUser();
-            }).catch(function (error) {
-                AlertHelper.alert('#login-account-alert');
-            });
-        }
-
-        $scope.navigate = navigation.navigate;
-
-        $scope.loginConfig = {
-            id: 'login-account-alert',
-            icon: false,
-            title: 'Bad credentials',
-            subtitle: 'The user or the password doesn\'t exists',
-            ok: {
-                id: 'btn-ok',
-                text: 'Ok',
-                cssClass: 'btn-info',
-                callback: function() {
-                    AlertHelper.close('#login-account-alert');
-                }
-            }
-        };
-        $scope.offlineConfig = {
-            id: 'offline-account-alert',
-            icon: false,
-            title: 'Oops!',
-            subtitle: 'It seems you don\'t have an internet connection',
-            ok: {
-                id: 'btn-ok',
-                text: 'Ok',
-                cssClass: 'btn-info',
-                callback: function() {
-                    AlertHelper.close('#offline-account-alert');
-                }
-            }
-        };
     });
 
 });

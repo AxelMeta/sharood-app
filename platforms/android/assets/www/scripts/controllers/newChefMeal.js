@@ -5,18 +5,18 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
     'use strict';
 
-    controllers.controller('NewChefMeal', function ($scope, sharoodDB, navigation, MealService, cameraHelper, $cordovaDatePicker, deviceState) {
+    controllers.controller('NewChefMeal', function ($scope, sharoodDB, navigation, MealService, cameraHelper, $cordovaDatePicker) {
 
         console.log("NewChefMeal controller");
         
 		//------------------------------------------------------------------------------
-        var isOnLine=true;
-        
+/*        
         $scope.$on(deviceState.events.onResume, function (event) {
         	console.log("Resume EVENT"+"\r\n");
             navigation.navigate('/');
             return;
         });
+*/        
 		//------------------------------------------------------------------------------
         
         /**
@@ -124,12 +124,12 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * Handler: sends meal to the data base
         * */
         $scope.sendMeal = function() {
-        	
+        	/*
         	if(!deviceState.isOnLine()){
         		AlertHelper.alert('#offline-account-alert');
         		return;
         	}
-        	
+        	*/
             if(!$scope.newMealForm.$valid) {
                 console.log('no validate');
                 return;

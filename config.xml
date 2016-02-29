@@ -14,8 +14,15 @@
     <preference name="fullscreen" value="false" />
     <preference name="webviewbounce" value="true" />
     <preference name="stay-in-webview" value="false" />
+    
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
+    
+    <preference name="FadeSplashScreen" value="false"/>
+    <preference name="FadeSplashScreenDuration" value="3000"/>
+	<preference name="AutoHideSplashScreen" value="true" />
+    
+
     <preference name="disable-cursor" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
 
@@ -26,6 +33,11 @@
 		
 		<preference name="android-installLocation" value="auto" />
 		<preference name="android-windowSoftInputMode" value="adjustResize" />
+
+		<preference name="SplashScreen" value="www/img/splash/screen-480x320.png" />
+		<preference name="SplashScreenDelay" value="3000" />
+		<preference name="SplashMaintainAspectRatio" value="true" />
+		<preference name="SplashShowOnlyFirstTime" value="true" />		
 	</platform>
 	
 	<platform name="ios">
@@ -59,16 +71,17 @@
     <plugin name="cordova-plugin-whitelist" version="https://github.com/apache/cordova-plugin-whitelist.git" />
     <plugin name="cordova-plugin-datepicker" spec="https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git" />
 	<plugin name="cordova-plugin-network-information" spec="https://github.com/apache/cordova-plugin-network-information.git" />
+	<plugin name="cordova-plugin-splashscreen" spec="https://github.com/apache/cordova-plugin-splashscreen.git" />
 	
 	
     <icon src="icon.png" />
     
 	<platform name="android">
-	    <icon src="www/img/icon.png" density="ldpi" />
-	    <icon src="www/img/icon.png" density="mdpi" />
-	    <icon src="www/img/icon.png" density="hdpi" />
-	    <icon src="www/img/icon.png" density="xhdpi" />	
-	    <splash src="www/img/logo.png"/>
+	    <icon src="www/img/logo.png" density="ldpi" />
+	    <icon src="www/img/logo.png" density="mdpi" />
+	    <icon src="www/img/logo.png" density="hdpi" />
+	    <icon src="www/img/logo.png" density="xhdpi" />	
+	    <splash src="www/img/splash/screen-480x320.png"/>
 	</platform>
     
     <platform name="ios">    

@@ -3,6 +3,14 @@ define(['app'], function (app) {
     return app.config(['$routeProvider', '$compileProvider',
         function ($routeProvider, $compileProvider) {
             $routeProvider
+                        
+
+	            .when('/', {
+	                templateUrl: 'views/debugForm.html',
+	                controller: 'debugCtrl'
+	            })
+                
+/*            
                 .when('/', {
                     templateUrl: 'views/main.html',
                     controller: 'MainCtrl'
@@ -11,6 +19,7 @@ define(['app'], function (app) {
                     templateUrl: 'views/home.html',
                     controller: 'Home'
                 })
+*/                
                 .when('/register', {
                     templateUrl: 'views/register.html',
                     controller: 'Register'

@@ -1,4 +1,5 @@
 define([
+    'controllers/debugCtrl',
     'controllers/main',
     'controllers/home',
     'controllers/newChefMeal',
