@@ -5,10 +5,10 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, deviceState) {
+    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, pushService) {  //, deviceState) {
 
         console.log("Profile controller");
-        console.log("Internet status#"+deviceState.isOnLine());
+    //    console.log("Internet status#"+deviceState.isOnLine());
         //------------------------------------------------------------------------------
         var cameraImg = 'img/camera.png';
 
@@ -30,8 +30,19 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
         $scope.currentUser = sharoodDB.currentUser;
         var platform = $cordovaDevice.getPlatform().toLowerCase();
-        var uuid = $cordovaDevice.getUUID();
+        var uuid = localStorage.getItem("PUSH_REGISTRATION_ID"); // = $cordovaDevice.getUUID();
+        
+        if(uuid === null || uuid === 0){
+            pushService.register();
+        }
 
+/*        
+        $rootScope.$on('registration',function(tokenId){
+        	log("push registration token="+tokenId);
+        	uuid = tokenId;
+        });
+        
+*/        
         sharoodDB.getUniversityByUid(sharoodDB.currentUser.university[0]).then(function(university) {
             $scope.university = university;
         });
@@ -94,18 +105,21 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         * Handler: Send profile changes to the database.
         * */
         $scope.saveProfile = function() {
+        	/*
         	if (!deviceState.isOnLine()){
                 updateAlertTitles('offline');
                 AlertHelper.alert('#offline-account-alert');
                 return;        		
         	}
-        	
+        	*/
             if (!$scope.accountForm.$valid) {
                 return;
             }
 
             function updateProfile() {
                 $scope.user.username = $scope.user.first_name;
+                
+                
                 // If everything went well
                 sharoodDB.updateProfile($scope.user).then(function(result){
                     console.log(result);

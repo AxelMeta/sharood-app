@@ -18,9 +18,9 @@
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
     
-    <preference name="FadeSplashScreen" value="false"/>
+    <!--  preference name="FadeSplashScreen" value="false"/>
     <preference name="FadeSplashScreenDuration" value="3000"/>
-	<preference name="AutoHideSplashScreen" value="true" />
+	<preference name="AutoHideSplashScreen" value="true" /-->
     
 
     <preference name="disable-cursor" value="false" />
@@ -34,10 +34,10 @@
 		<preference name="android-installLocation" value="auto" />
 		<preference name="android-windowSoftInputMode" value="adjustResize" />
 
-		<preference name="SplashScreen" value="www/img/splash/screen-480x320.png" />
-		<preference name="SplashScreenDelay" value="3000" />
+		<preference name="SplashScreen" value="resources/android/splash/screen-480x320.png" />
+		<!--preference name="SplashScreenDelay" value="3000" />
 		<preference name="SplashMaintainAspectRatio" value="true" />
-		<preference name="SplashShowOnlyFirstTime" value="true" />		
+		<preference name="SplashShowOnlyFirstTime" value="true" /-->		
 	</platform>
 	
 	<platform name="ios">
@@ -59,44 +59,50 @@
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
-    <gap:plugin name="io.github.siegfriedbolz.cordova.plugins.email-composer" version="0.8.3" />
-    <!-- gap:plugin name="de.appplant.cordova.plugin.email-composer" version="0.8.2" /-->
-    
+    <gap:plugin name="io.github.siegfriedbolz.cordova.plugins.email-composer" version="0.8.3" />    
     
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="com.phonegap.plugin.statusbar" />
     <gap:plugin name="com.plugins.shortcut" />
 
     
-    <plugin name="cordova-plugin-whitelist" version="https://github.com/apache/cordova-plugin-whitelist.git" />
+    <plugin name="cordova-plugin-whitelist" version="https://github.com/apache/cordova-plugin-whitelist.git"/>
     <plugin name="cordova-plugin-datepicker" spec="https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git" />
 	<plugin name="cordova-plugin-network-information" spec="https://github.com/apache/cordova-plugin-network-information.git" />
-	<plugin name="cordova-plugin-splashscreen" spec="https://github.com/apache/cordova-plugin-splashscreen.git" />
+	<!-- plugin name="cordova-plugin-splashscreen" spec="https://github.com/apache/cordova-plugin-splashscreen.git" /-->
 	
 	
     <icon src="icon.png" />
     
 	<platform name="android">
-	    <icon src="www/img/logo.png" density="ldpi" />
-	    <icon src="www/img/logo.png" density="mdpi" />
-	    <icon src="www/img/logo.png" density="hdpi" />
-	    <icon src="www/img/logo.png" density="xhdpi" />	
-	    <splash src="www/img/splash/screen-480x320.png"/>
+	    <icon src="res/icon/android/icon-36-ldpi.png" density="ldpi" />
+        <icon src="res/icon/android/icon-54.png" />
+        <icon src="res/icon/android/icon-72-hdpi.png" density="hdpi" />
+        <icon src="res/icon/android/icon-96-xhdpi.png" density="xhdpi" />
+        	    
+	    <splash src="res/screen/android/screen-hdpi-landscape.png"/>
+        <splash src="res/screen/android/screen-hdpi-portrait.png"/>
+        <splash src="res/screen/android/screen-ldpi-landscape.png"/>
+        <splash src="res/screen/android/screen-ldpi-portrait.png"/>
+        <splash src="res/screen/android/screen-mdpi-landscape.png"/>
+        <splash src="res/screen/android/screen-mdpi-portrait.png"/>
+        <splash src="res/screen/android/screen-xhdpi-landscape.png"/>
+        <splash src="res/screen/android/screen-xhdpi-portrait.png"/>
+        
 	</platform>
     
     <platform name="ios">    
-	    <icon src="www/img/appIcon-120x120.png" height="120" width="120" />
-	    <icon src="www/img/appIcon-152x152.png" height="152" width="152" />
-	    <icon src="www/img/appIcon-76x76.png" height="76" width="76" />
-	    <icon src="www/img/appIcon-57x57.png" height="57" width="57" />
-		<splash src="www/img/splash/screen-480x320.png" height="480" width="320" />
-	    <splash src="www/img/splash/screen-960x640.png" height="960" width="640" />
-	    <splash src="www/img/splash/screen-320x480.png" height="320" width="480" />
-	    <splash src="www/img/splash/screen-640x960.png" height="640" width="960" />
-	    <splash src="www/img/splash/screen-2008x1536.png" height="2008" width="1536" />
-	    <splash src="www/img/splash/screen-768x1024.png" height="768" width="1024" />
-	    <splash src="www/img/splash/screen-1496x2048.png" height="1496" width="2048" />
-	    <splash src="www/img/splash/screen-1136x640.png" height="1136" width="640" />
+        <icon src="res/icon/ios/icon-57-2x.png" />
+        <icon src="res/icon/ios/icon-57.png" />
+        <icon src="res/icon/ios/icon-72-2x.png" />
+        <icon src="res/icon/ios/icon-72.png" />
+        
+        <splash src="res/screen/ios/Default-568h@2x~iphone.png" />
+        <splash src="res/screen/ios/Default@2x~iphone.png" />
+        <splash src="res/screen/ios/Default~iphone.png" />
+        <splash src="res/screen/ios/screen-iphone-landscape.png" />
+        <splash src="res/screen/ios/screen-iphone-portrait.png" />
+        
 	</platform>
     
     <access origin="*" />

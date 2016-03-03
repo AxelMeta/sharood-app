@@ -33,28 +33,19 @@
     <feature name="PushNotification">
         <param name="ios-package" value="PushPlugin" />
     </feature>
-    <feature name="SplashScreen">
-        <param name="ios-package" value="CDVSplashScreen" />
-        <param name="onload" value="true" />
-    </feature>
     <preference name="deployment-target" value="8.0" />
     <preference name="target-device" value="universal" />
     <preference name="ios-statusbarstyle" value="black-opaque" />
     <preference name="prerendered-icon" value="true" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="detect-data-types" value="true" />
-    <icon height="120" src="www/img/appIcon-120x120.png" width="120" />
-    <icon height="152" src="www/img/appIcon-152x152.png" width="152" />
-    <icon height="76" src="www/img/appIcon-76x76.png" width="76" />
-    <icon height="57" src="www/img/appIcon-57x57.png" width="57" />
-    <splash height="480" src="www/img/splash/screen-480x320.png" width="320" />
-    <splash height="960" src="www/img/splash/screen-960x640.png" width="640" />
-    <splash height="320" src="www/img/splash/screen-320x480.png" width="480" />
-    <splash height="640" src="www/img/splash/screen-640x960.png" width="960" />
-    <splash height="2008" src="www/img/splash/screen-2008x1536.png" width="1536" />
-    <splash height="768" src="www/img/splash/screen-768x1024.png" width="1024" />
-    <splash height="1496" src="www/img/splash/screen-1496x2048.png" width="2048" />
-    <splash height="1136" src="www/img/splash/screen-1136x640.png" width="640" />
+    <icon src="icon-57-2x.png" />
+    <icon src="icon-57.png" />
+    <icon src="icon-72-2x.png" />
+    <icon src="icon-72.png" />
+    <splash src="res/screen/ios/Default-568h@2x~iphone.png" />
+    <splash src="res/screen/ios/Default@2x~iphone.png" />
+    <splash src="res/screen/ios/Default~iphone.png" />
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
     <name>Sharood</name>
@@ -72,9 +63,6 @@
     <preference name="stay-in-webview" value="false" />
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
-    <preference name="FadeSplashScreen" value="false" />
-    <preference name="FadeSplashScreenDuration" value="3000" />
-    <preference name="AutoHideSplashScreen" value="true" />
     <preference name="disable-cursor" value="false" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <gap:plugin name="org.apache.cordova.camera" />

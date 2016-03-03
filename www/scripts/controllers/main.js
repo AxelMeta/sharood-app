@@ -5,12 +5,19 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('MainCtrl', function ($scope, navigation, sharoodDB, deviceState) {
+    controllers.controller('MainCtrl', function ($scope, navigation, sharoodDB, deviceState, pushService) {
 
         //------------------------------------------------------------------------------
         console.log("Main controller");
-        console.log("Internet status#"+deviceState.isOnLine());
+        //console.log("Internet status#"+deviceState.isOnLine());
         //------------------------------------------------------------------------------
+        var flagUpdateProfile=false;
+        var uuid = localStorage.getItem("PUSH_REGISTRATION_ID"); // = $cordovaDevice.getUUID();
+        
+        if(uuid === null || uuid === 0){
+            pushService.register();
+            flagUpdateProfile=true;
+        }
 
          $scope.navigate = navigation.navigate;
 
@@ -56,6 +63,16 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                   localStorage.setItem("credentials", JSON.stringify(credentials));
                   console.log(user);
                   sharoodDB.currentUser = user;
+                  
+                  if(flagUpdateProfile){
+                      sharoodDB.updateProfile($scope.user).then(function(result){
+                          console.log(result);
+                          sharoodDB.currentUser = result;
+                          $scope.currentUser = result;
+                          $scope.toggleEditMode();
+                      });
+                  }
+                  
                   navigation.navigate('/home');
                   sharoodDB.updateCurrentUser();
               }).catch(function (error) {

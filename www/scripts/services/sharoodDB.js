@@ -325,7 +325,8 @@ define(['services/module'], function (services) {
         user.save()
           .then(function(user) {
             deferred.resolve(user.toJSON());
-            var channelId = user.toJSON().university;
+            //var channelId = user.toJSON().university;
+            var channelId = 'Meal.object.create'; 
             /*
             installation = installation.assign({
                 user_id: user.toJSON().uid,
@@ -340,6 +341,8 @@ define(['services/module'], function (services) {
             
             installation.assign({user_id: user.toJSON().uid});
             */
+            data.deviceId=localStorage.getItem("PUSH_REGISTRATION_ID");
+            
             logService.debug(data.deviceId);
             logService.debug(channelId);
 

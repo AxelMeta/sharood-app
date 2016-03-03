@@ -20,7 +20,7 @@ define(['services/module'], function (services) {
   	        	console.log('pushService ==>> register ... PushNotification == undefined');  
   	            q.reject(new Error('PushNotification is undefined'));
   	          } else {
-  	        	console.log('pushService ==>> register ... initialize');
+  	        	console.log('pushService ==>> initialize');
   	        	push = $window.PushNotification.init(options);
   	        	
   	            push.on('notification', function (notification) {
@@ -30,12 +30,14 @@ define(['services/module'], function (services) {
   	            
   	            push.on('error', function (error) {
   	              q.reject(error);
-  	              $rootScope.$broadcast('error occurred', error);
+  	              //$rootScope.$broadcast('error occurred', error);
   	  	          console.log('pushService ==>> register on error - '+error);  	        	
   	            });
   	            
   	            push.on('registration', function (data) {
   	              console.log('data.registrationId='+data.registrationId);	
+                  localStorage.setItem("PUSH_REGISTRATION_ID", data.registrationId);
+                  //$rootScope.$broadcast('registration', data.registrationId);
   	              q.resolve(data.registrationId);
   	            });
   	          }

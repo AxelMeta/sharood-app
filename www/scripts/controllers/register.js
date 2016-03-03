@@ -5,20 +5,21 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
     'use strict';
 
-    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, deviceState) {
+    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, pushService) {//, deviceState) {
 
         console.log("Register controller");
-        console.log("Internet status#"+deviceState.isOnLine());
+        //console.log("Internet status#"+deviceState.isOnLine());
         
         //------------------------------------------------------------------------------
         
 		//------------------------------------------------------------------------------
+        /*
         $scope.$on(deviceState.events.onResume, function (event) {
         	console.log("Resume EVENT"+"\r\n");
             navigation.navigate('/');
             return;
         });
-        
+        */
 		//------------------------------------------------------------------------------
         function log(method, error){
           	if(error==null){
@@ -57,6 +58,12 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         };
 
         var platform = $cordovaDevice.getPlatform().toLowerCase();
+        var uuid = localStorage.getItem("PUSH_REGISTRATION_ID"); // = $cordovaDevice.getUUID();
+        
+        if(uuid === null || uuid === 0){
+            pushService.register();
+        }
+        
 
         $scope.hasErrors = false;
 
@@ -78,12 +85,13 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
         * Sends register data to database
         * */
         $scope.register = function(){
+        	/*
         	if (!deviceState.isOnLine()){
                 updateAlertTitles('offline');
                 AlertHelper.alert('#register-account-alert');
                 return;        		
         	}
-        	
+        	*/
             if (!$scope.registerForm.$valid) {
                 console.log('no validate', $scope.registerForm);
                 return;
@@ -125,7 +133,7 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             }
         }
 
-        if (deviceState.isOnLine()){
+//        if (deviceState.isOnLine()){
 	        /**
 	        * Gets places array and insert the result on university selector.
 	        * */
@@ -141,11 +149,13 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 	                x.add(option);
 	            });
 	        });
+/*	        
         }else{
             updateAlertTitles('offline');
             AlertHelper.alert('#register-account-alert');
             navigation.navigate('/home');        	
         }
+*/        
         /**
         * Starts change photo process.
         * */
