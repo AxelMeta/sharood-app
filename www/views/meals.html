@@ -27,22 +27,12 @@
     </div>-->
     <div class="row">
         <div class="col-md-12 col-sm-12 text-center" ng-infinite-scroll="" ng-infinite-scroll-callback="loadMoreMeals()">
-            <h1 class="title mb20">Coming Soon Meals</h1>
-            <div class="row mt20 hidden" id="emptyInfo">
+            <h1 class="title mb20"> Join these meals</h1>
+            <div class="row mt20 hidden emptyInfo" id="emptyInfo">
                 <div class="col-md-12 col-sm-12">
                     <p class="title">Whoops!</p>
                     <p>There are no Chefs available</p>
                 </div>
-                <section class="bottom">
-                    <div class="row mt20 mb20">
-                        <div class="col-md-12">
-                            <p class="text-center">"Be the change you want to see"</p>
-                            <a ng-click="navigate('/newChefMeal')" class="btn btn-round btn-extra-large">
-                                Be Chef
-                            </a>
-                        </div>
-                    </div>
-                </section>
             </div>
             <div ng-repeat="meal in mealsToRender track by $index" data-index="{{$index}}" class="list-item animate-repeat">
                 <a href="" ng-click="goToMeal($index)">
@@ -82,6 +72,17 @@
                         <i class="fa fa-chevron-right"></i>
                     </div>
                 </a>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-sm-12 text-center"> 
+            <div class="row mt20 mb20 hidden emptyInfo">
+                <div class="col-md-12">
+                    <p class="text-center">"Be the change you want to see"</p>
+                        <a ng-click="navigate('/newChefMeal')" class="btn btn-round btn-extra-large">
+                            Be Chef
+                        </a>
+                </div>
             </div>
         </div>
     </div>
