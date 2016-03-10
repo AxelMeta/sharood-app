@@ -5,20 +5,14 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('MainCtrl', function ($scope, navigation, sharoodDB, deviceState, pushService) {
+    controllers.controller('MainCtrl', function ($scope, $timeout, navigation, sharoodDB, pushService) { //deviceState, 
 
         //------------------------------------------------------------------------------
         console.log("Main controller");
         //console.log("Internet status#"+deviceState.isOnLine());
         //------------------------------------------------------------------------------
-        var flagUpdateProfile=false;
-        var uuid = localStorage.getItem("PUSH_REGISTRATION_ID"); // = $cordovaDevice.getUUID();
+        //var uuid = localStorage.getItem("PUSH_REGISTRATION_ID"); // = $cordovaDevice.getUUID();
         
-        if(uuid === null || uuid === 0){
-            pushService.register();
-            flagUpdateProfile=true;
-        }
-
          $scope.navigate = navigation.navigate;
 
          $scope.loginConfig = {
@@ -54,6 +48,28 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                  password: null
          };
          /**
+          * subscribe process
+          */
+         function subscribeProcess(user){
+           	console.log('subscribe userId['+user.uid+']');
+            pushService.register();
+           	$timeout(function(){ 
+                    sharoodDB.subscribeChannel('Meal.object.create', user.uid)
+	                	.then(function(inst) {
+
+	                	user.installation_data_id=inst.uid;
+	                	sharoodDB.updateProfile(user).then(function(usresult) {
+                      		console.log("updateProfile OK!!");
+                      	}, function(error) {
+                            console.log("updateProfile"+JSON.stringify(error));
+                        });
+	                    }, function(error) {
+	                    	
+                	});
+             }, 2000);
+         }
+         
+         /**
           * Do login
           * */
           function doLogin(){
@@ -61,22 +77,19 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
               
               sharoodDB.login($scope.user).then(function(user){
                   localStorage.setItem("credentials", JSON.stringify(credentials));
-                  console.log(user);
+                  console.log(user.username);
                   sharoodDB.currentUser = user;
-                  
-                  if(flagUpdateProfile){
-                      sharoodDB.updateProfile($scope.user).then(function(result){
-                          console.log(result);
-                          sharoodDB.currentUser = result;
-                          $scope.currentUser = result;
-                          $scope.toggleEditMode();
-                      });
+                  if(user.installation_data_id == null || user.installation_data_id==''){
+                	  subscribeProcess(sharoodDB.currentUser);
                   }
-                  
                   navigation.navigate('/home');
                   sharoodDB.updateCurrentUser();
               }).catch(function (error) {
-                  AlertHelper.alert('#login-account-alert');
+                  if(error==0){
+                    AlertHelper.alert('#offline-account-alert');                    
+                  }else{
+                    AlertHelper.alert('#login-account-alert');                    
+                  }
               });
           }
 
@@ -86,11 +99,15 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         * 2. Get credentials from localstorage.
         * */
         function tryAutoLogin(){
+            console.log('Trying autologin with localStorage credentials');
             var credentials = localStorage.getItem("credentials");
             if(credentials === null || credentials === "0"){
                 sharoodDB.loadCurrentUser().then(function(user){
                     console.log(user.username);
                     sharoodDB.currentUser = user;
+                    if(user.installation_data_id == null || user.installation_data_id==''){
+                  	  subscribeProcess(sharoodDB.currentUser);
+                    }
 //                    $scope.username = user.username;
 //                    $scope.cookies = user.cookies;
                     navigation.navigate('/home');
@@ -103,33 +120,40 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 doLogin();
             }
         }
-
+        
+        tryAutoLogin();
+/*
         if(deviceState.isOnLine()){
         	tryAutoLogin();	
         }else{
         	AlertHelper.alert('#offline-account-alert');
         }
-        
+*/        
 
 
         $scope.login = function(){
-        	console.log('login button pressed!!');
-            if (!$scope.loginForm.$valid) {
+
+        	if (!$scope.loginForm.$valid) {
                 return;
             }
+        	doLogin();
+            
+            /*
             if(deviceState.isOnLine()){
             	doLogin();
             }else{
             	AlertHelper.alert('#offline-account-alert');
             }
+            */
         };
         
         $scope.gotoRegister = function(){
+        	/*
         	if(!deviceState.isOnLine()){
         		AlertHelper.alert('#offline-account-alert');
         		return;
         	}
-        	
+        	*/
             navigation.navigate('/register');
         };
         

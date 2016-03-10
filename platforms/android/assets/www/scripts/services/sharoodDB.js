@@ -4,7 +4,7 @@
  */
 define(['services/module'], function (services) {
   'use strict';
-  services.factory('sharoodDB', function ($q, logService) {
+  services.factory('sharoodDB', function ($q, $cordovaDevice, logService) {
     var apiKey = 'blt14f0a2b98d6156f4';
 
     
@@ -47,12 +47,191 @@ define(['services/module'], function (services) {
         var self = this;
         user.login(data.email, data.password)
           .then(function(user) {
+        	logService.debug('user['+user+']');  
             deferred.resolve(user.toJSON());
           }, function(error) {
             logService.error("login", error);
             deferred.reject(error);
           });
 
+        return deferred.promise;
+      },
+      
+      /**
+       * Performs the logout action
+       * @returns a promise that will be resolved once the user has been logout of the system
+       */
+      logout: function() {
+        logService.debug('logout');
+        var deferred = $q.defer();
+        var user = Built.App(apiKey).User();
+        user.logout()
+          .then(function() {
+            deferred.resolve();
+          }, function(error) {
+            logService.error("logout", error);
+            deferred.resolve();
+          });
+
+        return deferred.promise;
+      },
+      
+      /**
+       * Performs the append user installation operation
+       * @param subscribe - true=subscribe to channel; false=unsubscribe to channel
+       * @param channel   - label channel to subscribe - ex. Meal.object.create
+       * @param userId
+       * @returns a promise that will be resolved or rejected once the register action has been successfully or not
+       */
+      subscribeChannel: function(channelId, userId) {
+        logService.debug('Installation begin -----------------------------------');
+        var deferred = $q.defer();
+        //var channelId = user.toJSON().university;
+        channelId = 'Meal.object.create';
+        var deviceToken = localStorage.getItem("PUSH_REGISTRATION_ID"); //$cordovaDevice.getUUID();
+        var deviceType = $cordovaDevice.getPlatform().toLowerCase();
+        
+        logService.debug('userId['+userId+'] deviceType['+deviceType+'] channelId['+channelId+'] deviceToken['+deviceToken+']');
+
+        var installation = Built.App(apiKey).Installation();
+        installation = installation.assign({
+            user_id: userId,
+            device_type: deviceType,
+            device_token: deviceToken,
+            subscribed_to_channels: [channelId],
+            credentails_name: 'default'
+        });
+//        installation.assign({user_id: user.toJSON().uid});
+    	console.log('Installation setters ok!!');
+        installation.save().then(function(inst) {
+        	logService.debug('Installation end success !!-----------------------------------');
+        	deferred.resolve(inst.toJSON());
+        }, function(error) {
+            logService.error("Installation", error);
+            deferred.reject(error);
+        });
+        return deferred.promise;
+      },
+      
+    	  
+      /**
+       * Search user installation data
+       * @param userId
+       * @returns a promise that will be resolved or rejected once the register action has been successfully or not
+       */
+      isUserSubscribedInChannel: function(userId) {
+		logService.debug('isUserSubscribedInChannel begin userId['+userId+']-----------------------------------');
+		var deferred = $q.defer();
+		
+//		var query = Built.App(apiKey).Class('built_io_installation_data').Query();
+		var query = Built.App(apiKey).Installation().Query();
+		
+		console.log('');
+		
+		query = query.where('user_id', userId);
+		query.exec()
+		    .then(function(inst) {
+			logService.debug('isUserSubscribedInChannel success !!-----------------------------------');
+			deferred.resolve(inst[0].toJSON());
+		}, function(error) {
+		   logService.error("isUserSubscribedInChannel", error);
+		   deferred.reject(error);
+		});
+
+        return deferred.promise;
+      },
+      
+      /**
+       * Performs unSubscribeChannel
+       * @param channel   - label channel to subscribe - ex. Meal.object.create
+       * @param userId
+       * @returns a promise that will be resolved or rejected once the register action has been successfully or not
+       */
+      unSubscribeChannel: function(channelId, userId) {
+        channelId = 'Meal.object.create';
+    	logService.debug('unSubscribeChannel begin -----------------------------------');
+        var deferred = $q.defer();
+
+        isUserSubscribedInChannel(userId).then(function(installation){
+			installation.unsubscribeChannels([String(channelId)]);
+			logService.debug('unSubscribeChannel setters ok!!');
+	    	installation.save().then(function(inst) {
+			   logService.debug('unSubscribeChannel success !!-----------------------------------');
+			   deferred.resolve(inst.toJSON());
+			}, function(error) {
+			   logService.error("unSubscribeChannel.save", error);
+			   deferred.reject(error);
+			});
+	    	
+		}, function(error) {
+		   logService.error("unSubscribeChannel.find", error);
+		   deferred.reject(error);
+		});
+
+        return deferred.promise;
+      },
+
+      /**
+       * Performs the register operation
+       * @param data an object that contains all the info need to register a new user
+       * @returns a promise that will be resolved or rejected once the register action has been successfully or not
+       */
+      register: function(data) {
+        logService.debug('register begin -----------------------------------');
+        var deferred = $q.defer();
+        var user = Built.App(apiKey).User();
+        user = user.assign({
+	            cookies: 4,
+	            food_level_rating: 0,
+	            food_level_rating_nofvotes: 0,
+	            friendliness_chef_rating: 0,
+	            friendliness_chef_rating_nofvotes: 0,
+	            fun_rating: 0,
+	            fun_rating_nofvotes: 0,
+	            university: data.university,
+	            first_name: data.name,
+	            username: data.name,
+	            room_number: data.room,
+	            phone: data.phone,
+	            device_type: data.device_type,
+	            picture: data.picture
+	        });
+        user.register(data.email, data.password, data.passwordConfirm)
+          .then(function(user) {
+            logService.debug('register success -----------------------------------');
+            deferred.resolve(user.toJSON());
+          }, function(error) {
+            logService.error("register", error);
+            deferred.reject(error);
+          });
+
+        return deferred.promise;
+      },
+
+      /**
+       * Update user profile with new data
+       * @param data user data which we want to save
+       * @returns a promise that will be resolved once the user is updated
+       */
+      updateProfile: function(data) {
+        logService.debug('updateProfile begin -----------------------------------');
+        logService.debug('currentUser.id='+this.currentUser.uid);
+        var deferred = $q.defer();
+        var User = Built.App(apiKey).Class('built_io_application_user').Object;
+        //var Installation = Built.App(apiKey).Class('built_io_installation_data').Object;
+        //var installation = Built.App(apiKey).Installation();
+        //var installation = Installation();
+        var user = User(this.currentUser.uid);
+        user = user.assign(data);
+        user.save()
+          .then(function(user) {
+        	logService.debug('updateProfile save -----------------------------------');
+        	deferred.resolve(user.toJSON());
+          }, function(error) {
+        	logService.error("updateProfile", error);
+            deferred.resolve(error);
+          });
+          
         return deferred.promise;
       },
 
@@ -73,73 +252,6 @@ define(['services/module'], function (services) {
         }, function(error) {
         	logService.error("getUniversityByUid", error);
         });
-
-        return deferred.promise;
-      },
-
-      /**
-       * Performs the register operation
-       * @param data an object that contains all the info need to register a new user
-       * @returns a promise that will be resolved or rejected once the register action has been successfully or not
-       */
-      register: function(data) {
-        logService.debug('register');
-        var deferred = $q.defer();
-        var user = Built.App(apiKey).User();
-        var installation = Built.App(apiKey).Installation();
-        user = user.assign({
-	            cookies: 4,
-	            food_level_rating: 0,
-	            food_level_rating_nofvotes: 0,
-	            friendliness_chef_rating: 0,
-	            friendliness_chef_rating_nofvotes: 0,
-	            fun_rating: 0,
-	            fun_rating_nofvotes: 0,
-	            university: data.university,
-	            first_name: data.name,
-	            username: data.name,
-	            room_number: data.room,
-	            phone: data.phone,
-	            device_type: data.device_type,
-	            picture: data.picture
-	        });
-        user.register(data.email, data.password, data.passwordConfirm)
-          .then(function(user) {
-            deferred.resolve(user.toJSON());
-            logService.debug('register success');
-            
-            var channelId = user.toJSON().university;
-            
-            installation.setDeviceType(String(data.device_type)).setDeviceToken(String(data.deviceId)).
-            subscribeChannels([String(channelId)]).setCredentailsName('PushSharrod').
-              save().then(function(inst) {
-              }, function(error) {
-                logService.error("register", error);
-                deferred.reject(error);
-              });
-            
-          }, function(error) {
-            deferred.reject(error);
-          });
-
-        return deferred.promise;
-      },
-
-      /**
-       * Performs the logout action
-       * @returns a promise that will be resolved once the user has been logout of the system
-       */
-      logout: function() {
-        logService.debug('logout');
-        var deferred = $q.defer();
-        var user = Built.App(apiKey).User();
-        user.logout()
-          .then(function() {
-            deferred.resolve();
-          }, function(error) {
-            logService.error("logout", error);
-            deferred.resolve();
-          });
 
         return deferred.promise;
       },
@@ -305,57 +417,6 @@ define(['services/module'], function (services) {
             deferred.resolve(error);
           });
 
-        return deferred.promise;
-      },
-
-      /**
-       * Update user profile with new data
-       * @param data user data which we want to save
-       * @returns a promise that will be resolved once the user is updated
-       */
-      updateProfile: function(data) {
-        logService.debug('updateProfile');
-        var deferred = $q.defer();
-        var User = Built.App(apiKey).Class('built_io_application_user').Object;
-        //var Installation = Built.App(apiKey).Class('built_io_installation_data').Object;
-        var installation = Built.App(apiKey).Installation();
-        //var installation = Installation();
-        var user = User(this.currentUser.uid);
-        user = user.assign(data);
-        user.save()
-          .then(function(user) {
-            deferred.resolve(user.toJSON());
-            var channelId = user.toJSON().university;
-            /*
-            installation = installation.assign({
-                user_id: user.toJSON().uid,
-                device_type: data.device_type,
-                device_token: data.deviceId,
-                subscribed_to_channels: [channelId]
-                credentails_name: 'testiPadCertificateName'
-            });
-            
-            installation.setDeviceType(data.device_type).setDeviceToken(data.deviceId).
-              subscribeChannels([data.university]).setCredentailsName('testiPadCertificateName').
-            
-            installation.assign({user_id: user.toJSON().uid});
-            */
-            logService.debug(data.deviceId);
-            logService.debug(channelId);
-
-            installation.setDeviceType(String(data.device_type)).setDeviceToken(String(data.deviceId)).
-              subscribeChannels([String(channelId)]).setCredentailsName('PushSharrod').
-                save().then(function(inst) {
-                  //logService.debug(inst.toJSON());
-                }, function(error) {
-                  logService.error("updateProfile-subscribeChannels", error);
-                  deferred.reject(error);
-                });
-          }, function(error) {
-        	logService.error("updateProfile", error);
-            deferred.resolve(error);
-          });
-          
         return deferred.promise;
       },
 

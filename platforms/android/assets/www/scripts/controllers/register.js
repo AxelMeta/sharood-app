@@ -5,20 +5,21 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
     'use strict';
 
-    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, deviceState) {
+    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, pushService) {//, deviceState) {
 
         console.log("Register controller");
-        console.log("Internet status#"+deviceState.isOnLine());
+        //console.log("Internet status#"+deviceState.isOnLine());
         
         //------------------------------------------------------------------------------
         
 		//------------------------------------------------------------------------------
+        /*
         $scope.$on(deviceState.events.onResume, function (event) {
         	console.log("Resume EVENT"+"\r\n");
             navigation.navigate('/');
             return;
         });
-        
+        */
 		//------------------------------------------------------------------------------
         function log(method, error){
           	if(error==null){
@@ -56,8 +57,8 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             }
         };
 
-        var platform = $cordovaDevice.getPlatform().toLowerCase();
 
+        
         $scope.hasErrors = false;
 
         $scope.user = {
@@ -69,21 +70,45 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             university: null,
             picture: null,
             room: null,
-            device_type: platform
+            device_type: 'Android'
         };
 
         $scope.navigate = navigation.navigate;
 
         /**
+         * push notification get token process
+         */
+        pushService.register();
+        
+        /**
+         * subscribe process
+         */
+        function subscribeProcess(user){
+           console.log('subscribe userId['+user.uid+']');
+           sharoodDB.subscribeChannel('Meal.object.create', user.uid)
+            	.then(function(inst) {
+
+            	user.installation_data_id=inst.uid;
+            	sharoodDB.updateProfile(user).then(function(usresult) {
+             		console.log("updateProfile OK!!");
+             	}, function(error) {
+                   console.log("updateProfile"+JSON.stringify(error));
+               });
+                }, function(error) {
+                	
+            });
+        }
+        /**
         * Sends register data to database
         * */
         $scope.register = function(){
+        	/*
         	if (!deviceState.isOnLine()){
                 updateAlertTitles('offline');
                 AlertHelper.alert('#register-account-alert');
                 return;        		
         	}
-        	
+        	*/
             if (!$scope.registerForm.$valid) {
                 console.log('no validate', $scope.registerForm);
                 return;
@@ -98,14 +123,17 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             overlay.classList.remove('closed');
             var data = cameraHelper.buildServerImg($scope.imageBase64);
             sharoodDB.uploadFile(data).then(function(result) {
-            	$scope.user.picture = result.toJSON().uid;
-            	sharoodDB.register($scope.user).then(function(result) {
-                    sharoodDB.currentUser = result;
-                    $scope.currentUser = result;
-                    $scope.hasErrors = false;
-                    updateAlertTitles('success');
-                    AlertHelper.alert('#register-account-alert');
-                }).catch(onerror);
+          	$scope.user.picture = result.toJSON().uid;
+          	sharoodDB.register($scope.user).then(function(result) {
+                  sharoodDB.currentUser = result;
+                  $scope.currentUser = result;
+                  
+                  subscribeProcess($scope.currentUser);
+                  
+                  $scope.hasErrors = false;
+                  updateAlertTitles('success');
+                  AlertHelper.alert('#register-account-alert');
+              }).catch(onerror);
             }).catch(onerror);
             overlay.classList.add('closed');
         };
@@ -125,7 +153,7 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             }
         }
 
-        if (deviceState.isOnLine()){
+//        if (deviceState.isOnLine()){
 	        /**
 	        * Gets places array and insert the result on university selector.
 	        * */
@@ -141,11 +169,13 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 	                x.add(option);
 	            });
 	        });
+/*	        
         }else{
             updateAlertTitles('offline');
             AlertHelper.alert('#register-account-alert');
             navigation.navigate('/home');        	
         }
+*/        
         /**
         * Starts change photo process.
         * */
@@ -174,13 +204,13 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
         $scope.changePhotoFromFile = function() {
             var options = {
-                    allowEdit: true,
-                    correctOrientation: true,
-                    destinationType: Camera.DestinationType.DATA_URL,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                    targetHeight: 480,
-                    targetWidth: 480
-                };
+                allowEdit: true,
+                correctOrientation: true,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                targetHeight: 480,
+                targetWidth: 480
+            };
             cameraHelper.getPicture(options).then(function(base64){
                 var photo = document.getElementById('profilePhoto');
                 photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';

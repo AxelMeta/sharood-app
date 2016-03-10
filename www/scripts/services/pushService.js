@@ -3,7 +3,8 @@
  */
 define(['services/module'], function (services) {
     'use strict';
-    services.factory('pushService',['$window', '$q', '$rootScope', '$timeout', function ($window, $q, $rootScope, $timeout) {
+    services.factory('pushService',['$window', '$q', '$rootScope', '$timeout', 
+      function ($window, $q, $rootScope, $timeout) {
 
 	    var push;
 	    var options = {

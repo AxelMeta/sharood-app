@@ -5,10 +5,10 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, deviceState) {
+    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper, pushService) {  //, deviceState) {
 
         console.log("Profile controller");
-        console.log("Internet status#"+deviceState.isOnLine());
+    //    console.log("Internet status#"+deviceState.isOnLine());
         //------------------------------------------------------------------------------
         var cameraImg = 'img/camera.png';
 
@@ -29,9 +29,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         };
 
         $scope.currentUser = sharoodDB.currentUser;
-        var platform = $cordovaDevice.getPlatform().toLowerCase();
-        var uuid = $cordovaDevice.getUUID();
-
+        
         sharoodDB.getUniversityByUid(sharoodDB.currentUser.university[0]).then(function(university) {
             $scope.university = university;
         });
@@ -48,17 +46,10 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             room_number: sharoodDB.currentUser.room_number,
             email: sharoodDB.currentUser.email,
             username: sharoodDB.currentUser.username,
-            device_type: platform,
-            deviceId: uuid
+            device_type: 'Android'
         };
 
         $scope.navigate = navigation.navigate;
-
-        /*$scope.cookies = 21;
-        $scope.name = 'Axel';
-        $scope.phone = '6';
-        $scope.email = 'mancas@gmail.com';*/
-
         $scope.isEditModeEnable = false;
         $scope.pictureModal = '#dummy';
 
@@ -89,17 +80,17 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             $scope.elements.accountDetails.classList.toggle('hidden', $scope.isEditModeEnable);
             $scope.elements.accountEdition.classList.toggle('hidden', !$scope.isEditModeEnable);
         };
-
         /**
         * Handler: Send profile changes to the database.
         * */
         $scope.saveProfile = function() {
+        	/*
         	if (!deviceState.isOnLine()){
                 updateAlertTitles('offline');
                 AlertHelper.alert('#offline-account-alert');
                 return;        		
         	}
-        	
+        	*/
             if (!$scope.accountForm.$valid) {
                 return;
             }
@@ -111,8 +102,8 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                     console.log(result);
                     sharoodDB.currentUser = result;
                     $scope.currentUser = result;
-                    $scope.toggleEditMode();
                 });
+                $scope.toggleEditMode();
             }
 
             if (!$scope.imageBase64) {

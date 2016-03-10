@@ -1,5 +1,5 @@
 <section class="login no-padding">
-
+<!-- 
     <header class="brand">
         <div class="media">
             <div class="media-left media-middle">
@@ -10,9 +10,19 @@
             </div>
         </div>
     </header>
-    
+ -->    
     <div class="login-form">
         <form name="loginForm" novalidate>
+            <div class="form-group">
+			        <div class="media">
+			            <div class="media-left media-middle">
+			                <img class="media-object" src="img/icon.png" />
+			            </div>
+			            <div class="media-body media-middle">
+			                <h1>Sharood</h1>
+			            </div>
+			        </div>
+            </div>
             <div class="form-group">
                 <input id="email" ng-model="user.email" class="form-control" type="email" name="email" placeholder="Email" required />
                 <span class="error" ng-if="loginForm.$submitted && loginForm.email.$error.required">Your email is required</span>

@@ -39,13 +39,15 @@
     <preference name="prerendered-icon" value="true" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="detect-data-types" value="true" />
-    <icon src="icon-57-2x.png" />
-    <icon src="icon-57.png" />
-    <icon src="icon-72-2x.png" />
-    <icon src="icon-72.png" />
+    <icon src="res/icon/ios/icon-57-2x.png" />
+    <icon src="res/icon/ios/icon-57.png" />
+    <icon src="res/icon/ios/icon-72-2x.png" />
+    <icon src="res/icon/ios/icon-72.png" />
     <splash src="res/screen/ios/Default-568h@2x~iphone.png" />
     <splash src="res/screen/ios/Default@2x~iphone.png" />
     <splash src="res/screen/ios/Default~iphone.png" />
+    <splash src="res/screen/ios/screen-iphone-landscape.png" />
+    <splash src="res/screen/ios/screen-iphone-portrait.png" />
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
     <name>Sharood</name>

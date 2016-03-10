@@ -5,7 +5,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, pushService) {  //, deviceState) {
+    controllers.controller('Profile', function ($scope, sharoodDB, navigation, cameraHelper, pushService) {  //, deviceState) {
 
         console.log("Profile controller");
     //    console.log("Internet status#"+deviceState.isOnLine());
@@ -29,20 +29,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         };
 
         $scope.currentUser = sharoodDB.currentUser;
-        var platform = $cordovaDevice.getPlatform().toLowerCase();
-        var uuid = localStorage.getItem("PUSH_REGISTRATION_ID"); // = $cordovaDevice.getUUID();
         
-        if(uuid === null || uuid === 0){
-            pushService.register();
-        }
-
-/*        
-        $rootScope.$on('registration',function(tokenId){
-        	log("push registration token="+tokenId);
-        	uuid = tokenId;
-        });
-        
-*/        
         sharoodDB.getUniversityByUid(sharoodDB.currentUser.university[0]).then(function(university) {
             $scope.university = university;
         });
@@ -59,17 +46,10 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             room_number: sharoodDB.currentUser.room_number,
             email: sharoodDB.currentUser.email,
             username: sharoodDB.currentUser.username,
-            device_type: platform,
-            deviceId: uuid
+            device_type: 'Android'
         };
 
         $scope.navigate = navigation.navigate;
-
-        /*$scope.cookies = 21;
-        $scope.name = 'Axel';
-        $scope.phone = '6';
-        $scope.email = 'mancas@gmail.com';*/
-
         $scope.isEditModeEnable = false;
         $scope.pictureModal = '#dummy';
 
@@ -100,7 +80,6 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             $scope.elements.accountDetails.classList.toggle('hidden', $scope.isEditModeEnable);
             $scope.elements.accountEdition.classList.toggle('hidden', !$scope.isEditModeEnable);
         };
-
         /**
         * Handler: Send profile changes to the database.
         * */
@@ -118,15 +97,13 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
             function updateProfile() {
                 $scope.user.username = $scope.user.first_name;
-                
-                
                 // If everything went well
                 sharoodDB.updateProfile($scope.user).then(function(result){
                     console.log(result);
                     sharoodDB.currentUser = result;
                     $scope.currentUser = result;
-                    $scope.toggleEditMode();
                 });
+                $scope.toggleEditMode();
             }
 
             if (!$scope.imageBase64) {

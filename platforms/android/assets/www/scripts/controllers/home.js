@@ -5,17 +5,18 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 
     'use strict';
 
-    controllers.controller('Home', function ($scope, sharoodDB, navigation, deviceState) {
+    controllers.controller('Home', function ($scope, sharoodDB, navigation) { //, deviceState
         
         console.log("Home controller");
-        console.log("Internet status#"+deviceState.isOnLine());
+        //console.log("Internet status#"+deviceState.isOnLine());
         //------------------------------------------------------------------------------
+        /*
         $scope.$on(deviceState.events.onOnline, function (event) {
         	console.log("ONLine EVENT"+"\r\n");
             navigation.navigate('#/');
             return;
         });
-        
+        */
 		//------------------------------------------------------------------------------
 
         /**
@@ -38,11 +39,12 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
         
         
         $scope.gotoPage = function(option){
+        	/*
         	if(!deviceState.isOnLine()){
         		AlertHelper.alert('#offline-account-alert');
         		return;
         	}
-        	
+        	*/
         	if(option==1){
                 navigation.navigate('/newChefMeal');
         		return;       		

@@ -141,6 +141,7 @@ define(['controllers/module'], function (controllers) {
         * */
         sharoodDB.getAllMealsByAssistant(sharoodDB.currentUser.uid).then(function(meals) {
             console.log(meals);
+            var overlay = document.querySelector('.overlay');
             if(meals.length == 0){    
                 sharoodDB.getAllMeals().then(function(meals) {
                     console.log(meals);
@@ -150,19 +151,15 @@ define(['controllers/module'], function (controllers) {
                             $scope.AllMeals.push(meal.toJSON());
                             $scope.currentMeals.push(meal.toJSON());
                         });
-
-                        var overlay = document.querySelector('.overlay');
-                        overlay.classList.add('closed');
-
                         $scope.loadFirstElements();
-
-                    } else {
-
-                        var overlay = document.querySelector('.overlay');
-                        overlay.classList.add('closed');
-                        document.getElementById('emptyInfo').classList.remove('hidden');
-
                     }
+                    else{
+                        var empties  = document.getElementsByClassName('emptyInfo');
+                        for (var i = 0; i < empties.length; i++) {
+                            empties[i].classList.remove('hidden');
+                        }
+                    }
+                    overlay.classList.add('closed');
 
                 });
             } else {

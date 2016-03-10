@@ -5,7 +5,7 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
     'use strict';
 
-    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, $cordovaDevice, pushService) {//, deviceState) {
+    controllers.controller('Register', function ($scope, sharoodDB, navigation, cameraHelper, pushService) {//, deviceState) {
 
         console.log("Register controller");
         //console.log("Internet status#"+deviceState.isOnLine());
@@ -57,14 +57,8 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             }
         };
 
-        var platform = $cordovaDevice.getPlatform().toLowerCase();
-        var uuid = localStorage.getItem("PUSH_REGISTRATION_ID"); // = $cordovaDevice.getUUID();
-        
-        if(uuid === null || uuid === 0){
-            pushService.register();
-        }
-        
 
+        
         $scope.hasErrors = false;
 
         $scope.user = {
@@ -76,11 +70,34 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             university: null,
             picture: null,
             room: null,
-            device_type: platform
+            device_type: 'Android'
         };
 
         $scope.navigate = navigation.navigate;
 
+        /**
+         * push notification get token process
+         */
+        pushService.register();
+        
+        /**
+         * subscribe process
+         */
+        function subscribeProcess(user){
+           console.log('subscribe userId['+user.uid+']');
+           sharoodDB.subscribeChannel('Meal.object.create', user.uid)
+            	.then(function(inst) {
+
+            	user.installation_data_id=inst.uid;
+            	sharoodDB.updateProfile(user).then(function(usresult) {
+             		console.log("updateProfile OK!!");
+             	}, function(error) {
+                   console.log("updateProfile"+JSON.stringify(error));
+               });
+                }, function(error) {
+                	
+            });
+        }
         /**
         * Sends register data to database
         * */
@@ -106,14 +123,17 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
             overlay.classList.remove('closed');
             var data = cameraHelper.buildServerImg($scope.imageBase64);
             sharoodDB.uploadFile(data).then(function(result) {
-            	$scope.user.picture = result.toJSON().uid;
-            	sharoodDB.register($scope.user).then(function(result) {
-                    sharoodDB.currentUser = result;
-                    $scope.currentUser = result;
-                    $scope.hasErrors = false;
-                    updateAlertTitles('success');
-                    AlertHelper.alert('#register-account-alert');
-                }).catch(onerror);
+          	$scope.user.picture = result.toJSON().uid;
+          	sharoodDB.register($scope.user).then(function(result) {
+                  sharoodDB.currentUser = result;
+                  $scope.currentUser = result;
+                  
+                  subscribeProcess($scope.currentUser);
+                  
+                  $scope.hasErrors = false;
+                  updateAlertTitles('success');
+                  AlertHelper.alert('#register-account-alert');
+              }).catch(onerror);
             }).catch(onerror);
             overlay.classList.add('closed');
         };
@@ -184,13 +204,13 @@ define(['controllers/module', 'alert-helper', 'ngCordova'], function (controller
 
         $scope.changePhotoFromFile = function() {
             var options = {
-                    allowEdit: true,
-                    correctOrientation: true,
-                    destinationType: Camera.DestinationType.DATA_URL,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                    targetHeight: 480,
-                    targetWidth: 480
-                };
+                allowEdit: true,
+                correctOrientation: true,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                targetHeight: 480,
+                targetWidth: 480
+            };
             cameraHelper.getPicture(options).then(function(base64){
                 var photo = document.getElementById('profilePhoto');
                 photo.style.backgroundImage = 'url(data:image/jpeg;base64,' + base64 + ')';
