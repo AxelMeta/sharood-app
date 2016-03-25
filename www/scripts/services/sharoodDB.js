@@ -6,14 +6,22 @@ define(['services/module'], function (services) {
   'use strict';
   services.factory('sharoodDB', function ($q, $cordovaDevice, logService) {
     var apiKey = 'blt14f0a2b98d6156f4';
-
-    
+		var mealNotification;
+		var updaterMealLoaded=false;
+		
     // Public API here
-    return {
-
+    return { // interval in milliseconds. 15 = 15 seconds
+      interval_notification : 180,
       currentUser: null,
       updaterLoaded: false,
 
+      test: function(){
+        logService.debug('test');
+        var deferred = $q.defer();
+
+        deferred.resolve("test OK!!!");
+        return deferred.promise;
+      },
 
       
       /**
@@ -41,16 +49,16 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved or rejected once the user has been identified or not
        */
       login: function(data) {
-        logService.debug('login');
+        logService.debug('sharoodDB.login');
         var deferred = $q.defer();
         var user = Built.App(apiKey).User();
         var self = this;
         user.login(data.email, data.password)
           .then(function(user) {
-        	logService.debug('user['+user+']');  
+        	logService.debug('user['+JSON.stringify(user)+']');  
             deferred.resolve(user.toJSON());
           }, function(error) {
-            logService.error("login", error);
+            logService.error("sharoodDB.login", error);
             deferred.reject(error);
           });
 
@@ -62,14 +70,14 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the user has been logout of the system
        */
       logout: function() {
-        logService.debug('logout');
+        logService.debug('sharoodDB.logout');
         var deferred = $q.defer();
         var user = Built.App(apiKey).User();
         user.logout()
           .then(function() {
             deferred.resolve();
           }, function(error) {
-            logService.error("logout", error);
+            logService.error("sharoodDB.logout", error);
             deferred.resolve();
           });
 
@@ -87,10 +95,10 @@ define(['services/module'], function (services) {
         logService.debug('Installation begin -----------------------------------');
         var deferred = $q.defer();
         //var channelId = user.toJSON().university;
-        channelId = 'Meal.object.create';
-        var deviceToken = localStorage.getItem("PUSH_REGISTRATION_ID"); //$cordovaDevice.getUUID();
+        channelId = 'meal_uid.object.create';
         var deviceType = $cordovaDevice.getPlatform().toLowerCase();
-        
+        var deviceToken = localStorage.getItem("PUSH_REGISTRATION_ID");
+        //var deviceToken = $cordovaDevice.getUUID();
         logService.debug('userId['+userId+'] deviceType['+deviceType+'] channelId['+channelId+'] deviceToken['+deviceToken+']');
 
         var installation = Built.App(apiKey).Installation();
@@ -101,76 +109,21 @@ define(['services/module'], function (services) {
             subscribed_to_channels: [channelId],
             credentails_name: 'default'
         });
+        logService.debug("installation["+JSON.stringify(installation)+"]");
+        
 //        installation.assign({user_id: user.toJSON().uid});
-    	console.log('Installation setters ok!!');
+    	  console.log('Installation setters ok!!');
         installation.save().then(function(inst) {
         	logService.debug('Installation end success !!-----------------------------------');
         	deferred.resolve(inst.toJSON());
         }, function(error) {
-            logService.error("Installation", error);
-            deferred.reject(error);
+          logService.error("Installation", error);
+          deferred.reject(error);
         });
         return deferred.promise;
       },
       
-    	  
-      /**
-       * Search user installation data
-       * @param userId
-       * @returns a promise that will be resolved or rejected once the register action has been successfully or not
-       */
-      isUserSubscribedInChannel: function(userId) {
-		logService.debug('isUserSubscribedInChannel begin userId['+userId+']-----------------------------------');
-		var deferred = $q.defer();
-		
-//		var query = Built.App(apiKey).Class('built_io_installation_data').Query();
-		var query = Built.App(apiKey).Installation().Query();
-		
-		console.log('');
-		
-		query = query.where('user_id', userId);
-		query.exec()
-		    .then(function(inst) {
-			logService.debug('isUserSubscribedInChannel success !!-----------------------------------');
-			deferred.resolve(inst[0].toJSON());
-		}, function(error) {
-		   logService.error("isUserSubscribedInChannel", error);
-		   deferred.reject(error);
-		});
-
-        return deferred.promise;
-      },
       
-      /**
-       * Performs unSubscribeChannel
-       * @param channel   - label channel to subscribe - ex. Meal.object.create
-       * @param userId
-       * @returns a promise that will be resolved or rejected once the register action has been successfully or not
-       */
-      unSubscribeChannel: function(channelId, userId) {
-        channelId = 'Meal.object.create';
-    	logService.debug('unSubscribeChannel begin -----------------------------------');
-        var deferred = $q.defer();
-
-        isUserSubscribedInChannel(userId).then(function(installation){
-			installation.unsubscribeChannels([String(channelId)]);
-			logService.debug('unSubscribeChannel setters ok!!');
-	    	installation.save().then(function(inst) {
-			   logService.debug('unSubscribeChannel success !!-----------------------------------');
-			   deferred.resolve(inst.toJSON());
-			}, function(error) {
-			   logService.error("unSubscribeChannel.save", error);
-			   deferred.reject(error);
-			});
-	    	
-		}, function(error) {
-		   logService.error("unSubscribeChannel.find", error);
-		   deferred.reject(error);
-		});
-
-        return deferred.promise;
-      },
-
       /**
        * Performs the register operation
        * @param data an object that contains all the info need to register a new user
@@ -214,27 +167,126 @@ define(['services/module'], function (services) {
        * @returns a promise that will be resolved once the user is updated
        */
       updateProfile: function(data) {
-        logService.debug('updateProfile begin -----------------------------------');
+        logService.debug('sharoodDB.updateProfile begin -----------------------------------');
         logService.debug('currentUser.id='+this.currentUser.uid);
         var deferred = $q.defer();
         var User = Built.App(apiKey).Class('built_io_application_user').Object;
-        //var Installation = Built.App(apiKey).Class('built_io_installation_data').Object;
-        //var installation = Built.App(apiKey).Installation();
-        //var installation = Installation();
         var user = User(this.currentUser.uid);
         user = user.assign(data);
         user.save()
           .then(function(user) {
-        	logService.debug('updateProfile save -----------------------------------');
+        	logService.debug('sharoodDB.updateProfile save -----------------------------------');
         	deferred.resolve(user.toJSON());
           }, function(error) {
-        	logService.error("updateProfile", error);
+        	logService.error("sharoodDB.updateProfile", error);
             deferred.resolve(error);
           });
           
         return deferred.promise;
       },
 
+      /**
+       * Update user profile with new data
+       * @param data user data which we want to save
+       * @returns a promise that will be resolved once the user is updated
+       */
+      updateProfile2: function(data) {
+        logService.debug('sharoodDB.updateProfile2 begin -----------------------------------');
+        logService.debug('currentUser.id='+this.currentUser.uid);
+        var deferred = $q.defer();
+        
+        var User = Built.App(apiKey).Class('built_io_application_user').Object;
+        var user = User(this.currentUser.uid);
+        user = user.assign({
+          first_name: String(data.first_name),
+          phone: String(data.phone),
+					room_number: String(data.room_number)
+        });
+        user.save()
+          .then(function(user) {
+          logService.debug('sharoodDB.updateProfile2 saved -----------------------------------');
+          deferred.resolve(user.toJSON());
+          }, function(error) {
+          logService.error("sharoodDB.updateProfile2", error);
+            deferred.resolve(error);
+          });
+          
+        return deferred.promise;
+      },
+      /**
+       * Update user profile with new data
+       * @param data user data which we want to save
+       * @returns a promise that will be resolved once the user is updated
+       */
+      updateProfileInstallID: function(data) {
+        logService.debug('sharoodDB.updateProfileInstallID begin -----------------------------------');
+        logService.debug('currentUser.id='+this.currentUser.uid);
+        var deferred = $q.defer();
+        
+        var User = Built.App(apiKey).Class('built_io_application_user').Object;
+        var user = User(this.currentUser.uid);
+        user = user.assign({ installation_data_id: String(data.installation_data_id)  });
+        user.save()
+          .then(function(user) {
+          logService.debug('sharoodDB.updateProfileInstallID saved -----------------------------------');
+          deferred.resolve(user.toJSON());
+          }, function(error) {
+          logService.error("sharoodDB.updateProfileInstallID", error);
+            deferred.resolve(error);
+          });
+          
+        return deferred.promise;
+      },
+      /**
+       * Update user profile with new data
+       * @param data user data which we want to save
+       * @returns a promise that will be resolved once the user is updated
+       */
+      updateProfilePicture: function(data) {
+        logService.debug('sharoodDB.updateProfilePicture begin -----------------------------------');
+        logService.debug('currentUser.id='+this.currentUser.uid);
+        var deferred = $q.defer();
+        
+        var User = Built.App(apiKey).Class('built_io_application_user').Object;
+        var user = User(this.currentUser.uid);
+        user = user.assign({ picture: data.picture });
+        user.save()
+          .then(function(user) {
+          logService.debug('sharoodDB.updateProfilePicture saved -----------------------------------');
+          deferred.resolve(user.toJSON());
+          }, function(error) {
+          logService.error("sharoodDB.updateProfilePicture", error);
+            deferred.resolve(error);
+          });
+          
+        return deferred.promise;
+      },
+      /**
+       * Update user profile with new data
+       * @param data user data which we want to save
+       * @returns a promise that will be resolved once the user is updated
+       */
+      updateProfilePhoto: function(data) {
+        logService.debug('sharoodDB.updateProfilePhoto begin -----------------------------------');
+        logService.debug('currentUser.id='+this.currentUser.uid);
+        var deferred = $q.defer();
+        
+        var User = Built.App(apiKey).Class('built_io_application_user').Object;
+        var user = User(this.currentUser.uid);
+        user = user.assign({
+          picture: data.picture
+        });
+        user.save()
+          .then(function(user) {
+          logService.debug('sharoodDB.updateProfilePhoto save -----------------------------------');
+          deferred.resolve(user.toJSON());
+          }, function(error) {
+          logService.error("sharoodDB.updateProfilePhoto", error);
+            deferred.resolve(error);
+          });
+          
+        return deferred.promise;
+      },
       /**
        * Returns the university of the given user id
        * @param uid specifies the user id
@@ -676,7 +728,156 @@ define(['services/module'], function (services) {
         return deferred.promise;
       },
 
+      getTotalMeals: function() {
+        logService.debug('sharoodDB.getTotalMeals');
+        var deferred = $q.defer();
+        var query = Built.App(apiKey).Class('meal').Query();
 
+        var q1 = query.notEqualTo('assistants.assistant1', this.currentUser.uid);
+        var q2 = query.notEqualTo('assistants.assistant2', this.currentUser.uid);
+        var q3 = query.notEqualTo('assistants.assistant3', this.currentUser.uid);
+        var q4 = query.notEqualTo('assistants.assistant4', this.currentUser.uid);
+        var q5 = query.notEqualTo('assistants.assistant5', this.currentUser.uid);
+
+        var q6= query.notEqualTo('owner', this.currentUser.uid);
+        var q7 = query.where('university', this.currentUser.university[0]);
+        query = query.greaterThanOrEqualTo('time',  new Date());
+        
+        query = query.and([q1, q2, q3, q4, q5, q6, q7]);
+
+        query.count()
+          .exec()
+          .then(function(count) {
+            logService.debug('sharoodDB.getTotalMeals='+JSON.stringify(count));
+            deferred.resolve(count);
+          }, function(error) {
+            logService.error("sharoodDB.getTotalMeals", error);
+            deferred.reject(error);
+          });
+
+        return deferred.promise;
+      },
+
+      getNewMeals: function(limit) {
+        logService.debug('sharoodDB.getNewMeals');
+        var deferred = $q.defer();
+        var query = Built.App(apiKey).Class('meal').Query();
+
+        var q1 = query.notEqualTo('assistants.assistant1', this.currentUser.uid);
+        var q2 = query.notEqualTo('assistants.assistant2', this.currentUser.uid);
+        var q3 = query.notEqualTo('assistants.assistant3', this.currentUser.uid);
+        var q4 = query.notEqualTo('assistants.assistant4', this.currentUser.uid);
+        var q5 = query.notEqualTo('assistants.assistant5', this.currentUser.uid);
+
+        var q6= query.notEqualTo('owner', this.currentUser.uid);
+        var q7 = query.where('university', this.currentUser.university[0]);
+        query = query.greaterThanOrEqualTo('time',  new Date());
+        
+        query = query.and([q1, q2, q3, q4, q5, q6, q7]);
+
+        query.include(['owner',
+                       'assistants.assistant1',
+                       'assistants.assistant2',
+                       'assistants.assistant3',
+                       'assistants.assistant4',
+                       'assistants.assistant5'])
+                       
+          .descending('time')
+          .limit(limit)
+          .exec()
+          .then(function(meals) {
+            logService.debug('sharoodDB.getNewMeals total #'+meals.length);
+            deferred.resolve(meals);
+          }, function(error) {
+            logService.error("sharoodDB.getNewMeals", error);
+            deferred.reject(error);
+          });
+
+        return deferred.promise;
+      },
+
+      sendNotifications: function(limit){
+        var self = this;
+        self.getNewMeals(limit).then(function(meals){
+          //logService.debug(JSON.stringify(meals));
+          if(meals.length > 0){
+            //logService.debug('Total meal array#'+meals.length);
+            meals.forEach(function(meal){
+//               logService.debug(meal.toJSON());
+               var new_meal= meal.toJSON();
+               var owner=new_meal.owner[0];
+               var dtMeal= new Date(new_meal.time);
+							 
+							 var mealTimeStr = dtMeal.toTimeString().replace(/.*(\d{2}:\d{2})(:\d{2}).*/, "$1"); 
+							 //dtMeal.getHours() + ':' + dtMeal.getMinutes() 
+							 var dtNow = new Date();
+               //var month=dtMeal.getMonth()+1;
+               //var title=owner.first_name+' invited you at '+dtMeal.getHours() + ':'+dtMeal.getMinutes();
+               //var msg= dtMeal.getDate() + '/' +month+'. Save a seat now!';
+							 var WHEN="today";
+							 if(dtNow.getDate()!=dtMeal.getDate()){
+								 WHEN="tomorrow";
+							 }
+							 var title = "Sharood";
+							 var msg = "You are invited for a meal "+WHEN+" at " + mealTimeStr + 'h. Save a seat now!';
+               logService.debug('Title['+title+']');
+               logService.debug('Msg['+msg+']');
+							 
+							 cordova.plugins.notification.local.schedule(
+							 															{ id: dtNow.getTime(), 
+																							title: title, 
+																							text: msg
+																							});							 
+               
+            });
+          }
+        });
+        
+      },
+			
+      stopIntervalMealNotification: function(){
+				logService.debug("sharoodDB.stopIntervalMealNotification begin");
+				clearInterval(mealNotification);
+				logService.debug("stopIntervalMealNotification end");
+		
+			},
+			
+      updateMealNotification: function(){
+        var self = this;
+
+        if(this.updaterMealLoaded){
+					self.stopIntervalMealNotification();
+					
+				}
+				self.updaterMealLoaded=true;
+				logService.debug("sharoodDB.updateMealNotification Interval activated!!");
+        mealNotification = setInterval(function(){
+          if(self.currentUser != null){
+            self.getTotalMeals().then(function(totalMeal){
+              var totalMealDB = parseInt(JSON.stringify(totalMeal));
+              var totalMealStored = localStorage.getItem("TOTAL_MEAL_STORED");
+
+              logService.debug('totalMealDB='+totalMealDB);
+              logService.debug('totalMealStored='+totalMealStored);
+
+              if(totalMealStored != null && totalMealStored != ""){
+                totalMealStored = parseInt(totalMealStored);
+                if(totalMealDB > totalMealStored){
+                  localStorage.setItem("TOTAL_MEAL_STORED", JSON.stringify(totalMeal));                  
+                  self.sendNotifications(totalMealDB - totalMealStored);            
+                }else{
+                  logService.debug('totalMealDB no es mayor');
+                }
+              }else{
+                self.sendNotifications(totalMealDB);
+                localStorage.setItem("TOTAL_MEAL_STORED", JSON.stringify(totalMeal));
+              }
+              
+            });
+          }
+        }, this.interval_notification*1000);
+      },
+      
       /**
        * Autoupdate the user every 10 seconds
        * @returns a promise that will be resolved once the user has been obtained
@@ -696,6 +897,8 @@ define(['services/module'], function (services) {
             });
           }
         }, 10000);
+
+        
       }
 
     };

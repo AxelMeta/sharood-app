@@ -20,6 +20,8 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             return;
         }
 
+        //$scope.interval_notification = sharoodDB.interval_notification;
+        
         $scope.elements = {
             accountDetails: document.querySelector('.account-details'),
             accountEdition: document.querySelector('.account-edition'),
@@ -96,10 +98,16 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             }
 
             function updateProfile() {
-                $scope.user.username = $scope.user.first_name;
+                //$scope.user.username = $scope.user.first_name;
+/*								
+								console.log('sharoodDB.interval_notification='+sharoodDB.interval_notification);
+								sharoodDB.interval_notification=$scope.interval_notification;
+								sharoodDB.stopIntervalMealNotification();
+								sharoodDB.updateMealNotification();
+*/								
                 // If everything went well
-                sharoodDB.updateProfile($scope.user).then(function(result){
-                    console.log(result);
+                sharoodDB.updateProfile2($scope.user).then(function(result){
+                    //console.log(result);
                     sharoodDB.currentUser = result;
                     $scope.currentUser = result;
                 });
@@ -107,6 +115,7 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
             }
 
             if (!$scope.imageBase64) {
+								console.log("Image not dirty update only profile");
                 updateProfile();
                 return;
             }
@@ -116,7 +125,10 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 console.log(result.toJSON());
                 $scope.user.picture = result.toJSON().uid;
 
-                updateProfile();
+                sharoodDB.updateProfilePicture($scope.user);
+								
+								updateProfile();
+								
             }).catch($scope.onerror);
         };
 

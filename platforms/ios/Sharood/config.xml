@@ -33,16 +33,25 @@
     <feature name="PushNotification">
         <param name="ios-package" value="PushPlugin" />
     </feature>
+    <feature name="LocalNotification">
+        <param name="ios-package" onload="true" value="APPLocalNotification" />
+        <param name="onload" value="true" />
+    </feature>
     <preference name="deployment-target" value="8.0" />
     <preference name="target-device" value="universal" />
     <preference name="ios-statusbarstyle" value="black-opaque" />
     <preference name="prerendered-icon" value="true" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="detect-data-types" value="true" />
-    <icon src="res/icon/ios/icon-57-2x.png" />
-    <icon src="res/icon/ios/icon-57.png" />
-    <icon src="res/icon/ios/icon-72-2x.png" />
-    <icon src="res/icon/ios/icon-72.png" />
+    <icon height="120" src="res/icon/ios/icon-120.png" width="120" />
+    <icon height="152" src="res/icon/ios/icon-152.png" width="152" />
+    <icon height="76" src="res/icon/ios/icon-76.png" width="76" />
+    <icon height="57" src="res/icon/ios/icon-57-2x.png" width="57" />
+    <icon height="57" src="res/icon/ios/icon-57.png" width="57" />
+    <icon height="72" src="res/icon/ios/icon-72-2x.png" width="72" />
+    <icon height="72" src="res/icon/ios/icon-72.png" width="72" />
+    <splash src="res/screen/ios/Default-568h.png" />
+    <splash src="res/screen/ios/Default-667h.png" />
     <splash src="res/screen/ios/Default-568h@2x~iphone.png" />
     <splash src="res/screen/ios/Default@2x~iphone.png" />
     <splash src="res/screen/ios/Default~iphone.png" />
@@ -71,6 +80,8 @@
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="io.github.siegfriedbolz.cordova.plugins.email-composer" version="0.8.3" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.7" />
+    <gap:plugin name="phonegap-plugin-push" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="com.phonegap.plugin.statusbar" />
     <gap:plugin name="com.plugins.shortcut" />

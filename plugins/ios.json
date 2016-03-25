@@ -30,7 +30,14 @@
         },
         "phonegap-plugin-push": {
             "PACKAGE_NAME": "com.sharood"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "com.sharood"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-app-event": {
+            "PACKAGE_NAME": "com.sharood"
+        }
+    }
 }

@@ -38,15 +38,15 @@
 
                 <div class="y-block-content account-details">
                     <p>
-                        Name: {{currentUser.first_name}}
+                        Name: {{user.first_name}}
                     </p>
 
                     <p>
-                        Phone Number: {{currentUser.phone}}
+                        Phone Number: {{user.phone}}
                     </p>
 
                     <p>
-                        Email: {{currentUser.email}}
+                        Email: {{user.email}}
                     </p>
 
                     <p>
@@ -54,10 +54,11 @@
                     </p>
 
                     <p>
-                        Room Number: {{currentUser.room_number}}
+                        Room Number: {{user.room_number}}
                     </p>
                 </div>
 
+                
                 <div class="y-block-content account-edition hidden">
                     <form id="account-form" name="accountForm">
                         <!--<div class="form-group">
@@ -76,6 +77,7 @@
                             <input class="form-control" type="text" placeholder="Your room number" name="room_number" ng-model="user.room_number"/>
                             <span class="error" ng-if="accountForm.$submitted && accountForm.room_number.$error.required">Your room number is required</span>
                         </div>
+                        
                         <!--<div class="form-group">
                             <input class="form-control" type="email" name="email" ng-model="user.email" required />
                             <span class="error" ng-if="accountForm.$submitted && accountForm.name.$error.required">Your email is required</span>
@@ -119,6 +121,7 @@
                 </div>
 
                 <div class="y-block-content">
+                
                     <p><a ng-click="navigate('/settings')">About Sharood</a></p>
                     <p><a ng-click="logout();">Log out</a></p>
                 </div>

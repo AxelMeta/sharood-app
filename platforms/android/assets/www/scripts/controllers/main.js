@@ -58,10 +58,10 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
 	                	.then(function(inst) {
 
 	                	user.installation_data_id=inst.uid;
-	                	sharoodDB.updateProfile(user).then(function(usresult) {
-                      		console.log("updateProfile OK!!");
+	                	sharoodDB.updateProfileInstallID(user).then(function(usresult) {
+                      		console.log("update install data OK!!");
                       	}, function(error) {
-                            console.log("updateProfile"+JSON.stringify(error));
+                            console.log("updateProfile install data error "+JSON.stringify(error));
                         });
 	                    }, function(error) {
 	                    	
@@ -79,13 +79,18 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                   localStorage.setItem("credentials", JSON.stringify(credentials));
                   console.log(user.username);
                   sharoodDB.currentUser = user;
-                  if(user.installation_data_id == null || user.installation_data_id==''){
+                  if(user.installation_data_id == null || user.installation_data_id=='' || user.installation_data_id=='undefined'){
                 	  subscribeProcess(sharoodDB.currentUser);
                   }
                   navigation.navigate('/home');
                   sharoodDB.updateCurrentUser();
+									sharoodDB.updateMealNotification();
               }).catch(function (error) {
-                  AlertHelper.alert('#login-account-alert');
+                  if(error==0){
+                    AlertHelper.alert('#offline-account-alert');                    
+                  }else{
+                    AlertHelper.alert('#login-account-alert');                    
+                  }
               });
           }
 
@@ -101,11 +106,12 @@ define(['controllers/module', 'alert-helper'], function (controllers, AlertHelpe
                 sharoodDB.loadCurrentUser().then(function(user){
                     console.log(user.username);
                     sharoodDB.currentUser = user;
-                    if(user.installation_data_id == null || user.installation_data_id==''){
+                    if(user.installation_data_id == null || user.installation_data_id=='' || user.installation_data_id=='undefined'){
                   	  subscribeProcess(sharoodDB.currentUser);
                     }
 //                    $scope.username = user.username;
 //                    $scope.cookies = user.cookies;
+										sharoodDB.updateMealNotification();
                     navigation.navigate('/home');
                 }).catch(function (e) {
                 	console.log("Error["+e.status.code+"]["+e.status.text+"]["+e.entity.error_message+"]");

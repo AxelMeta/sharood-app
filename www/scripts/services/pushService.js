@@ -25,20 +25,25 @@ define(['services/module'], function (services) {
   	        	push = $window.PushNotification.init(options);
   	        	
   	            push.on('notification', function (notification) {
-  	              $rootScope.$broadcast('notificationReceived', notification);
-  	  	          console.log('pushService ==>> onNotification - ['+ notification.title + ']['+notification.message+']');  	        	
+  	              $rootScope.$broadcast('notification', notification);
+  	              var notif='Title ['+ notification.title + '] Msg['+notification.message+']';
+                  localStorage.setItem("PUSH_NOTIFICATION", notif);
+
+  	              console.log('pushService ==>> onNotification - ['+ notification.title + ']['+notification.message+']');  	        	
   	            });
   	            
   	            push.on('error', function (error) {
-  	              q.reject(error);
-  	              //$rootScope.$broadcast('error occurred', error);
-  	  	          console.log('pushService ==>> register on error - '+error);  	        	
+  	              $rootScope.$broadcast('pusherror', error);
+                  localStorage.setItem("PUSH_ERROR", error);
+
+  	              console.log('pushService ==>> register on error - '+error);
+                  q.reject(error);
   	            });
   	            
   	            push.on('registration', function (data) {
   	              console.log('data.registrationId='+data.registrationId);	
                   localStorage.setItem("PUSH_REGISTRATION_ID", data.registrationId);
-                  //$rootScope.$broadcast('registration', data.registrationId);
+                  $rootScope.$broadcast('registration', data.registrationId);
   	              q.resolve(data.registrationId);
   	            });
   	          }

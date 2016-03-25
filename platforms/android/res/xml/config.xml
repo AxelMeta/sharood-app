@@ -26,6 +26,9 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="LocalNotification">
+        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    </feature>
     <preference name="android-minSdkVersion" value="16" />
     <preference name="android-maxSdkVersion" value="22" />
     <preference name="android-targetSdkVersion" value="22" />
@@ -66,6 +69,8 @@
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="io.github.siegfriedbolz.cordova.plugins.email-composer" version="0.8.3" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.7" />
+    <gap:plugin name="phonegap-plugin-push" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="com.phonegap.plugin.statusbar" />
     <gap:plugin name="com.plugins.shortcut" />
